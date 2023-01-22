@@ -1,0 +1,50 @@
+@use '../helper/var';
+
+body {
+    font-family: var.$fontfamily;
+    margin: 0px;
+}
+
+.wrapper {
+    background-color: var.$bodycolor;
+    min-height: 100vh;
+
+    .row,
+    .container-fluid {
+        height: 100%;
+    }
+}
+
+.content-wrapper {
+    width: auto;
+    flex-grow: 1;
+    padding: 0px;
+}
+
+.inner-content {
+    padding: 20px 30px;
+    background: #fff;
+    margin-top: 43px;
+    margin-left: 34px;
+    width: 94%;
+    border-radius: 5px;
+    box-shadow: 0 1px 20px 0 rgb(69 90 100 / 8%);
+}
+
+.inner-content-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e8e8e8;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.inner-content-header {
+    .title {
+        color: #212224;
+        margin-bottom: 0px;
+        font-size: 18px;
+        font-weight: 500;
+    }
+}

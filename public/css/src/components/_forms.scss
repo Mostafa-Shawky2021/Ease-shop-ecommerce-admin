@@ -1,0 +1,33 @@
+@use '../helper/var';
+
+.label-control {
+    display: inline-block;
+    width: 120px;
+    color: var.$gray;
+    font-size: 14px;
+
+}
+
+.form-wrapper {
+    width: 86%;
+}
+
+.form-control {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    border: 1px solid var.$softbordercolor;
+}
+
+.form-control:focus,
+.form-control:hover {
+    box-shadow: none;
+}
+
+.form-control::placeholder {
+    font-size: 14px;
+    color: #888;
+}
+
+.input-radio {
+    margin-right: 8px;
+}

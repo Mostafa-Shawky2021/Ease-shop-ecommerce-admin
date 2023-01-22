@@ -1,0 +1,35 @@
+@use '../helper/var';
+
+.btn-add {
+    background-color: var.$primarycolor;
+    color: #fff;
+    border: none;
+    padding: 8px 17px 8px 14px;
+    transition: all 0.3s;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+        background-color: #066a6c;
+        color: #fff;
+    }
+
+    .icon {
+        font-size: 15px;
+        margin-right: 8px;
+    }
+}
+
+.icon-edit {
+    color: var(--bs-success);
+}
+
+.btn-delete {
+    border: none;
+    background: transparent;
+}
+
+.icon-delete {
+    color: var(--bs-danger);
+    margin-left: 5px;
+}
