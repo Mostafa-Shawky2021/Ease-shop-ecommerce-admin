@@ -31,13 +31,13 @@ class CartController extends Controller
                 'total_price' => $request->input('total_price')
             ]);
 
-            $carts = Cart::where('user_id', $request->input('user_id'))
-                ->get();
+            if ($cart) {
+                return response([
+                    'message' => 'Cart Added successfully',
+                    'cart' => $cart
+                ]);
+            }
 
-            return response([
-                'message' => 'Cart added successfully',
-                'data' => $carts,
-            ], 200);
         }
 
     }
@@ -65,45 +65,41 @@ class CartController extends Controller
 
     }
 
-    public function increaseProduct(Request $request, $productId, $userId)
+    public function increaseProduct(Request $request, $product, $user)
     {
-        $cart = Cart::with('product')
-            ->where('product_id', $productId)
-            ->where('user_id', $userId)
+        $cart = Cart::where('product_id', $product)
+            ->where('user_id', $user)
             ->first();
 
-        $cart->quantity += 1;
-        $cart->total_price = ($cart->quantity * $cart->unit_price);
+        if (!$cart) {
+            return response(['message' => 'Sorry no cart found with specific id'], 404);
+        }
 
+        $cart->quantity += 1;
+        $cart->total_price = $cart->unit_price * $cart->quantity;
         $cart->save();
-        $carts = Cart::with('product')
-            ->where('user_id', $userId)->get();
 
         return response([
             'message' => 'product increase successfully',
-            'data' => $carts
+            'data' => $cart,
         ], 200);
 
     }
     public function decreaseProduct(Request $request, $productId, $userId)
     {
-        $cart = Cart::with('product')
-            ->where('product_id', $productId)
-            ->where('user_id', $userId)
-            ->first();
+        // $cart = Cart::find($cart);
+        // if (!$cart) {
+        //     return response(['message' => 'Sorry no cart found with specific id'], 404);
+        // }
 
-        $cart->quantity -= 1;
-        $cart->total_price = ($cart->quantity * $cart->unit_price);
+        // $cart->quantity += 1;
+        // $cart->total_price = $cart->unit_price * $cart->quantity;
+        // $cart->save();
 
-        $cart->save();
-        $carts = Cart::with('product')
-            ->where('user_id', $userId)
-            ->get();
-
-        return response([
-            'message' => 'product increase successfully',
-            'data' => $carts
-        ], 200);
+        // return response([
+        //     'message' => 'product increase successfully',
+        //     'data' => $cart,
+        // ], 200);
 
     }
     public function destroy(Request $request, $cartId)
