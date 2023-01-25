@@ -65,17 +65,16 @@ class CartController extends Controller
 
     }
 
-    public function increaseProduct(Request $request, $product, $user)
+    public function increaseProduct(Request $request, $cart)
     {
-        $cart = Cart::where('product_id', $product)
-            ->where('user_id', $user)
-            ->first();
+
+        $cart = Cart::find($cart);
 
         if (!$cart) {
             return response(['message' => 'Sorry no cart found with specific id'], 404);
         }
 
-        $cart->quantity += 1;
+        $cart->quantity += $request->input('quantity');
         $cart->total_price = $cart->unit_price * $cart->quantity;
         $cart->save();
 
@@ -85,21 +84,35 @@ class CartController extends Controller
         ], 200);
 
     }
-    public function decreaseProduct(Request $request, $productId, $userId)
+    public function decreaseProduct(Request $request, $product, $user)
     {
-        // $cart = Cart::find($cart);
-        // if (!$cart) {
-        //     return response(['message' => 'Sorry no cart found with specific id'], 404);
-        // }
 
-        // $cart->quantity += 1;
-        // $cart->total_price = $cart->unit_price * $cart->quantity;
-        // $cart->save();
+        $cart = Cart::where('product_id', $product)
+            ->where('user_id', $user)
+            ->first();
 
-        // return response([
-        //     'message' => 'product increase successfully',
-        //     'data' => $cart,
-        // ], 200);
+        if (!$cart) {
+            return response(['message' => 'Sorry no cart found with specific id'], 404);
+        }
+
+        if ($cart->quantity > 1) {
+            $cart->quantity -= 1;
+            $cart->total_price = $cart->unit_price * $cart->quantity;
+            $cart->save();
+            return response([
+                'message' => 'product decreased successfully',
+                'data' => $cart,
+            ], 200);
+        } else {
+            $cartStatus = $cart->delete();
+            if ($cartStatus) {
+                return response([
+                    'message' => 'product has been deleted  because it has reached the minimum value',
+                ]);
+            }
+        }
+
+
 
     }
     public function destroy(Request $request, $cartId)

@@ -13,6 +13,7 @@ class ProductController extends Controller
     //
     public function index(Request $request)
     {
+
         $products = Product::all();
         if (!empty($products)) {
             return response($products, 200);

@@ -60,7 +60,7 @@ Route::controller(CartController::class)->group(function () {
 	Route::get('/carts/user/{userid}', 'index');
 	Route::post('/carts', 'store');
 	Route::put('/carts/user/{userid}', 'update')->middleware('auth:sanctum');
-	Route::post('/carts/{product}/user/{user}/increment', 'increaseProduct');
-	Route::post('/carts/{product}/users/{userid}/decrease', 'decreaseProduct');
+	Route::post('/carts/{cart}/increment', 'increaseProduct');
+	Route::post('/carts/{product}/user/{user}/decrement', 'decreaseProduct');
 	Route::delete('/carts/{cartId}', 'destroy');
 });
