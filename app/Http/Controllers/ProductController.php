@@ -28,18 +28,30 @@ class ProductController extends Controller
             ->orderBy('id', 'desc')
             ->limit($productLimit)
             ->get();
+        if ($products->isEmpty()) {
+            return response(
+                [
+                    'message' => 'no product found',
+                    'data' => []
+                ],
+                200
+            );
+        }
         return response($products);
     }
 
-    public function show($product)
+    public function show($productSlug)
     {
-        $products = Product::with(['category', 'images'])
-            ->where('product_slug', $product)
+        $product = Product::with(['category', 'images'])
+            ->where('product_slug', $productSlug)
             ->first();
         if ($product) {
-            return response($products, 200);
+            return response($product, 200);
         }
-        return response(['message' => 'no product found'], 404);
+        return response([
+            'data' => [],
+            'message' => 'no product found'
+        ], 404);
 
 
     }
@@ -51,32 +63,38 @@ class ProductController extends Controller
         return response($products);
     }
 
-    public function relatedProduct(Request $request, $productId)
+    public function relatedProduct(Request $request, $productSlug)
     {
 
-        $products = [];
-        $productLimit = 6;
+        $productLimit = 8;
 
-        $product = Product::find($productId);
+        $product = Product::where('product_slug', $productSlug)->first();
+
         if ($product) {
-
             $productBrand = $product->brand;
             $productCategory = $product->category_id;
 
-            if ($productBrand) {
-                $products = Product::where('brand', $productBrand)
-                    ->where('id', '!=', $productId)
-                    ->get();
-                return response($products);
-            }
+            // $productsWithBrand = Product::where('brand', $productBrand)
+            //     ->where('id', '!=', $productId)
+            //     ->limit($productLimit)
+            //     ->get();
+
+            // if (!$productsWithBrand->isEmpty()) {
+            //     return response($productsWithBrand);
+            // }
 
             $products = Product::where('category_id', $productCategory)
-                ->where('id', '!=', $productId)
+                ->where('product_slug', '!=', $productSlug)
+                ->limit($productLimit)
                 ->get();
+
             return response($products);
 
         } else {
-            return response(['message' => 'no product with that id']);
+            return response([
+                'message' => 'no product with that id',
+                'data' => []
+            ]);
         }
 
     }

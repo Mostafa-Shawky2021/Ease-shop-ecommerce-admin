@@ -29,11 +29,11 @@ use App\Http\Controllers\CartController;
 Route::controller(ProductController::class)->group(function () {
 	Route::get('/products', 'index');
 	Route::get('/products/latestproducts', 'latestProduct');
-	Route::get('/products/name/{product}', 'show');
-
+	Route::get('/products/productslug/{slug}', 'show');
+	Route::get('/products/productslug/{slug}/related', 'relatedProduct');
 
 	Route::get('/search', 'searchProduct');
-	Route::get('/products/{productId}/brand', 'relatedProduct');
+
 	Route::post('/products/recentview', 'recentView');
 	Route::get('/products/random', 'randomProduct');
 	Route::get('/products/offers', 'offersProduct');
@@ -43,7 +43,8 @@ Route::controller(ProductController::class)->group(function () {
 // Categories Resource
 Route::controller(CategoryController::class)->group(function () {
 	Route::get('/categories', 'index');
-	Route::get('/categories/{category}', 'categoriesProducts');
+	Route::get('/categories/random/products', 'randomCategories');
+	Route::get('/categories/catslug/{slug}', 'categoryProducts');
 	Route::get('/categories/{categroy}/subcategories', 'subCategories');
 });
 
@@ -61,6 +62,6 @@ Route::controller(CartController::class)->group(function () {
 	Route::post('/carts', 'store');
 	Route::put('/carts/user/{userid}', 'update')->middleware('auth:sanctum');
 	Route::post('/carts/{cart}/increment', 'increaseProduct');
-	Route::post('/carts/{product}/user/{user}/decrement', 'decreaseProduct');
+	Route::post('/carts/{cart}/decrement', 'decreaseProduct');
 	Route::delete('/carts/{cartId}', 'destroy');
 });

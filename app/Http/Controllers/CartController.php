@@ -18,7 +18,6 @@ class CartController extends Controller
     }
     public function store(CartRequest $request)
     {
-
         if ($request->validated()) {
 
             $cart = Cart::create([
@@ -31,10 +30,11 @@ class CartController extends Controller
                 'total_price' => $request->input('total_price')
             ]);
 
+            $cart->product = $cart->product;
             if ($cart) {
                 return response([
                     'message' => 'Cart Added successfully',
-                    'cart' => $cart
+                    'data' => $cart
                 ]);
             }
 
@@ -73,8 +73,11 @@ class CartController extends Controller
         if (!$cart) {
             return response(['message' => 'Sorry no cart found with specific id'], 404);
         }
-
-        $cart->quantity += $request->input('quantity');
+        if ($request->has('quantity')) {
+            $cart->quantity += $request->input('quantity');
+        } else {
+            $cart->quantity += 1;
+        }
         $cart->total_price = $cart->unit_price * $cart->quantity;
         $cart->save();
 
@@ -84,13 +87,10 @@ class CartController extends Controller
         ], 200);
 
     }
-    public function decreaseProduct(Request $request, $product, $user)
+    public function decreaseProduct(Request $request, $cart)
     {
 
-        $cart = Cart::where('product_id', $product)
-            ->where('user_id', $user)
-            ->first();
-
+        $cart = Cart::find($cart);
         if (!$cart) {
             return response(['message' => 'Sorry no cart found with specific id'], 404);
         }
@@ -112,27 +112,19 @@ class CartController extends Controller
             }
         }
 
-
-
     }
     public function destroy(Request $request, $cartId)
     {
         $cart = Cart::find($cartId);
         if ($cart) {
-            $userId = $cart->user_id;
-
             $cart->delete();
-            $carts = Cart::with('product')
-                ->where('user_id', $userId)
-                ->get();
             return response([
                 'message' => 'Cart deleted successfully',
-                'data' => $carts
+                'data' => $cart
             ]);
         }
         return response([
             'message' => 'There are no cart with secific id',
         ], 404);
-
     }
 }

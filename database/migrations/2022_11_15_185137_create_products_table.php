@@ -20,8 +20,7 @@ return new class extends Migration {
             $table->unsignedSmallInteger('price_discount')->nullable();
             $table->text('short_description')->nullable();
             $table->text('long_description')->nullable();
-            $table->string('image')->nullable();
-            $table->string('type')->nullable();
+            $table->text('image')->nullable();
             $table->foreignId('category_id')->constrained();
             $table->string('size')->nullable();
             $table->string('color')->nullable();
