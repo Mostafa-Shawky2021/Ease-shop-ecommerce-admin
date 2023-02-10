@@ -13,12 +13,39 @@ class ProductController extends Controller
     //
     public function index(Request $request)
     {
+        $products = Product::paginate(25);
 
-        $products = Product::all();
-        if (!empty($products)) {
-            return response($products, 200);
+        if ($request->query('page')) {
+            $products = Product::paginate(25);
+
+            if ($products->isEmpty()) {
+                return response([
+                    'message' => 'sorry no produts exist'
+                ], 404);
+            }
+            return response([
+                'products' => $products->items(),
+                'meta_pagination' => [
+                    'current_page' => $products->currentPage(),
+                    'per_page' => $products->perPage(),
+                    'total' => $products->total(),
+                    'first_page_url' => $products->url(1),
+                    'last_page_url' => $products->url($products->lastPage()),
+                    'next_page_url' => $products->nextPageUrl(),
+                    'prev_page_url' => $products->previousPageUrl(),
+                ]
+            ]);
+        } else {
+            $products = Product::all();
+            if ($products->isEmpty()) {
+                return response([
+                    'message' => 'sorry no produts exist',
+                    404
+                ]);
+            }
+            return response($products);
         }
-        return response(['message' => 'sorry no produts exist', 404]);
+
     }
 
     public function latestProduct()
@@ -31,10 +58,9 @@ class ProductController extends Controller
         if ($products->isEmpty()) {
             return response(
                 [
-                    'message' => 'no product found',
-                    'data' => []
+                    'message' => 'no products found',
                 ],
-                200
+                404
             );
         }
         return response($products);

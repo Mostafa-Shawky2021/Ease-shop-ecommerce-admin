@@ -1,0 +1,65 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Order;
+use App\Lib\Invoice;
+use App\Models\User;
+use App\Models\Cart;
+
+class OrderController extends Controller
+{
+    use Invoice;
+    //
+    public function index()
+    {
+
+
+    }
+    public function store(Request $request)
+    {
+
+        $guestId = $request->input('guest_id');
+
+        $user = User::where('guest_id', $guestId)->first();
+        if (!$user) {
+            $user = User::create([
+                'guest_id' => $request->input('guest_id'),
+            ]);
+
+        }
+
+        $guestUserCarts = Cart::where('user_id', $guestId)->get();
+
+        // calc total price 
+        $totalCartsPrice = 0;
+        foreach ($guestUserCarts as $cart) {
+            $totalCartsPrice += $cart->total_price;
+        }
+
+        $order = Order::create([
+            'invoice_number' => self::generateInvoice(),
+            'username' => $request->input('username'),
+            'phone' => $request->input('phone'),
+            'governorate' => $request->input('governorate'),
+            'street' => $request->input('street'),
+            'email' => $request->input('email'),
+            'order_notes' => $request->input('order_notes'),
+            'user_id' => $user->id,
+            'total_price' => $totalCartsPrice
+        ]);
+
+        if ($order) {
+            $guestUserCarts->map(function ($cart) use ($order) {
+                $order->products()->attach($cart->product_id, ['quantity' => $cart->quantity]);
+                $cart->delete();
+            });
+            return response(['message' => 'order created successfully'], 201);
+        }
+
+        return response(['message' => 'Error with creating order'], 422);
+
+
+    }
+}

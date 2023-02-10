@@ -12,10 +12,12 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('name');
-            $table->string('fname');
-            $table->string('lname');
+        Schema::create('order_product', function (Blueprint $table) {
+            $table->string('size')->nullable();
+            $table->string('color')->nullable();
+            $table->smallInteger('quantity');
+            $table->foreignId('product_id')->constrained();
+            $table->foreignId('order_id')->constrained();
         });
     }
 
@@ -26,7 +28,7 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('product_order', function (Blueprint $table) {
             //
         });
     }

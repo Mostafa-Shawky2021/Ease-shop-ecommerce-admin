@@ -41,7 +41,7 @@ class CategoryController extends Controller
 
 
         $products = Product::whereIn('category_id', $categoriesId)
-            ->paginate(15);
+            ->paginate(6);
 
         return response([
             'category' => $category,
@@ -62,7 +62,7 @@ class CategoryController extends Controller
     }
     public function randomCategories()
     {
-        $randomCategories = Category::select(['id', 'cat_name'])
+        $randomCategories = Category::select(['id', 'cat_name', 'cat_slug'])
             ->has('products')
             ->limit(8)
             ->orderBy('id', 'desc')
