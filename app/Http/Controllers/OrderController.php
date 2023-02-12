@@ -23,6 +23,7 @@ class OrderController extends Controller
         $guestId = $request->input('guest_id');
 
         $user = User::where('guest_id', $guestId)->first();
+
         if (!$user) {
             $user = User::create([
                 'guest_id' => $request->input('guest_id'),
@@ -58,6 +59,41 @@ class OrderController extends Controller
             return response(['message' => 'order created successfully'], 201);
         }
 
+        return response(['message' => 'Error with creating order'], 422);
+    }
+
+    public function storeFastOrder(Request $request)
+    {
+
+        $guestId = $request->input('guest_id');
+
+        $user = User::where('guest_id', $guestId)->first();
+
+        if (!$user) {
+            $user = User::create([
+                'guest_id' => $request->input('guest_id'),
+            ]);
+
+        }
+
+        $order = Order::create([
+            'invoice_number' => self::generateInvoice(),
+            'username' => $request->input('username'),
+            'phone' => $request->input('phone'),
+            'governorate' => $request->input('governorate'),
+            'street' => $request->input('street'),
+            'email' => $request->input('email'),
+            'order_notes' => $request->input('order_notes'),
+            'user_id' => $user->id,
+            'total_price' => $request->input('total_price'),
+        ]);
+
+        if ($order) {
+            $productId = $request->input('product_id');
+            $quantity = $request->input('quantity');
+            $order->products()->attach($productId, ['quantity' => $quantity]);
+            return response(['message' => 'order created successfully'], 201);
+        }
         return response(['message' => 'Error with creating order'], 422);
 
 

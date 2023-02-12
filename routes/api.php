@@ -75,4 +75,5 @@ Route::controller(CartController::class)->group(function () {
 //Order Resource 
 Route::controller(OrderController::class)->group(function () {
 	Route::post('/orders/checkout', 'store');
+	Route::post('/orders/checkout/fastorder', 'storeFastOrder');
 });
