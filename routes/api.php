@@ -7,7 +7,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
-use App\Models\User;
+use App\Http\Controllers\ProductVariantController;
 
 
 /*
@@ -30,6 +30,10 @@ use App\Models\User;
 
 
 
+// Product Variants
+Route::controller(ProductVariantController::class)->group(function () {
+	Route::get('/productvariants', 'index');
+});
 
 // Products Resource
 Route::controller(ProductController::class)->group(function () {

@@ -11,17 +11,34 @@ use Illuminate\Support\Facades\Auth;
 class ProductController extends Controller
 {
     //
+    private function searchProducts(Request $request)
+    {
+        $searchKey = $request->query('productname');
+        $products = Product::where('product_name', 'LIKE', "%$searchKey%")
+            ->orWhere('brand', 'LIKE', "%$searchKey%")
+            ->get();
+
+        if ($products->isEmpty()) {
+
+            return response(['Message' => 'sorry no products'], 200);
+        }
+        return response($products);
+    }
     public function index(Request $request)
     {
-        $products = Product::paginate(25);
+        // search query results
+        if ($request->query('productname')) {
+            $this->searchProducts($request);
+        }
 
         if ($request->query('page')) {
-            $products = Product::paginate(25);
+
+            $products = Product::with(['colors', 'sizes'])->paginate(25);
 
             if ($products->isEmpty()) {
                 return response([
-                    'message' => 'sorry no produts exist'
-                ], 404);
+                    'Message' => 'sorry no produts exist'
+                ], 200);
             }
             return response([
                 'products' => $products->items(),
@@ -36,11 +53,11 @@ class ProductController extends Controller
                 ]
             ]);
         } else {
-            $products = Product::all();
+            $products = Product::with(['colors', 'sizes'])->get();
             if ($products->isEmpty()) {
                 return response([
-                    'message' => 'sorry no produts exist',
-                    404
+                    'Message' => 'sorry no produts exist',
+                    200
                 ]);
             }
             return response($products);
@@ -60,7 +77,7 @@ class ProductController extends Controller
                 [
                     'message' => 'no products found',
                 ],
-                404
+                200
             );
         }
         return response($products);
@@ -68,16 +85,15 @@ class ProductController extends Controller
 
     public function show($productSlug)
     {
-        $product = Product::with(['category', 'images'])
+        $product = Product::with(['category', 'images','colors','sizes'])
             ->where('product_slug', $productSlug)
             ->first();
         if ($product) {
             return response($product, 200);
         }
         return response([
-            'data' => [],
             'message' => 'no product found'
-        ], 404);
+        ], 200);
 
 
     }
@@ -119,8 +135,7 @@ class ProductController extends Controller
         } else {
             return response([
                 'message' => 'no product with that id',
-                'data' => []
-            ]);
+            ], 200);
         }
 
     }

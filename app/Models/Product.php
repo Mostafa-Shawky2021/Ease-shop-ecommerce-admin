@@ -33,6 +33,15 @@ class Product extends Model
         return $this->morphMany(Image::class, 'imageable');
     }
 
+    public function colors()
+    {
+        return $this->belongsToMany(Color::class);
+    }
+
+    public function sizes()
+    {
+        return $this->belongsToMany(Size::class);
+    }
     public function sluggable(): array
     {
         return [
