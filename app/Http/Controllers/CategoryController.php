@@ -4,10 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
-use Illuminate\Pagination\LengthAwarePaginator;
 use App\Models\Product;
+
 
 class CategoryController extends Controller
 {
@@ -16,8 +14,9 @@ class CategoryController extends Controller
     {
 
         $categories = Category::with('subCategories')->get();
+
         if ($categories->isEmpty()) {
-            return response('Sorry no category in database', 404);
+            return response(['Message' => 'Sorry no category in database'], 200);
         }
         return response($categories);
     }

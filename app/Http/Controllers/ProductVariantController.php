@@ -13,6 +13,7 @@ class ProductVariantController extends Controller
     {
         $colors = Color::all();
         $sizes = Size::all();
+
         return response([
             'colors' => $colors,
             'sizes' => $sizes,

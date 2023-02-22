@@ -33,6 +33,7 @@ class Category extends Model
     {
         return $this->hasMany(Product::class);
     }
+
     public function parentCategory()
     {
         return $this->belongsTo(Category::class, 'parent_id', 'id');

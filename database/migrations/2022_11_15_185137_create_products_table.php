@@ -22,7 +22,7 @@ return new class extends Migration {
             $table->text('long_description')->nullable();
             $table->text('image')->nullable();
             $table->string('brand')->nullable();
-            $table->foreignId('category_id')->constrained();
+            $table->foreignId('category_id')->nullable()->constrained();
             $table->timestamps();
         });
     }
