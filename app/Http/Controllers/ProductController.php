@@ -2,149 +2,93 @@
 
 namespace App\Http\Controllers;
 
+use App\Lib\FilterProducts;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Builder;
 
 class ProductController extends Controller
 {
-    //
+
+    use FilterProducts;
+    private static $paginationNumber = 25;
     public function index(Request $request)
     {
 
+        $product = new Product();
+
         // check if there are url filter data
-        $queryFilter = collect($request->query())->isEmpty();
-        if (!$queryFilter) {
-            return $this->filterProductsQuery($request);
-        } else {
+        $queryFilterCount = collect($request->query())->count();
 
-            if ($request->query('page')) {
+        // greater than meaning the query contaienr query fitler string 
+        if ($queryFilterCount > 1) {
 
-                $products = Product::with(['colors', 'sizes'])->paginate(25);
+            $filteredProduct = $this
+                ->filterProducts($request, $product)
+                ->paginate(static::$paginationNumber);
 
+            if ($filteredProduct->isNotEmpty()) {
 
-                if ($products->isEmpty()) {
-                    return response([
-                        'Message' => 'sorry no produts exist'
-                    ], 200);
-                }
                 return response([
-                    'products' => $products->items(),
+                    'products' => $filteredProduct->items(),
                     'meta_pagination' => [
-                        'current_page' => $products->currentPage(),
-                        'per_page' => $products->perPage(),
-                        'total' => $products->total(),
-                        'first_page_url' => $products->url(1),
-                        'last_page_url' => $products->url($products->lastPage()),
-                        'next_page_url' => $products->nextPageUrl(),
-                        'prev_page_url' => $products->previousPageUrl(),
+                        'current_page' => $filteredProduct->currentPage(),
+                        'per_page' => $filteredProduct->perPage(),
+                        'total' => $filteredProduct->total(),
+                        'first_page_url' => $filteredProduct->url(1),
+                        'last_page_url' => $filteredProduct > url($filteredProduct->lastPage()),
+                        'next_page_url' => $filteredProduct->nextPageUrl(),
+                        'prev_page_url' => $filteredProduct->previousPageUrl(),
                     ]
                 ]);
-            } else {
-                $products = Product::with(['colors', 'sizes'])->get();
-                if ($products->isEmpty()) {
-                    return response([
-                        'Message' => 'sorry no produts exist',
-                        200
-                    ]);
-                }
-                return response($products);
             }
-        }
-
-    }
-    private function filterProductsQuery(Request $request)
-    {
-
-        $filterQueryProducts = null;
-
-        if ($request->query('productname')) {
-
-            $productName = $request->query('productname');
-
-            $filterQueryProducts = Product::where(
-                function (Builder $query) use ($productName) {
-                    return $query->where('product_name', 'LIKE', "%$productName%")
-                        ->orWhere('brand', 'LIKE', "%$productName%");
-                }
-            );
-        }
-        if ($request->query('price')) {
-            $priceRange = explode('-', $request->query('price'));
-
-            if ($filterQueryProducts) {
-                $filterQueryProducts->whereBetween('price', $priceRange);
-
-            } else {
-                $filterQueryProducts = Product::whereBetween('price', $priceRange);
-            }
-
-        }
-        if ($request->query('sizes')) {
-
-            $sizes = explode('-', $request->query('sizes'));
-
-            if ($filterQueryProducts) {
-
-                $filterQueryProducts->whereHas(
-                    'sizes',
-                    function (Builder $query) use ($sizes) {
-                        $query->whereIn('name', $sizes);
-                    }
-                );
-
-            } else {
-                $filterQueryProducts = Product::whereHas(
-                    'sizes',
-                    function (Builder $query) use ($sizes) {
-                        $query->whereIn('name', $sizes);
-                    }
-                );
-            }
-        }
-        if ($request->query('colors')) {
-
-            if ($filterQueryProducts) {
-                $colors = explode('-', $request->query('colors'));
-                $filterQueryProducts->whereHas(
-                    'colors',
-                    function (Builder $query) use ($colors) {
-                        $query->whereIn('name', $colors);
-                    }
-                );
-
-            } else {
-                $colors = explode('-', $request->query('colors'));
-                $filterQueryProducts = Product::whereHas(
-                    'colors',
-                    function (Builder $query) use ($colors) {
-                        $query->whereIn('name', $colors);
-                    }
-                );
-            }
-
-        }
-        $filterQueryProductsPagination = $filterQueryProducts->paginate(5);
-
-        if (!$filterQueryProductsPagination->isEmpty()) {
-
             return response([
-                'products' => $filterQueryProductsPagination->items(),
-                'meta_pagination' => [
-                    'current_page' => $filterQueryProductsPagination->currentPage(),
-                    'per_page' => $filterQueryProductsPagination->perPage(),
-                    'total' => $filterQueryProductsPagination->total(),
-                    'first_page_url' => $filterQueryProductsPagination->url(1),
-                    'last_page_url' => $filterQueryProductsPagination->url($filterQueryProductsPagination->lastPage()),
-                    'next_page_url' => $filterQueryProductsPagination->nextPageUrl(),
-                    'prev_page_url' => $filterQueryProductsPagination->previousPageUrl(),
-                ]
-            ]);
+                'Message' => 'Sorry no Products with filteration rules'
+            ], 200);
+
         }
-        return response(['Message' => 'Sorry no product exist']);
 
+        $products = $product->with(['colors', 'sizes']);
+
+        // if Contain query page paramter return pagination data 
+        if ($request->has('page')) {
+
+            $productsPagination = $products->paginate(static::$paginationNumber);
+
+            if ($productsPagination->isNotEmpty()) {
+
+                return response([
+                    'products' => $productsPagination->items(),
+                    'meta_pagination' => [
+                        'current_page' => $productsPagination->currentPage(),
+                        'per_page' => $productsPagination->perPage(),
+                        'total' => $productsPagination->total(),
+                        'first_page_url' => $productsPagination->url(1),
+                        'last_page_url' => $productsPagination > url($productsPagination->lastPage()),
+                        'next_page_url' => $productsPagination->nextPageUrl(),
+                        'prev_page_url' => $productsPagination->previousPageUrl(),
+                    ]
+                ]);
+            }
+            return response(
+                ['Message' => 'Sorry no product exists'],
+                200
+            );
+
+        } else {
+
+            $allProducts = $products->get();
+
+            if ($allProducts->isNotEmpty()) {
+                return response($allProducts, 200);
+            }
+            return response([
+                'Message' => 'sorry no produts exist',
+                200
+            ]);
+
+        }
     }
-
 
     public function latestProduct()
     {
