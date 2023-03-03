@@ -129,8 +129,6 @@ class CategoryController extends Controller
     }
 
 
-
-
     public function subCategories($category)
     {
         $category = Category::where('cat_name', $category)

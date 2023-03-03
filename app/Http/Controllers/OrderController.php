@@ -11,7 +11,7 @@ use App\Models\Cart;
 class OrderController extends Controller
 {
     use Invoice;
-    //
+    
     public function index()
     {
 

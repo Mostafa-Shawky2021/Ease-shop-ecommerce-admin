@@ -29,7 +29,6 @@ use App\Http\Controllers\ProductVariantController;
 
 
 
-
 // Product Variants
 Route::controller(ProductVariantController::class)->group(function () {
 	Route::get('/productvariants', 'index');

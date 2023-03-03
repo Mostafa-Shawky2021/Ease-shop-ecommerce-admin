@@ -4,53 +4,113 @@ namespace App\Lib;
 
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
+use App\Models\Product;
 
 trait FilterProducts
 {
+    private $productModelFilter = null;
 
-    private function filterProducts(Request $request, $model)
+    private function filterProductByName($productName)
     {
+        $this->productModelFilter =
+            $this->productModelFilter
+                ->where(
+                    function (Builder $query) use ($productName) {
+                        return $query->where('product_name', 'LIKE', "%$productName%")
+                            ->orWhere('brand', 'LIKE', "%$productName%");
+                    }
+                );
 
-        if ($request->has('productname')) {
+    }
+    private function productWithLimit($limitNumber)
+    {
+        $this->productModelFilter = $this->productModelFilter->limit(intval($limitNumber));
+    }
+    private function productWithOffers()
+    {
+        $this->productModelFilter = $this->productModelFilter->whereNotNull('price_discount');
+    }
 
-            $productName = $request->query('productname');
+    private function filterProductByPrice($priceRange)
+    {
+        preg_match_all('/\d+/', $priceRange, $match);
 
-            $model = $model->where(
-                function (Builder $query) use ($productName) {
-                    return $query->where('product_name', 'LIKE', "%$productName%")
-                        ->orWhere('brand', 'LIKE', "%$productName%");
-                }
-            );
+        $matchingCollection = collect($match[0])
+            ->map(fn($element) => intval($element))
+            ->sort()
+            ->slice(0, 2);
 
+        // in case no matching default fitler
+        if ($matchingCollection->isEmpty()) {
+            $matchingCollection[0] = 50;
+            $matchingCollection[1] = 10000;
+        } else if ($matchingCollection->count() == 1) {
+            $matchingCollection[1] = 10000;
         }
-        if ($request->has('price')) {
 
-            $priceRange = explode('-', $request->query('price'));
-            $model = $model->whereBetween('price', $priceRange);
-        }
+        $this->productModelFilter =
+            $this->productModelFilter
+                ->whereRaw('if(price_discount,price_discount,price) between ? and ?', $matchingCollection->toArray());
+    }
 
-        if ($request->has('sizes')) {
-
-            $sizes = explode('-', $request->query('sizes'));
-            $model = $model->whereHas(
+    private function filterProductBySize($querySizes)
+    {
+        $sizes = explode('-', $querySizes);
+        $this->productModelFilter =
+            $this->productModelFilter->whereHas(
                 'sizes',
                 function (Builder $query) use ($sizes) {
                     $query->whereIn('name', $sizes);
                 }
             );
-        }
-
-        if ($request->has('colors')) {
-            $colors = explode('-', $request->query('colors'));
-            $model = $model->whereHas(
+    }
+    private function filterProductByColors($queryColors)
+    {
+        $colors = explode('-', $queryColors);
+        $this->productModelFilter =
+            $this->productModelFilter->whereHas(
                 'colors',
                 function (Builder $query) use ($colors) {
                     $query->whereIn('name', $colors);
                 }
             );
+    }
+    private function filterProducts(Request $request, Product $product)
+    {
+
+        $this->productModelFilter = $product;
+
+        if ($request->has('productname')) {
+            $productName = $request->query('productname');
+            $this->filterProductByName($productName);
         }
 
-        return $model;
+        if ($request->has('limit')) {
+            $limitNumber = $request->query('limit');
+            $this->productWithLimit($limitNumber);
+        }
+
+        if ($request->has('offers')) {
+            $this->productWithOffers();
+        }
+
+        if ($request->has('price')) {
+            $queryPrice = $request->query('price');
+            $this->filterProductByPrice($queryPrice);
+
+        }
+
+        if ($request->has('sizes')) {
+            $querySizes = $request->query('sizes');
+            $this->filterProductBySize($querySizes);
+
+        }
+
+        if ($request->has('colors')) {
+            $queryColors = $request->query('colors');
+            $this->filterProductByColors($queryColors);
+        }
+        return $this->productModelFilter;
     }
 }
 

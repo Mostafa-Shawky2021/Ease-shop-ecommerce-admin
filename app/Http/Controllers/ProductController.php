@@ -14,15 +14,11 @@ class ProductController extends Controller
     private static $paginationNumber = 25;
     public function index(Request $request)
     {
-
-        $product = new Product();
-
         // check if there are url filter data
-        $queryFilterCount = collect($request->query())->count();
-
+        $queryFilterCount = collect($request->except('page'))->count();
         // greater than meaning the query contaienr query fitler string 
-        if ($queryFilterCount > 1) {
-
+        if ($queryFilterCount > 0) {
+            $product = new Product();
             $filteredProduct = $this
                 ->filterProducts($request, $product)
                 ->paginate(static::$paginationNumber);
@@ -48,46 +44,28 @@ class ProductController extends Controller
 
         }
 
-        $products = $product->with(['colors', 'sizes']);
+        $products = Product::with(['colors', 'sizes']);
+        $productsPagination = $products->paginate(static::$paginationNumber);
 
-        // if Contain query page paramter return pagination data 
-        if ($request->has('page')) {
+        if ($productsPagination->isNotEmpty()) {
 
-            $productsPagination = $products->paginate(static::$paginationNumber);
-
-            if ($productsPagination->isNotEmpty()) {
-
-                return response([
-                    'products' => $productsPagination->items(),
-                    'meta_pagination' => [
-                        'current_page' => $productsPagination->currentPage(),
-                        'per_page' => $productsPagination->perPage(),
-                        'total' => $productsPagination->total(),
-                        'first_page_url' => $productsPagination->url(1),
-                        'last_page_url' => $productsPagination > url($productsPagination->lastPage()),
-                        'next_page_url' => $productsPagination->nextPageUrl(),
-                        'prev_page_url' => $productsPagination->previousPageUrl(),
-                    ]
-                ]);
-            }
-            return response(
-                ['Message' => 'Sorry no product exists'],
-                200
-            );
-
-        } else {
-
-            $allProducts = $products->get();
-
-            if ($allProducts->isNotEmpty()) {
-                return response($allProducts, 200);
-            }
             return response([
-                'Message' => 'sorry no produts exist',
-                200
+                'products' => $productsPagination->items(),
+                'meta_pagination' => [
+                    'current_page' => $productsPagination->currentPage(),
+                    'per_page' => $productsPagination->perPage(),
+                    'total' => $productsPagination->total(),
+                    'first_page_url' => $productsPagination->url(1),
+                    'last_page_url' => $productsPagination > url($productsPagination->lastPage()),
+                    'next_page_url' => $productsPagination->nextPageUrl(),
+                    'prev_page_url' => $productsPagination->previousPageUrl(),
+                ]
             ]);
-
         }
+        return response(
+            ['Message' => 'Sorry no product exists'],
+            200
+        );
     }
 
     public function latestProduct()
