@@ -9,7 +9,7 @@ use App\Models\Product;
 trait FilterProducts
 {
     private $productModelFilter = null;
-
+    private $limitFilter = null;
     private function filterProductByName($productName)
     {
         $this->productModelFilter =
@@ -24,7 +24,9 @@ trait FilterProducts
     }
     private function productWithLimit($limitNumber)
     {
-        $this->productModelFilter = $this->productModelFilter->limit(intval($limitNumber));
+
+        dd($this->limitFilter);
+        $this->productModelFilter = $this->productModelFilter->take();
     }
     private function productWithOffers()
     {
@@ -75,6 +77,11 @@ trait FilterProducts
                 }
             );
     }
+
+    private function filterbyLatestProduct()
+    {
+        $this->productModelFilter = $this->productModelFilter->latest('id');
+    }
     private function filterProducts(Request $request, Product $product)
     {
 
@@ -87,7 +94,7 @@ trait FilterProducts
 
         if ($request->has('limit')) {
             $limitNumber = $request->query('limit');
-            $this->productWithLimit($limitNumber);
+            $this->limitFilter = intval($limitNumber);
         }
 
         if ($request->has('offers')) {
@@ -110,7 +117,14 @@ trait FilterProducts
             $queryColors = $request->query('colors');
             $this->filterProductByColors($queryColors);
         }
-        return $this->productModelFilter;
+
+        if ($request->has('latest')) {
+            $this->filterbyLatestProduct();
+        }
+
+        return $this->limitFilter
+            ? $this->productModelFilter->paginate($this->limitFilter)
+            : $this->productModelFilter->paginate(static::$paginationNumber);
     }
 }
 

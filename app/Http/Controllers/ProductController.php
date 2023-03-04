@@ -18,10 +18,9 @@ class ProductController extends Controller
         $queryFilterCount = collect($request->except('page'))->count();
         // greater than meaning the query contaienr query fitler string 
         if ($queryFilterCount > 0) {
+
             $product = new Product();
-            $filteredProduct = $this
-                ->filterProducts($request, $product)
-                ->paginate(static::$paginationNumber);
+            $filteredProduct = $this->filterProducts($request, $product);
 
             if ($filteredProduct->isNotEmpty()) {
 
