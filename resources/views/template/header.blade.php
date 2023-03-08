@@ -1,20 +1,15 @@
-<header class="header">
-    <nav class="nav">
-        <div class="container-fluid d-flex">
-            <div class="website">
-                <a href="#">Website</a>
-            </div>
-            <div class="nav-right">
-                <div class="notification"> 
-                    <button><i class="fa fa-bell"></i></button>
-                    <button><i class="fa fa-envelope"></i> </button>
-                </div>
-                <div class="user">
-                    <img src="" alt="" />
-                    <span class="user-name">Mostafa</span>
-                </div>
-            </div> 
+<header class="header d-flex">
+    {{-- Logo --}}
+    <div class="logo text-center">
+        <a class="logo-link" href="#">Netfly</a>
+    </div>
+
+    <div class="header-content d-flex align-items-center">
+        <div class="user ms-auto">
+            <img class="avatar" src="{{ asset('images/user.jpg') }}" alt="user-image"
+                width="80" height="80" />
+            <span class="hero-name">Mostafa</span>
         </div>
-    </nav>
+    </div>
 
 </header>

@@ -1,9 +1,4 @@
-@use '../helper/var';
-
-body {
-    font-family: var.$fontfamily;
-    margin: 0px;
-}
+@use '../helper/var' as var;
 
 .wrapper {
     background-color: var.$bodycolor;

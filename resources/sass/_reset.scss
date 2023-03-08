@@ -1,0 +1,12 @@
+@use './helper/var' as var;
+
+body {
+    font-family: var.$cairofont;
+    margin: 0px;
+    direction: var.$direction;
+    background-color: var.$bodycolor;
+}
+
+a {
+    display: inline-block;
+}

@@ -58,7 +58,6 @@ Route::controller(CategoryController::class)->group(function () {
 });
 
 
-
 //Auth Resource
 Route::controller(AuthController::class)->group(function () {
 	Route::post('/login', 'authenticate');

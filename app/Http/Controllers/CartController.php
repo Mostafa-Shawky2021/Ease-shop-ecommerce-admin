@@ -19,6 +19,7 @@ class CartController extends Controller
     }
     public function store(CartRequest $request)
     {
+
         if ($request->validated()) {
 
             $cart = Cart::create([
@@ -31,13 +32,15 @@ class CartController extends Controller
                 'total_price' => $request->input('total_price')
             ]);
 
-            $cart->product = $cart->product;
             if ($cart) {
                 return response([
-                    'message' => 'Cart Added successfully',
+                    'Message' => 'Cart Added successfully',
                     'data' => $cart
-                ]);
+                ], 201);
             }
+            return response([
+                'Message' => 'Sorry There are error while adding new cart',
+            ], 422);
 
         }
 
@@ -72,13 +75,11 @@ class CartController extends Controller
         $cart = Cart::find($cart);
 
         if (!$cart) {
-            return response(['message' => 'Sorry no cart found with specific id'], 404);
+            return response(['Message' => 'Sorry no cart found with specific id'], 200);
         }
-        if ($request->has('quantity')) {
-            $cart->quantity += $request->input('quantity');
-        } else {
-            $cart->quantity += 1;
-        }
+
+        $cart->quantity += ($request->has('quantity') ? $request->input('quantity') : 1);
+
         $cart->total_price = $cart->unit_price * $cart->quantity;
         $cart->save();
 

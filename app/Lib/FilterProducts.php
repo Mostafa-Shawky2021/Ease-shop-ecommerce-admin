@@ -2,9 +2,13 @@
 
 namespace App\Lib;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
+
 use App\Models\Product;
+
+use Illuminate\Support\Facades\DB;
 
 trait FilterProducts
 {
@@ -12,22 +16,20 @@ trait FilterProducts
     private $limitFilter = null;
     private function filterProductByName($productName)
     {
+
         $this->productModelFilter =
             $this->productModelFilter
+                ->join('categories', 'products.category_id', '=', 'categories.id')
                 ->where(
                     function (Builder $query) use ($productName) {
                         return $query->where('product_name', 'LIKE', "%$productName%")
-                            ->orWhere('brand', 'LIKE', "%$productName%");
+                            ->orWhere('brand', 'LIKE', "%$productName%")
+                            ->orWhere('cat_name', 'LIKE', "%$productName%");
+
                     }
                 );
-
     }
-    private function productWithLimit($limitNumber)
-    {
 
-        dd($this->limitFilter);
-        $this->productModelFilter = $this->productModelFilter->take();
-    }
     private function productWithOffers()
     {
         $this->productModelFilter = $this->productModelFilter->whereNotNull('price_discount');
@@ -88,7 +90,7 @@ trait FilterProducts
         $this->productModelFilter = $product;
 
         if ($request->has('productname')) {
-            $productName = $request->query('productname');
+            $productName = urldecode($request->query('productname'));
             $this->filterProductByName($productName);
         }
 
