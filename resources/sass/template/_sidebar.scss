@@ -5,6 +5,10 @@
     min-height: 100vh;
     height: 100%;
     width: 250px;
+    padding-top: 1rem;
+    position: fixed;
+    right: 0px;
+    top: 70px;
 
     .brand {
         color: #ececec;
@@ -13,7 +17,6 @@
     }
 
     .list>.item>a {
-        margin-bottom: 10px;
         color: #c0bcbc;
         padding: 0.5rem 1.5rem;
         text-decoration: none;
@@ -40,34 +43,29 @@
         }
     }
 
+    .chevron {
+        transition: all 0.3s;
+    }
 
+    .submenu-visible {
+        .chevron {
+            transform: rotate(180deg);
+        }
+    }
 
     .list-submenu {
-        padding-left: 31px;
         list-style: none;
         position: relative;
         height: 0px;
         overflow: hidden;
         transition: all 0.3s;
 
-        .item {
-            margin-bottom: 5px;
-        }
-
-        &::after {
-            content: "";
-            position: absolute;
-            left: 13px;
-            top: 8px;
-            height: 79%;
-            width: 2px;
-            background-color: #a7a7a7;
-        }
-
         a {
-            color: #cdcdcd;
+            color: #79829c;
             text-decoration: none;
             font-size: 14px;
+            transition: all 0.3s;
+            padding: 0.5rem 3rem 0.5rem 0px;
 
             &:hover {
                 color: #e9e9e9;

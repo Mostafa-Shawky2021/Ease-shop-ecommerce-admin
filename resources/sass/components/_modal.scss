@@ -1,4 +1,17 @@
-.modal {
+.model-show-image {
     // position: absolute;
+    max-width: 80%;
+    overflow: hidden;
 
+
+    .image-wrapper {
+        width: 50%;
+        height: 400px;
+        margin: auto;
+    }
+
+    .image-wrapper img {
+        height: 90%;
+        width: 100%
+    }
 }

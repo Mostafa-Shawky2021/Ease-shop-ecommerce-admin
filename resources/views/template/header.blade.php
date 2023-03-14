@@ -3,7 +3,6 @@
     <div class="logo text-center">
         <a class="logo-link" href="#">Netfly</a>
     </div>
-
     <div class="header-content d-flex align-items-center">
         <div class="user ms-auto">
             <img class="avatar" src="{{ asset('images/user.jpg') }}" alt="user-image"

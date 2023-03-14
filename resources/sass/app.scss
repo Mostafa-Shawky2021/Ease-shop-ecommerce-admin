@@ -1,14 +1,30 @@
+// bootstrap
 @use 'bootstrap/dist/css/bootstrap.rtl.min.css';
+@use 'bootstrap-icons/font/bootstrap-icons.css';
+
+//summernote editor
+@use 'summernote/dist/summernote-bs5.min.css';
+@use 'summernote/dist/summernote-lite.css';
+
+// font awesome
 @use '@fortawesome/fontawesome-free/css/all.min.css';
+
+// datatable
+@use "datatables.net-bs5/css/dataTables.bootstrap5.min.css" as *;
+@use "datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css" as *;
+@use 'datatables.net-select-bs5/css/select.bootstrap5.css' as *;
+
+// app style
 @use './fonts';
 @use './typo';
 @use './reset';
-@use './layout/layout';
-@use './layout/header';
-@use './layout/sidebar';
-// @use 'components/buttons';
-// @use 'components/forms';
-// @use 'components/images';
-// @use 'components/tables';
-// @use 'components/uploadfile';
-// @use 'components/modal';
+@use './layout';
+@use './template/editor';
+@use './template/header';
+@use './template/sidebar';
+@use './components/buttons';
+@use './components/tables';
+@use './components/images';
+@use './components/forms';
+@use './components/uploadfile';
+@use './components/modal';

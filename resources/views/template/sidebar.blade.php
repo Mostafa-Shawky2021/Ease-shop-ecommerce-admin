@@ -4,7 +4,7 @@
             <a class="button-toggle" data-toggle="toggle-submenu">
                 <i class="fa fa-user icon"></i>
                 <span>المستخدمين</span>
-                <i class="fa-solid fa-chevron-down icon"></i>
+                <i class="fa-solid fa-chevron-down chevron icon"></i>
             </a>
             <ul class="list-submenu toggle-submenu">
                 <li class="item">
@@ -22,7 +22,7 @@
             <a class="button-toggle" data-toggle="toggle-submenu">
                 <i class="fa-solid fa-tags icon"></i>
                 <span>الاقسام</span>
-                <i class="fa-solid fa-chevron-down icon"></i>
+                <i class="fa-solid fa-chevron-down chevron icon"></i>
             </a>
             <ul class="list-submenu toggle-submenu">
                 <li class="item">
@@ -37,7 +37,7 @@
             <a class="button-toggle" data-toggle="toggle-submenu">
                 <i class="fa-solid fa-shop icon"></i>
                 <span>المنتجات</span>
-                <i class="fa-solid fa-chevron-down icon"></i>
+                <i class="fa-solid fa-chevron-down chevron icon"></i>
             </a>
             <ul class="list-submenu toggle-submenu">
                 <li class="item">
@@ -46,9 +46,7 @@
                 <li class="item">
                     <a href="{{ route('products.create') }}">اضافة منتج</a>
                 </li>
-
             </ul>
         </li>
-
     </ul>
 </aside>

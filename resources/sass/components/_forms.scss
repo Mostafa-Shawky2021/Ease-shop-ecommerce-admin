@@ -1,33 +1,37 @@
 @use '../helper/var';
 
-.label-control {
-    display: inline-block;
-    width: 120px;
-    color: var.$gray;
-    font-size: 14px;
+.mainform-app {
+    background-color: #fff;
+    padding: 1rem;
+    margin-top: 1.8rem;
 
-}
+    .form-group {
+        display: flex;
+        align-items: center;
+        margin-top: 1rem;
 
-.form-wrapper {
-    width: 86%;
-}
+    }
 
-.form-control {
-    padding-top: 4px;
-    padding-bottom: 4px;
-    border: 1px solid var.$softbordercolor;
-}
+    .label-control {
+        color: #707070;
+        font-weight: 600;
+    }
 
-.form-control:focus,
-.form-control:hover {
-    box-shadow: none;
-}
+    .form-control {
+        padding-top: 0.3rem;
+        padding-bottom: 0.3rem;
+        border: 1px solid #dedede;
+        transition: all 0.3s;
 
-.form-control::placeholder {
-    font-size: 14px;
-    color: #888;
-}
+        &:hover,
+        &:focus {
+            box-shadow: 0 0 0 0.10rem rgba(13, 110, 253, 0.25)
+        }
+    }
 
-.input-radio {
-    margin-right: 8px;
+    .short-description {
+        height: 140px;
+        resize: none;
+    }
+
 }

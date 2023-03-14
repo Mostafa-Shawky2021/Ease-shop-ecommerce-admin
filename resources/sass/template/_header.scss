@@ -2,6 +2,10 @@
 
 .header {
     height: 70px;
+    position: fixed;
+    right: 0px;
+    width: 100%;
+    z-index: 50;
 
     .logo {
         width: 250px;
@@ -22,6 +26,7 @@
         padding-right: 2rem;
         padding-left: 2rem;
         flex-grow: 1;
+        border-bottom: 1px solid #dedede7a
     }
 
     .user .avatar {

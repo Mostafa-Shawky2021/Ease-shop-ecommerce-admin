@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\DataTables\admin\ProductsDataTable;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
@@ -14,10 +15,10 @@ use App\Models\Image;
 class ProductController extends Controller
 {
     //
-    public function index()
+    public function index(ProductsDataTable $dataTable)
     {
-        $products = Product::orderBy('id', 'desc')->paginate(7);
-        return view('products.index', compact('products'));
+
+        return $dataTable->render('products.index');
     }
     public function create()
     {

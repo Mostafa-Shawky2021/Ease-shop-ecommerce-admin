@@ -2,14 +2,10 @@
 
 .file-wrapper {
     position: relative;
-    border: 2px dashed var.$softbordercolor;
-    height: 181px;
-
-    .description {
-        color: var.$gray;
-        text-align: center;
-        margin-top: 34px;
-    }
+    border: 2px dashed #dedede;
+    height: 44px;
+    border-radius: 0.75rem;
+    position: realtive;
 
     input[type='file'] {
         opacity: 0;
@@ -31,31 +27,25 @@
 
     }
 
-    .img-box {
-        border: 1px solid var.$softbordercolor;
-        position: relative;
-        height: 100%;
-        width: 248px;
-        padding: 5px;
+    .view-btn {
+        position: absolute;
+        left: -124px;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: #dddee1;
+        border: none;
+        color: #2a2a2a;
+        font-size: 0.8rem;
+        font-weight: 500;
+        border: 1px solid #dedede;
+        border-radius: 10px;
+        padding: 5px 7px;
 
-        .img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            cursor: pointer;
-        }
-
-        .icon-delete {
-            // position: absolute;
-            // color: var(--bs-danger);
-            // z-index: 99;
-            // right: -3px;
-            // top: 1px;
-            // cursor: pointer;
+        .icon {
+            margin-right: 5px;
+            margin-top: 5px;
         }
 
     }
-
-
 
 }

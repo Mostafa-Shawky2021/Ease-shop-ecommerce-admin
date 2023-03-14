@@ -18,7 +18,7 @@ use App\Http\Controllers\admin\ProductController;
 
 Route::get('/', function (Request $request) {
 
-    return view("layout.app");
+    return view("dashboard.index");
 
 });
 
