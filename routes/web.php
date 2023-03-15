@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\ProductController;
+use App\Http\Controllers\admin\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,8 @@ Route::get('/', function (Request $request) {
 });
 
 Route::prefix('admin')->group(function () {
+
+    // Use Resource
     Route::controller(UserController::class)->group(
         function () {
             Route::get('/users', 'index')->name('users.index');
@@ -32,6 +35,7 @@ Route::prefix('admin')->group(function () {
     );
 
 
+    //Category Resource
     Route::controller(CategoryController::class)->group(
         function () {
             Route::get('/categories', 'index')->name('categories.index');
@@ -40,6 +44,7 @@ Route::prefix('admin')->group(function () {
         }
     );
 
+    // Products Resource
     Route::controller(ProductController::class)->group(
         function () {
             Route::get('/products', 'index')->name('products.index');
@@ -47,6 +52,15 @@ Route::prefix('admin')->group(function () {
             Route::post('/products', 'store')->name('products.store');
             Route::get('/products/{product}/edit', 'edit')->name('products.edit');
             Route::post('/products/{product}/update', 'update')->name('products.update');
+            Route::delete("/products/{product}", 'delete')->name('products.delete');
+        }
+    );
+
+    // Order Resource
+    Route::controller(OrderController::class)->group(
+        function () {
+            Route::get('/orders', 'index')->name('orders.index');
+            Route::get('/orders', 'create')->name('orders.create');
         }
     );
 });

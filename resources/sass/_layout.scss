@@ -1,6 +1,6 @@
 @use './helper/var' as var;
 
-.wrapper-content {
+.main-wrapper {
     background-color: var.$bodycolor;
     padding: 2rem 1.5rem;
     flex-grow: 1;
@@ -8,11 +8,16 @@
     margin-top: 70px;
     overflow: hidden;
 
-    .header-content .title {
-        font-size: 1.1rem;
+    .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
     }
 
     .content {
         background-color: #fff;
+        padding: 1.3rem 1rem;
+        margin-top: 1rem;
+        position: relative;
     }
 }

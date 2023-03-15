@@ -1,21 +1,18 @@
 @extends('layout.app')
 
 @section('header-content')
-    المنتجات
+    <h5>المنتجات</h5>
+    <a class="btn-add" href="{{ route('products.create') }}">
+        اضافة منتج
+        <i class="icon fa fa-plus"></i>
+    </a>
 @endsection
 
 @section('content')
-    <div class="content">
-        <header class="inner-content-header">
-            {{-- <a class="btn-add" href="{{ route('products.create') }}">
-                اضافة منتج
-                <i class="icon fa fa-plus"></i>
-            </a> --}}
-        </header>
-
-        {{ $dataTable->table(['class' => 'table table-data-layout'], true) }}
-
-
+    <div>
+        <div class='table-responsive '>
+            {{ $dataTable->table(['class' => 'table table-data-layout']) }}
+        </div>
     </div>
 @endsection
 

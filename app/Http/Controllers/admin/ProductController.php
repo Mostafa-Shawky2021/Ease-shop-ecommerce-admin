@@ -18,6 +18,7 @@ class ProductController extends Controller
     public function index(ProductsDataTable $dataTable)
     {
 
+
         return $dataTable->render('products.index');
     }
     public function create()
@@ -27,40 +28,34 @@ class ProductController extends Controller
     }
     public function store(ProductForm $request)
     {
+
         $brandImagePath = null;
 
-        if ($request->validated()) {
-            if ($request->has('productImage')) {
-                $brandImagePath = $request->file('productImage')
-                    ->store('images/products');
-            }
 
-            $product = Product::create([
-                'category_id' => $request->input('categoryId'),
-                'product_name' => $request->input('productName'),
-                'price' => $request->input('price'),
-                'price_discount' => $request->input('priceDiscount'),
-                'image' => $brandImagePath,
-                'brand' => $request->input('brandName'),
-                'short_description' => $request->input('shortDescription'),
-                'long_description' => $request->input('longDescription'),
-                'color' => $request->input('color'),
-                'size' => $request->input('size')
-            ]);
+        if ($request->has('image')) {
 
-            if ($request->has('productImageThumbnails')) {
-                $imageThumbnails = $request->file('productImageThumbnails');
-                foreach ($imageThumbnails as $img) {
-                    $imageThumbnailPath = $img->store('images/products');
-                    $image = new Image(['url' => $imageThumbnailPath]);
-                    $product->images()->save($image);
-                }
+            $brandImagePath = $request->file('image')->store('storage/products');
 
-            }
-            return redirect()
-                ->route('products.index')
-                ->with(['message' => ['Product Added Successfully', 'success']]);
         }
+
+        $inputsFields = $request->safe()->except('image');
+        $inputsFields['image'] = $brandImagePath;
+
+        $product = Product::create($inputsFields);
+
+        if ($request->has('productImageThumbnails')) {
+
+            $imageThumbnails = $request->file('productImageThumbnails');
+            foreach ($imageThumbnails as $img) {
+                $imageThumbnailPath = $img->store('images/products');
+                $image = new Image(['url' => $imageThumbnailPath]);
+                $product->images()->save($image);
+            }
+
+        }
+        return redirect()
+            ->route('products.index')
+            ->with(['message' => ['Product Added Successfully', 'success']]);
     }
     public function edit($product)
     {
@@ -75,6 +70,7 @@ class ProductController extends Controller
     public function update(ProductForm $request, $product)
     {
         $product = Product::find($product);
+
         if ($request->validated()) {
 
             if ($request->has('productImage')) {

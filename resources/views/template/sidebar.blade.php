@@ -19,6 +19,9 @@
             </ul>
         </li>
         <li class="item">
+            <a href="" class="title">المتجر</a>
+        </li>
+        <li class="item">
             <a class="button-toggle" data-toggle="toggle-submenu">
                 <i class="fa-solid fa-tags icon"></i>
                 <span>الاقسام</span>
@@ -45,6 +48,21 @@
                 </li>
                 <li class="item">
                     <a href="{{ route('products.create') }}">اضافة منتج</a>
+                </li>
+            </ul>
+        </li>
+        <li class="item">
+            <a class="button-toggle" data-toggle="toggle-submenu">
+                <i class="fa-solid fa-cart-shopping icon"></i>
+                <span>الاوردرات</span>
+                <i class="fa-solid fa-chevron-down chevron icon"></i>
+            </a>
+            <ul class="list-submenu toggle-submenu">
+                <li class="item">
+                    <a href="{{ route('orders.index') }}">جميع الاوردرات</a>
+                </li>
+                <li class="item">
+                    <a href="{{ route('orders.create') }}">اضافة اوردر</a>
                 </li>
             </ul>
         </li>

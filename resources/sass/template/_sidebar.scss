@@ -43,6 +43,11 @@
         }
     }
 
+    .list>.item .title {
+        color: #838383;
+        margin-right: 0.3rem;
+    }
+
     .chevron {
         transition: all 0.3s;
     }
@@ -59,6 +64,7 @@
         height: 0px;
         overflow: hidden;
         transition: all 0.3s;
+        padding-right: 0.5rem;
 
         a {
             color: #79829c;

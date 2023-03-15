@@ -16,16 +16,33 @@
 
     <div class="d-flex">
         @include('template.sidebar')
-        <div class="wrapper-content">
+
+        <div class="main-wrapper">
             <header class="header-content">
-                <h4 class="title">@yield('header-content')
+                @yield('header-content')
             </header>
-            @yield('content')
+
+            <div class="content">
+                @yield('content')
+            </div>
+
         </div>
     </div>
 
     @stack('scripts')
+    <script type='module'>
+        $.extend(true, $.fn.dataTable.defaults, {
+            language: {
+               search: "",
+               paginate:{
+                previous:'السابق',
+                next:'التالي',
+                searchPlaceholder:'البحث'
+               }
+            }
+            });
 
+    </script>
 </body>
 
 </html>

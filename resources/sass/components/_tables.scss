@@ -1,17 +1,88 @@
 @use '../helper/var';
 
 .table-data-layout {
-    margin-top: 2rem;
-    padding: 0.8rem 1.2rem;
+    margin-top: 0.3rem;
+    padding: 0.3rem 0.5rem 0px;
+
+
+    td:first-child,
+    th:first-child,
+    td:last-child,
+    th:last-child {
+        border-left-width: 0px !important;
+        border-right-width: 0px !important;
+    }
+
+    thead th {
+        border-top: 0px !important;
+    }
+
+    &>:not(caption)>*>* {
+        background-color: #fff !important;
+        box-shadow: none !important;
+        border-width: 0px;
+    }
+
+    tbody tr td {
+        border-bottom-width: 0px !important;
+    }
+
+    tbody tr:not(:last-child) td {
+        border-bottom: 1px solid #dedede !important;
+    }
+
+    tbody>tr:hover>* {
+        background-color: var.$bodycolor !important;
+    }
 
     th {
-        font-weight: 500;
+        font-weight: 600;
+        color: #000;
+        background-color: var.$bodycolor;
+
     }
 
     th,
     td {
-        padding: 0.75rem;
+        padding: 0.86rem;
+        text-align: center !important;
         font-size: 0.9rem;
-        text-align: center;
+
+
+    }
+
+    tbody td {
+        color: #5e5e5e !important;
+        font-weight: 500;
+        vertical-align: middle;
+    }
+
+    thead tr th:first-child {
+        width: 100px !important;
+    }
+
+    tbody tr td:first-child {
+        padding: 0px 0.86rem;
+
+    }
+
+    .action-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .action-wrapper .icon-edit {
+        color: var(--bs-green);
+    }
+
+    .action-wrapper .btn-action {
+        border: none;
+        background-color: transparent;
+    }
+
+    .action-wrapper .icon-delete {
+        color: var(--bs-danger);
     }
 }

@@ -20,7 +20,7 @@ class CategoryController extends Controller
         if ($categories->isEmpty()) {
             return response(['Message' => 'Sorry no category in database'], 200);
         }
-        return response($categories);
+        return response(['data' => $categories], 200);
     }
     public function categoryProducts(Request $request, $categorySlug)
     {
@@ -100,8 +100,6 @@ class CategoryController extends Controller
             'Message' => 'Sorry no product in that category',
         ], 200);
 
-
-
     }
     public function randomCategories()
     {
@@ -121,13 +119,12 @@ class CategoryController extends Controller
         }
 
         if ($randomCategories->isEmpty()) {
-            return response(['message' => 'Sorry no data exit'], 404);
+            return response(['message' => 'Sorry no data exit'], 200);
         }
-        return response($randomCategories);
 
+        return response(['data' => $randomCategories], 200);
 
     }
-
 
     public function subCategories($category)
     {
