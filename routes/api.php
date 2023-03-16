@@ -2,12 +2,13 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\ProductVariantController;
+
+use App\Http\Controllers\api\CategoryController;
+use App\Http\Controllers\api\ProductController;
+use App\Http\Controllers\api\AuthController;
+use App\Http\Controllers\api\CartController;
+use App\Http\Controllers\api\OrderController;
+use App\Http\Controllers\api\ProductVariantController;
 
 
 /*
@@ -27,8 +28,6 @@ use App\Http\Controllers\ProductVariantController;
 
 
 
-
-
 // Product Variants
 Route::controller(ProductVariantController::class)->group(function () {
 	Route::get('/productvariants', 'index');
@@ -40,9 +39,7 @@ Route::controller(ProductController::class)->group(function () {
 	Route::get('/products/latestproducts', 'latestProduct');
 	Route::get('/products/productslug/{slug}', 'show');
 	Route::get('/products/productslug/{slug}/related', 'relatedProduct');
-
 	Route::get('/search', 'searchProduct');
-
 	Route::post('/products/recentview', 'recentView');
 	Route::get('/products/random', 'randomProduct');
 	Route::get('/products/offers', 'offersProduct');

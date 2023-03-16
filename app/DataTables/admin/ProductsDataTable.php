@@ -20,11 +20,10 @@ class ProductsDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        $name = 'mostafa';
+
         return (new EloquentDataTable($query))
             ->addIndexColumn()
             ->setRowId('id')
-
             ->editColumn('image', function (Product $product) {
                 return $product->image
                     ? "<img alt='product-image' src='/$product->image' width='50' height='50'/>"
@@ -40,7 +39,7 @@ class ProductsDataTable extends DataTable
                     <i class="fa fa-edit icon icon-edit"></i>
                  </a>
                  <form method="POST" action="' . route('products.delete', ['product' => $product->id]) . '"}}>
-                    ' . method_field('delete') . '
+                    ' . method_field('DELETE') . '
                     <button class="btn-action">
                         <i class="fa fa-trash icon icon-delete"></i>
                     </button>
@@ -49,8 +48,6 @@ class ProductsDataTable extends DataTable
             return $btn;
 
         })->rawColumns(['image', 'action']);
-
-
 
     }
 
@@ -64,7 +61,8 @@ class ProductsDataTable extends DataTable
     {
         return $model->newQuery()
             ->with('category')
-            ->select('products.*');
+            ->select('products.*')
+            ->orderBy('id', 'desc');
     }
 
     /**
@@ -78,7 +76,9 @@ class ProductsDataTable extends DataTable
             ->setTableId('products-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->dom('frtip');
+            ->parameters([
+                'order' => [0, 'desc']
+            ])->dom('frtip');
     }
 
     /**
@@ -89,7 +89,8 @@ class ProductsDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('image')->title('صورة المنتج')->orderable(false),
+            Column::make('DT_RowId')->title('التسلسل')->name('id'),
+            Column::make('image')->title('صورة المنتج')->orderable(false)->className('image'),
             Column::make('product_name')->title('اسم المنتج'),
             Column::make('category')->name('category.cat_name')->title('القسم'),
             Column::make('price')->title('السعر'),

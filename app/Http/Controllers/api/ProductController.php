@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 
 use App\Lib\FilterProducts;
-use Illuminate\Http\Request;
 use App\Models\Product;
-use Illuminate\Database\Eloquent\Builder;
 
 class ProductController extends Controller
 {

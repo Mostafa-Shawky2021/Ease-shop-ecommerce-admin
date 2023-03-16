@@ -1,0 +1,9 @@
+.status {
+    font-size: 0.733rem;
+    color: #000;
+    padding: 1px;
+
+    &.pending {
+        background-color: var(--bs-warning)
+    }
+}

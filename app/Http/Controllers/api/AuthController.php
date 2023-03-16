@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api;
 
 use Illuminate\Http\Request;
-use App\Models\User;
 use App\Http\Requests\RegisterForm;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\Controller;
+
+use App\Models\User;
 
 class AuthController extends Controller
 {

@@ -13,14 +13,18 @@
         border-right-width: 0px !important;
     }
 
-    thead th {
-        border-top: 0px !important;
-    }
-
     &>:not(caption)>*>* {
         background-color: #fff !important;
         box-shadow: none !important;
         border-width: 0px;
+    }
+
+    thead th {
+        border-top: 0px !important;
+        background-color: #eff2f7 !important;
+        font-weight: 600;
+        color: #333333;
+
     }
 
     tbody tr td {
@@ -35,36 +39,26 @@
         background-color: var.$bodycolor !important;
     }
 
-    th {
-        font-weight: 600;
-        color: #000;
-        background-color: var.$bodycolor;
-
-    }
-
     th,
     td {
-        padding: 0.86rem;
+        padding: 1.2rem 0.86rem;
         text-align: center !important;
-        font-size: 0.9rem;
-
-
+        font-size: 0.86rem;
     }
 
     tbody td {
         color: #5e5e5e !important;
         font-weight: 500;
         vertical-align: middle;
+        max-width: 356px !important;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
-    thead tr th:first-child {
-        width: 100px !important;
+    tbody td.image {
+        padding: 0px;
     }
 
-    tbody tr td:first-child {
-        padding: 0px 0.86rem;
-
-    }
 
     .action-wrapper {
         display: flex;

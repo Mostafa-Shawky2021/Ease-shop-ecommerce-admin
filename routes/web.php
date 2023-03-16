@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\ProductController;
@@ -60,7 +61,9 @@ Route::prefix('admin')->group(function () {
     Route::controller(OrderController::class)->group(
         function () {
             Route::get('/orders', 'index')->name('orders.index');
-            Route::get('/orders', 'create')->name('orders.create');
+            Route::get('/orders/create', 'create')->name('orders.create');
+            Route::get('/orders/{order}', 'show')->name('orders.show');
+            Route::delete('/orders/{order}', 'delete')->name('orders.destroy');
         }
     );
 });

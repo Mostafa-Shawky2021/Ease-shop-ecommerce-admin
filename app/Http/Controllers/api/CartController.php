@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\CartRequest;
+use App\Http\Controllers\Controller;
+
 use App\Models\Cart;
 
 class CartController extends Controller

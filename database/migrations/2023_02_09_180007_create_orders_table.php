@@ -20,9 +20,10 @@ return new class extends Migration {
             $table->string('governorate');
             $table->string('street');
             $table->string('email')->nullable();
-            $table->string('order_notes')->nullable();
-            $table->unsignedBigInteger('user_id');
+            $table->text('order_notes')->nullable();
             $table->unsignedSmallInteger('total_price');
+            $table->tinyInteger('order_status')->default(0);
+            $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
     }

@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
 use App\Models\Order;
 use App\Lib\Invoice;
 use App\Models\User;
@@ -11,7 +13,7 @@ use App\Models\Cart;
 class OrderController extends Controller
 {
     use Invoice;
-    
+
     public function index()
     {
 

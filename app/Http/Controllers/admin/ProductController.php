@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\admin;
 
-use App\DataTables\admin\ProductsDataTable;
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+
+use App\DataTables\admin\ProductsDataTable;
 use App\Models\Category;
 use App\Models\Product;
 use App\Http\Requests\admin\ProductForm;
