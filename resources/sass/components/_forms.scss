@@ -3,6 +3,7 @@
 .mainform-app {
 
     margin-top: 1.8rem;
+    background-color: #fff;
 
     .form-group {
         display: flex;
@@ -16,17 +17,7 @@
         font-weight: 600;
     }
 
-    .form-control {
-        padding-top: 0.3rem;
-        padding-bottom: 0.3rem;
-        border: 1px solid #dedede;
-        transition: all 0.3s;
 
-        &:hover,
-        &:focus {
-            box-shadow: 0 0 0 0.10rem rgba(13, 110, 253, 0.25)
-        }
-    }
 
     .short-description {
         height: 140px;

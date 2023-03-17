@@ -13,7 +13,7 @@
             @endforeach
         </ul>
     @endif
-    <form class='mainform-app' id='addProductForm' enctype='multipart/form-data'
+    <form class='mainform-app px-3 py-3' id='addProductForm' enctype='multipart/form-data'
         method="post" action="{{ route('products.store') }}">
         @csrf
         <div class='row'>

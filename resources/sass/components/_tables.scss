@@ -2,8 +2,6 @@
 
 .table-data-layout {
     margin-top: 0.3rem;
-    padding: 0.3rem 0.5rem 0px;
-
 
     td:first-child,
     th:first-child,
@@ -43,12 +41,12 @@
     td {
         padding: 1.2rem 0.86rem;
         text-align: center !important;
-        font-size: 0.86rem;
+        font-size: 0.9rem;
     }
 
     tbody td {
         color: #5e5e5e !important;
-        font-weight: 500;
+        font-weight: 600;
         vertical-align: middle;
         max-width: 356px !important;
         overflow: hidden;

@@ -61,8 +61,7 @@ class ProductsDataTable extends DataTable
     {
         return $model->newQuery()
             ->with('category')
-            ->select('products.*')
-            ->orderBy('id', 'desc');
+            ->select('products.*');
     }
 
     /**

@@ -1,0 +1,16 @@
+.status {
+    font-size: 0.733rem;
+    padding: 2px 5px;
+
+    &.pending {
+        background-color: var(--bs-warning);
+        color: #000;
+    }
+
+    &.processing {
+        background-color: var(--bs-success);
+        color: #fff;
+    }
+
+
+}

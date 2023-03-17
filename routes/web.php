@@ -63,6 +63,7 @@ Route::prefix('admin')->group(function () {
             Route::get('/orders', 'index')->name('orders.index');
             Route::get('/orders/create', 'create')->name('orders.create');
             Route::get('/orders/{order}', 'show')->name('orders.show');
+            Route::put('/orders/{order}', 'update')->name('orders.update');
             Route::delete('/orders/{order}', 'delete')->name('orders.destroy');
         }
     );

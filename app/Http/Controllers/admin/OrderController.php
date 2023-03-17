@@ -23,4 +23,19 @@ class OrderController extends Controller
     {
         return view('orders.show', compact('order'));
     }
+    public function update(Request $request, Order $order)
+    {
+
+        $request->validate([
+            'status' => 'integer|between:0,1'
+        ]);
+        $order->order_status = $request->input('status');
+
+        if ($order->save()) {
+            return redirect()->route('orders.index');
+        }
+
+
+
+    }
 }

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Category;
-use App\Lib\FilterProducts;
+use App\Traits\FilterProducts;
 use App\Models\Product;
 
 
@@ -47,13 +47,11 @@ class CategoryController extends Controller
 
         $products = $product->whereIn('category_id', $categoriesId);
 
-        $queryFilterCount = collect($request->query())->count();
+        $queryFilterCount = collect($request->except('page'))->count();
 
-        if ($queryFilterCount > 1) {
+        if ($queryFilterCount > 0) {
 
-            $filteredProduct = $this
-                ->filterProducts($request, $products)
-                ->paginate(static::$paginationNumber);
+            $filteredProduct = $this->filterProducts($request, $products);
 
             if ($filteredProduct->isNotEmpty()) {
 

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Models\Order;
-use App\Lib\Invoice;
+use App\Traits\Invoice;
 use App\Models\User;
 use App\Models\Cart;
 

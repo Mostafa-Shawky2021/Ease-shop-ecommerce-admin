@@ -1,14 +1,11 @@
 <?php
 
-namespace App\Lib;
+namespace App\Traits;
 
-use App\Models\Category;
+
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 
-use App\Models\Product;
-
-use Illuminate\Support\Facades\DB;
 
 trait FilterProducts
 {
@@ -84,7 +81,7 @@ trait FilterProducts
     {
         $this->productModelFilter = $this->productModelFilter->latest('id');
     }
-    private function filterProducts(Request $request, Product $product)
+    private function filterProducts(Request $request, $product)
     {
 
         $this->productModelFilter = $product;

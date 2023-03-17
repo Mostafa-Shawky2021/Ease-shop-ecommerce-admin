@@ -6,10 +6,8 @@ use App\Models\Order;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
-use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
+
 use Yajra\DataTables\Services\DataTable;
 
 class OrdersDataTable extends DataTable
@@ -24,6 +22,10 @@ class OrdersDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->setRowId('id')
+            ->editColumn('invoice_number', function ($order) {
+                $orderRoute = ['order' => $order->id];
+                return "<a href='" . route('orders.show', $orderRoute) . "'>$order->invoice_number</a>";
+            })
             ->editColumn(
                 'created_at',
                 function ($order) {
@@ -66,7 +68,7 @@ class OrdersDataTable extends DataTable
                     </div>';
                     return $btns;
                 }
-            )->rawColumns(['action', 'order_status']);
+            )->rawColumns(['action', 'order_status', 'invoice_number']);
     }
 
     /**
@@ -77,7 +79,7 @@ class OrdersDataTable extends DataTable
      */
     public function query(Order $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->where('order_status', 0);
     }
 
     /**
@@ -93,7 +95,8 @@ class OrdersDataTable extends DataTable
             ->minifiedAjax()
             ->dom('frtip')
             ->parameters([
-                'order' => [0, 'desc']
+                'order' =>
+                [4, 'desc']
             ]);
 
     }
