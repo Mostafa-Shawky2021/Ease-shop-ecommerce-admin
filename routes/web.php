@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\admin\ColorController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\OrderController;
+use App\Http\Controllers\admin\ColorController;
+use App\Http\Controllers\admin\SizeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +28,7 @@ Route::get('/', function (Request $request) {
 
 Route::prefix('admin')->group(function () {
 
-    // Use Resource
+    // User Resource
     Route::controller(UserController::class)->group(
         function () {
             Route::get('/users', 'index')->name('users.index');
@@ -81,5 +82,13 @@ Route::prefix('admin')->group(function () {
     );
 
     //Size Resource
-
+    Route::controller(SizeController::class)->group(
+        function () {
+            Route::get('/sizes', 'index')->name('sizes.index');
+            Route::get('/sizes/create', 'create')->name('sizes.create');
+            Route::post('/sizes', 'store')->name('sizes.store');
+            Route::get('/sizes/{size}/edit', 'edit')->name('sizes.edit');
+            Route::delete('/sizes', 'delete')->name('sizes.destroy');
+        }
+    );
 });

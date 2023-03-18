@@ -1,9 +1,9 @@
 @extends('layout.app')
 
 @section('header-content')
-    <h5>خيارات الالون</h5>
-    <a class="btn-add" href="{{ route('colors.create') }}">
-        اضافة لون
+    <h5>خيارات المقاسات</h5>
+    <a class="btn-add" href="{{ route('sizes.create') }}">
+        اضافة مقاس
         <i class="icon fa fa-plus"></i>
     </a>
 @endsection
@@ -18,18 +18,18 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse($colors as $color)
-                    @php $routeParamter = ['color',$color->id] ;@endphp
+                @forelse($sizes as $size)
+                    @php $routeParamter = ['size',$size->id] ;@endphp
                     <tr>
-                        <td>{{ $color->color_name }}</td>
+                        <td>{{ $size->size_name }}</td>
                         <td>
                             <div class="action-wrapper">
                                 <a class="btn-action"
-                                    href="{{ route('colors.edit', $routeParamter) }}">
+                                    href="{{ route('sizes.edit', $routeParamter) }}">
                                     <i class="fa fa-edit icon icon-edit"></i>
                                 </a>
                                 <form method="POST"
-                                    action="{{ route('products.delete', $routeParamter) }}">
+                                    action="{{ route('sizes.destroy', $routeParamter) }}">
                                     @method('DELETE')
                                     <button class="btn-action">
                                         <i class="fa fa-trash icon icon-delete"></i>

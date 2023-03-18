@@ -38,7 +38,7 @@ class ProductsDataTable extends DataTable
                  <a class="btn-action" href=' . route('products.edit', ['product' => $product->id]) . '>
                     <i class="fa fa-edit icon icon-edit"></i>
                  </a>
-                 <form method="POST" action="' . route('products.delete', ['product' => $product->id]) . '"}}>
+                 <form method="POST" action="' . route('products.destroy', ['product' => $product->id]) . '"}}>
                     ' . method_field('DELETE') . '
                     <button class="btn-action">
                         <i class="fa fa-trash icon icon-delete"></i>

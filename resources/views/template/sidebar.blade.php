@@ -52,6 +52,9 @@
                 <li class="item">
                     <a href="{{ route('colors.index') }}">الالون</a>
                 </li>
+                <li class="item">
+                    <a href="{{ route('sizes.index') }}">المقاسات</a>
+                </li>
             </ul>
         </li>
         <li class="item">

@@ -1,5 +1,8 @@
 import { ProductVariant } from './plugins';
 
 const colorsForm = document.getElementById('colorsForm');
+const sizesForm = document.getElementById('sizesForm');
 
-new ProductVariant(colorsForm);
+
+colorsForm && new ProductVariant(colorsForm);
+sizesForm && new ProductVariant(sizesForm);
