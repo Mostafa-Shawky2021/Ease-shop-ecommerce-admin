@@ -1,0 +1,33 @@
+.variant-container {
+    display: flex;
+    gap: 3px;
+    flex-wrap: wrap;
+
+    .variant-wrapper {
+        position: relative;
+        background-color: #212224;
+        color: #fff;
+        padding: 9px 15px;
+        border: 1px solid #212224;
+        border-radius: 6px;
+        margin-top: 10px;
+
+        &:not(:first-child) {
+            margin-right: 5px;
+
+        }
+
+        .delete-btn {
+            position: absolute;
+            right: 0px;
+            top: -3px;
+            background-color: transparent;
+            border: none;
+            color: #fff;
+
+
+        }
+
+
+    }
+}

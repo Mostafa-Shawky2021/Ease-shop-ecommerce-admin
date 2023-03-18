@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\ColorController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\admin\UserController;
@@ -67,4 +68,18 @@ Route::prefix('admin')->group(function () {
             Route::delete('/orders/{order}', 'delete')->name('orders.destroy');
         }
     );
+
+    // Color Resource
+    Route::controller(ColorController::class)->group(
+        function () {
+            Route::get('/colors', 'index')->name('colors.index');
+            Route::get('/colors/create', 'create')->name('colors.create');
+            Route::post('/colors', 'store')->name('colors.store');
+            Route::get('/colors/{color}/edit', 'edit')->name('colors.edit');
+            Route::delete('/colors', 'delete')->name('colors.destroy');
+        }
+    );
+
+    //Size Resource
+
 });

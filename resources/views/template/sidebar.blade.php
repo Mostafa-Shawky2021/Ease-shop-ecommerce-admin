@@ -49,6 +49,9 @@
                 <li class="item">
                     <a href="{{ route('products.create') }}">اضافة منتج</a>
                 </li>
+                <li class="item">
+                    <a href="{{ route('colors.index') }}">الالون</a>
+                </li>
             </ul>
         </li>
         <li class="item">
