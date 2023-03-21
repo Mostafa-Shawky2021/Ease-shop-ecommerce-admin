@@ -28,10 +28,13 @@ class ProductForm extends FormRequest
             'brand' => 'required',
             'price' => 'required|numeric',
             'price_discount' => 'nullable|numeric|lt:price',
-            'image' => 'sometimes|image',
+            'image' => 'required|image',
             'productImageThumbnails.*' => 'sometimes|image',
             'short_description' => 'required',
-            'category_id' => 'required|numeric'
+            'category_id' => 'required|numeric',
+            'long_description' => 'sometimes',
+            'color_id' => 'sometimes',
+            'size_id' => 'sometimes'
         ];
     }
     public function messages()

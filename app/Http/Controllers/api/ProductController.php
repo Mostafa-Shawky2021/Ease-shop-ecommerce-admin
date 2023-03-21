@@ -67,7 +67,6 @@ class ProductController extends Controller
             200
         );
     }
-
     public function latestProduct()
     {
         $productLimit = 6;

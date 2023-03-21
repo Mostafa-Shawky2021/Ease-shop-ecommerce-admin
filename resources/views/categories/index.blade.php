@@ -1,4 +1,13 @@
 @extends('layout.app')
+
+@section('header-content')
+    <h5>الاقسام</h5>
+    <a class="btn-add" href="{{ route('categories.create') }}">
+        اضافة قسم
+        <i class="icon fa fa-plus"></i>
+    </a>
+@endsection
+
 @section('content')
     <div class="categories-wrapper">
         <header class="inner-content-header">
@@ -16,10 +25,10 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Id</th>
-                        <th>Category Name</th>
-                        <th>Parent Category</th>
-                        <th>Action</th>
+                        <th>التسلسل</th>
+                        <th> اسم القسم</th>
+                        <th>القسم الرئيسي</th>
+                        <th>اجراء</th>
                     </tr>
                 </thead>
                 <tbody>

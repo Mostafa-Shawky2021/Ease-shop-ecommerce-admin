@@ -27,12 +27,8 @@
 
     }
 
-    .view-btn {
+    .btn-action {
         position: absolute;
-        left: -124px;
-        top: 50%;
-        transform: translateY(-50%);
-        background-color: #dddee1;
         border: none;
         color: #2a2a2a;
         font-size: 0.8rem;
@@ -40,12 +36,28 @@
         border: 1px solid #dedede;
         border-radius: 10px;
         padding: 5px 7px;
+    }
 
-        .icon {
-            margin-right: 5px;
-            margin-top: 5px;
-        }
+    .delete-btn {
+        background-color: var(--bs-danger);
+        color: #fff;
+        border: 1px solid #dedede;
+        position: absolute;
+        left: -227px;
+        top: 5px;
+    }
 
+    .view-btn {
+        left: -124px;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: #dddee1;
+
+    }
+
+    .btn-action .icon {
+        margin-right: 5px;
+        margin-top: 5px;
     }
 
 }

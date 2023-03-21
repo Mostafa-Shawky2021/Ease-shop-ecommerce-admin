@@ -29,6 +29,28 @@
         border-bottom: 1px solid #dedede7a
     }
 
+    .notification-wrapper .order-notification {
+        font-size: 1.1rem;
+        color: #555b6d;
+        position: relative;
+        cursor: pointer;
+    }
+
+    .order-notification .count {
+        background-color: var(--bs-danger);
+        color: #fff;
+        position: absolute;
+        left: -10px;
+        top: -8px;
+        width: 17px;
+        height: 17px;
+        border-radius: 50%;
+        text-align: center;
+        font-size: 0.75rem;
+
+
+    }
+
     .user .avatar {
         border-radius: 50%;
         width: 30px;

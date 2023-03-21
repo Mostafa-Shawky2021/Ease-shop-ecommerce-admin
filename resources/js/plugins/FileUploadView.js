@@ -2,57 +2,64 @@
 
 class FileUploadView {
 
-    constructor(event) {
+    constructor(inputFileNode) {
 
-        this.fileNode = event.target;
+        this.inputFileNode = inputFileNode;
 
-        this.parentFileElement = event.target.parentElement;
+        this.parentFileElement = inputFileNode.parentElement;
 
-        this.fileUploaded = event.target.files;
+        this.handleFileUploaded = this.handleFileUploaded.bind(this);
 
-        this.handleSingleDelete = this.handleSingleDelete.bind(this)
+        this.handleDeleteImage = this.handleDeleteImage.bind(this)
 
         this.renderModalView = this.renderModalView.bind(this);
 
-        this.handleFiles();
+        this.handleShowRemoveButton = this.handleShowRemoveButton.bind(this);
+
+        this.inputFileNode.addEventListener('change', this.handleFileUploaded)
+
+    }
+    handleFileUploaded(event) {
+
+        this.showFileName(event.target.files);
+
+        this.handleBtnShow(event.target.files);
+
+        this.handleShowRemoveButton();
+
+        this.renderModalView(event.target.files);
 
     }
 
-    handleSingleDelete(event) {
-        event.preventDefault();
-        console.log(this);
-        this.containerFile.innerHTML = '';
-
-    }
-
-
-    showFileName() {
+    showFileName(files) {
 
         let imageName = '';
-        if (this.fileUploaded.length > 1) {
+
+        if (files.length > 1) {
 
             // render multiple files
+
         } else {
-            imageName = this.fileUploaded[0].name;
+            imageName = files[0].name;
+
         }
+
         let imageNameContainer = this.parentFileElement.querySelector('.image-name-container');
 
         if (!imageNameContainer) {
             imageNameContainer = document.createElement('div');
             imageNameContainer.className = 'image-name-container';
             this.parentFileElement.appendChild(imageNameContainer);
-
         }
 
-        imageNameContainer.innerHTML = `
-        <span>${imageName}</span> `
+        imageNameContainer.innerHTML = `<span>${imageName}</span> `
 
     }
 
-    renderModalView() {
-
+    renderModalView(files) {
 
         let modalNodeWrapper = this.parentFileElement.querySelector('.modalWrapper');
+
         let renderImage = '';
 
         if (!modalNodeWrapper) {
@@ -63,15 +70,14 @@ class FileUploadView {
         }
 
         // render images to display
-        if (this.fileUploaded.length > 1) {
+        if (files.length > 1) {
 
         } else {
-            const url = URL.createObjectURL(this.fileUploaded[0])
+            const url = URL.createObjectURL(files[0])
             renderImage = `
-                <div class='image-wrapper'>
-                    <img class="img-fluid" src=${url} alt=${this.fileUploaded[0].name} />
-                </div>  
-            `
+                 <div class='image-wrapper'>
+                    <img class="img-fluid" src=${url} alt=${files[0].name} />
+                </div>`
         }
 
         modalNodeWrapper.innerHTML = `
@@ -90,8 +96,7 @@ class FileUploadView {
                         </div>
                     </div>
                 </div>
-          </div>  `
-
+          </div>`
 
     }
     handleBtnShow() {
@@ -99,116 +104,50 @@ class FileUploadView {
         let btnShowNode = this.parentFileElement.querySelector('.view-btn');
 
         if (!btnShowNode) {
+
             btnShowNode = document.createElement('button');
-            btnShowNode.className = 'view-btn btn btn-primary';
+            btnShowNode.className = 'view-btn btn-action';
 
             btnShowNode.setAttribute('data-bs-target', '#showModalImages');
             btnShowNode.setAttribute('data-bs-toggle', "modal");
-            btnShowNode.setAttribute('type', 'button');
 
             this.parentFileElement.appendChild(btnShowNode)
             btnShowNode.innerHTML = `
             عرض الصورة
-            <i class="fa-solid fa-eye icon"></i>
-            `
+            <i class="fa-solid fa-eye icon"></i>`
         }
 
-        btnShowNode.addEventListener('click', (event) => {
-            event.preventDefault();
-            this.renderModalView()
-
-        });
-
+        btnShowNode.onclick = (event) => event.preventDefault();
     }
-    handleFiles() {
 
-        this.showFileName();
+    handleShowRemoveButton() {
 
-        this.handleBtnShow();
+        let btnShowNode = this.parentFileElement.querySelector('.delete-btn');
 
-        this.renderModalView();
+        if (!btnShowNode) {
 
-        return;
-        const fileReader = new FileReader()
-        fileReader.readAsDataURL(this.fileUpload)
-        fileReader.onload = () => {
+            btnShowNode = document.createElement('button');
+            btnShowNode.className = 'delete-btn btn-action';
 
-            this.containerFile.innerHTML = `
-                <div class='img-box'>
-                    <img
-                        class='img'
-                        src=${fileReader.result}
-                        alt='image-brand'/>
-                    <button class='delete-btn' id='deleteFile'>
-                     <i class='icon-delete single fa fa-trash'></i>
-                    </button>
-                </div>
-            `
-            document.getElementById('deleteFile').addEventListener('click', this.handleSingleDelete)
+            this.parentFileElement.appendChild(btnShowNode)
+            btnShowNode.innerHTML = `
+            حذف الصورة 
+            <i class="fa-solid fa-trash icon"></i>`
         }
-
+        btnShowNode.addEventListener('click', this.handleDeleteImage);
     }
-    handleMultipleFiles() {
+    handleDeleteImage(event) {
+        event.preventDefault();
+        this.parentFileElement.querySelector('.delete-btn').remove();
+        this.parentFileElement.querySelector('.view-btn').remove();
+        this.parentFileElement.querySelector('.image-name-container').remove();
 
-        for (const file of this.fileUpload) {
+        this.inputFileNode.value = "";
 
-            const fileReader = new FileReader()
-            fileReader.readAsDataURL(file)
-            fileReader.onload = () => {
-                this.containerFile.innerHTML += `
-                <div class='img-box'>
-                    <img
-                        class='img'
-                        src=${fileReader.result}
-                        alt='image-brand'/>
-                    <i class='icon-delete multiple fa fa-trash'></i>
-                </div>
-            `
-            }
-
-        }
     }
 
 
 }
-
-// singleImageUpload.addEventListener('change', (event) => new FileUpload(event, 'boxImageShow', false))
-
-
-
-// let brandImage = new Image()
-// let thumbnailsImage = new Image()
-
-// productImageFileBrand.addEventListener('change', (e) => {
-//     let uploadedFile = e.target.files[0]
-//     if (uploadedFile) {
-//         brandImage.setImageFile(uploadedFile)
-//         brandImage.setContainerNode(boxImageShow)
-//         brandImage.handleImageView()
-
-//     }
-// })
-// productImageThumbnails.addEventListener('change', (e) => {
-//     const uploadedFiles = e.target.files
-//     if (uploadedFiles) {
-//         thumbnailsImage.setImageFile(uploadedFiles)
-//         thumbnailsImage.setContainerNode(boxImageShowmultiple)
-//         thumbnailsImage.handleMultipleImage()
-//     }
-
-// })
-
-
-// document.body.onclick = function (e) {
-//     const deleteElementClass = e.target.classList
-//     if (deleteElementClass.contains('single')) {
-//         brandImage.deleteImage(e.target)
-//     }
-//     if (deleteElementClass.contains('multiple')) {
-//         thumbnailsImage.deleteImage(e.target)
-//     }
-// }
-
 
 export default FileUploadView;
 

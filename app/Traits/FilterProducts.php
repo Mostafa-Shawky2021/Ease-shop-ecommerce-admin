@@ -61,7 +61,7 @@ trait FilterProducts
             $this->productModelFilter->whereHas(
                 'sizes',
                 function (Builder $query) use ($sizes) {
-                    $query->whereIn('name', $sizes);
+                    $query->whereIn('size_name', $sizes);
                 }
             );
     }
@@ -72,7 +72,7 @@ trait FilterProducts
             $this->productModelFilter->whereHas(
                 'colors',
                 function (Builder $query) use ($colors) {
-                    $query->whereIn('name', $colors);
+                    $query->whereIn('color_name', $colors);
                 }
             );
     }

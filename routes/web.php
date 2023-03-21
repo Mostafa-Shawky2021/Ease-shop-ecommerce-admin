@@ -55,7 +55,7 @@ Route::prefix('admin')->group(function () {
             Route::post('/products', 'store')->name('products.store');
             Route::get('/products/{product}/edit', 'edit')->name('products.edit');
             Route::post('/products/{product}/update', 'update')->name('products.update');
-            Route::delete("/products/{product}", 'delete')->name('products.delete');
+            Route::delete("/products/{product}", 'destroy')->name('products.destroy');
         }
     );
 
@@ -66,7 +66,7 @@ Route::prefix('admin')->group(function () {
             Route::get('/orders/create', 'create')->name('orders.create');
             Route::get('/orders/{order}', 'show')->name('orders.show');
             Route::put('/orders/{order}', 'update')->name('orders.update');
-            Route::delete('/orders/{order}', 'delete')->name('orders.destroy');
+            Route::delete('/orders/{order}', 'destroy')->name('orders.destroy');
         }
     );
 
@@ -77,7 +77,7 @@ Route::prefix('admin')->group(function () {
             Route::get('/colors/create', 'create')->name('colors.create');
             Route::post('/colors', 'store')->name('colors.store');
             Route::get('/colors/{color}/edit', 'edit')->name('colors.edit');
-            Route::delete('/colors', 'delete')->name('colors.destroy');
+            Route::delete('/colors', 'destroy')->name('colors.destroy');
         }
     );
 
@@ -88,7 +88,7 @@ Route::prefix('admin')->group(function () {
             Route::get('/sizes/create', 'create')->name('sizes.create');
             Route::post('/sizes', 'store')->name('sizes.store');
             Route::get('/sizes/{size}/edit', 'edit')->name('sizes.edit');
-            Route::delete('/sizes', 'delete')->name('sizes.destroy');
+            Route::delete('/sizes', 'destroy')->name('sizes.destroy');
         }
     );
 });

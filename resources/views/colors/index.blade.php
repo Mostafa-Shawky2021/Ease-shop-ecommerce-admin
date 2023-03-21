@@ -29,7 +29,7 @@
                                     <i class="fa fa-edit icon icon-edit"></i>
                                 </a>
                                 <form method="POST"
-                                    action="{{ route('colors.delete', $routeParamter) }}">
+                                    action="{{ route('colors.destroy', $routeParamter) }}">
                                     @method('DELETE')
                                     <button class="btn-action">
                                         <i class="fa fa-trash icon icon-delete"></i>

@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Storage;
 use App\DataTables\admin\ProductsDataTable;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Color;
+use App\Models\Size;
 use App\Http\Requests\admin\ProductForm;
 use App\Models\Image;
 
@@ -17,30 +19,40 @@ class ProductController extends Controller
     public function index(ProductsDataTable $dataTable)
     {
 
-
         return $dataTable->render('products.index');
     }
     public function create()
     {
         $categories = Category::all();
-        return view('products.create', compact('categories'));
+        $colors = Color::all();
+        $sizes = Size::all();
+
+        return view('products.create', compact('categories', 'colors', 'sizes'));
     }
+
     public function store(ProductForm $request)
     {
-
+        // dd($request->all());
         $brandImagePath = null;
 
+        $brandImagePath = $request->has('image')
+            ? $request->file('image')->store('storage/products')
+            : null;
 
-        if ($request->has('image')) {
+        $productinputFields = $request->safe()->except(['image', 'size_id', 'color_id']);
+        $productinputFields['image'] = $brandImagePath;
 
-            $brandImagePath = $request->file('image')->store('storage/products');
+        $product = Product::create($productinputFields);
 
+        if ($request->filled('color_id')) {
+            $product->colors()
+                ->attach(explode('|', $request->input('color_id')));
+        }
+        if ($request->filled('size_id')) {
+            $product->sizes()
+                ->attach(explode('|', $request->input('size_id')));
         }
 
-        $inputsFields = $request->safe()->except('image');
-        $inputsFields['image'] = $brandImagePath;
-
-        $product = Product::create($inputsFields);
 
         if ($request->has('productImageThumbnails')) {
 
@@ -52,18 +64,22 @@ class ProductController extends Controller
             }
 
         }
+
         return redirect()
             ->route('products.index')
-            ->with(['message' => ['Product Added Successfully', 'success']]);
+            ->with(['message' => ['تم اضافة المنتج بنجاح', 'success']]);
     }
     public function edit($product)
     {
-        $product = Product::with('images')
+        $product = Product::with(['images', 'sizes', 'colors'])
             ->where('id', $product)
             ->first();
 
         $categories = Category::all();
-        return view('products.edit', compact('product', 'categories'));
+        $colors = Color::all();
+        $sizes = Size::all();
+
+        return view('products.edit', compact('product', 'categories', 'colors', 'sizes'));
     }
 
     public function update(ProductForm $request, $product)

@@ -10,9 +10,7 @@
 
 @section('content')
     <div>
-        <div class='table-responsive '>
-            {{ $dataTable->table(['class' => 'table table-data-layout']) }}
-        </div>
+        {{ $dataTable->table(['class' => 'table table-data-layout']) }}
     </div>
 @endsection
 

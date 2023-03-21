@@ -93,9 +93,9 @@ class OrderController extends Controller
             $productId = $request->input('product_id');
             $quantity = $request->input('quantity');
             $order->products()->attach($productId, ['quantity' => $quantity]);
-            return response(['message' => 'order created successfully'], 201);
+            return response(['Message' => 'order created successfully'], 201);
         }
-        return response(['message' => 'Error with creating order'], 422);
+        return response(['Message' => 'Error with creating order'], 422);
 
 
     }

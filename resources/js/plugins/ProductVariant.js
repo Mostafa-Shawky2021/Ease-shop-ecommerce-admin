@@ -1,16 +1,16 @@
 class ProductVariant {
 
-    constructor(colorsForm) {
+    constructor(WrapperProductVariant) {
 
-        this.variantFormNode = colorsForm;
+        this.variantFormNode = WrapperProductVariant;
 
-        this.inputVariantNode = colorsForm.querySelector('#variantInput');
+        this.inputVariantNode = WrapperProductVariant.querySelector('#variantInput');
 
-        this.hiddenInputNode = colorsForm.querySelector('#variantHiddenInput')
+        this.hiddenInputNode = WrapperProductVariant.querySelector('#variantHiddenInput')
 
-        this.saveButtonNode = colorsForm.querySelector('#saveBtn');
+        this.saveButtonNode = WrapperProductVariant.querySelector('#saveBtn');
 
-        this.addProductNode = colorsForm.querySelector('#addProductVariant');
+        this.addProductNode = WrapperProductVariant.querySelector('#addProductVariant');
 
         this.handleAddProductVariant = this.handleAddProductVariant.bind(this);
 

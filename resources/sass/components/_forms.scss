@@ -24,4 +24,19 @@
         resize: none;
     }
 
+
+    .product-variant {
+        background-color: transparent;
+        color: #2a2a2a;
+        padding: 0.6rem 1.2rem;
+        cursor: pointer;
+        border: 1px solid #dedede
+    }
+
+    .product-variant.selected-variant {
+        background-color: #212224;
+        color: #fff;
+
+    }
+
 }
