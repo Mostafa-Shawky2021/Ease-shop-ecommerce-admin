@@ -70,17 +70,17 @@
         </textarea>
     </div>
 </div>
-
 <div class="mt-4">
     <label class='label-control'>صورة المنتج</label>
     <div class='col-6 mt-2'>
         <div class="file-wrapper form-control">
+            <input name="old_image" id="oldImage"value="{{ $product->image ?? '' }}"
+                hidden />
             <input type='file' name='image' id='productImage' />
-            <input value="{{ old('image', $product->image ?? '') }}" hidden />
         </div>
     </div>
 </div>
-<div class="mt-4">
+{{-- <div class="mt-4">
     <label class='label-control'>مصغرات المنتج</label>
     <div class='col-6 mt-2'>
         <div class="file-wrapper">
@@ -91,7 +91,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 
 <h5 class="options"
     style="margin-top:1.5rem;padding-top:1rem; border-top: 1px solid #dedede">
@@ -111,7 +111,8 @@
     <div class='mt-4'>
         <label class='label-control'>المقاسات</label>
         <div id="selectSizesOptionWrapper" class="d-flex gap-3 mt-2">
-            <input name="size_id" id="variantHiddenInput" hidden />
+            <input name="size_id" id="variantHiddenInput"
+                value="{{ $sizesId }}" hidden />
             @foreach ($sizes as $size)
                 <div class="product-variant" value="{{ $size->id }}">
                     {{ $size->size_name }}
@@ -120,3 +121,15 @@
         </div>
     </div>
 </div>
+
+
+@push('scripts')
+    <script type="module">
+    
+    $('#editor').summernote({
+        placeholder: 'Hello Bootstrap 5',
+        tabsize: 2,
+        height: 160,
+      });
+    </script>
+@endpush

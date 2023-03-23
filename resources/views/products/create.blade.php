@@ -9,7 +9,8 @@
         <ul class='list-unstyled'>
             @foreach ($errors->all() as $error)
                 <li class='alert alert-warning'>
-                    {{ $error }}</li>
+                    {{ $error }}
+                </li>
             @endforeach
         </ul>
     @endif
@@ -26,14 +27,3 @@
     </form>
     </div>
 @endsection
-
-@push('scripts')
-    <script type="module">
-    
-    $('#editor').summernote({
-        placeholder: 'Hello Bootstrap 5',
-        tabsize: 2,
-        height: 160,
-      });
-    </script>
-@endpush

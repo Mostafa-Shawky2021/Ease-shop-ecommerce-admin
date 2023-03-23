@@ -22,8 +22,10 @@
         @include('products.form', ['product' => $product])
 
         <div class="mt-4 text-end">
-            <button class="btn-add"><i class="icon fa fa-plus"></i>Edit
-                Product</button>
+            <button class="btn-add">
+                <i class="icon fa fa-plus"></i>
+                تعديل المنتج
+            </button>
         </div>
     </form>
 @endsection

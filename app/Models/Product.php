@@ -21,8 +21,6 @@ class Product extends Model
         'brand',
         'short_description',
         'long_description',
-        'color',
-        'size'
     ];
 
 

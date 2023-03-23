@@ -18,10 +18,20 @@ class FileUploadView {
 
         this.inputFileNode.addEventListener('change', this.handleFileUploaded)
 
+        this.checkFirstLoad();
+    }
+    checkFirstLoad() {
+        const oldImagePath = this.parentFileElement.querySelector('#oldImage')?.value;
+        if (oldImagePath) {
+            // this.showFileName(oldImagePath);
+            this.handleBtnShow();
+            this.handleShowRemoveButton();
+            this.renderModalView(oldImagePath);
+        }
     }
     handleFileUploaded(event) {
 
-        this.showFileName(event.target.files);
+        // this.showFileName(event.target.files);
 
         this.handleBtnShow(event.target.files);
 
@@ -70,7 +80,13 @@ class FileUploadView {
         }
 
         // render images to display
-        if (files.length > 1) {
+        if (typeof files === 'string') {
+            renderImage = `
+                 <div class='image-wrapper'>
+                    <img class="img-fluid" src=/${files} alt=${files} />
+                </div>`
+        }
+        else if (files.length > 1) {
 
         } else {
             const url = URL.createObjectURL(files[0])
@@ -137,13 +153,15 @@ class FileUploadView {
         btnShowNode.addEventListener('click', this.handleDeleteImage);
     }
     handleDeleteImage(event) {
+
         event.preventDefault();
         this.parentFileElement.querySelector('.delete-btn').remove();
         this.parentFileElement.querySelector('.view-btn').remove();
-        this.parentFileElement.querySelector('.image-name-container').remove();
+        // this.parentFileElement.querySelector('.image-name-container').remove();
 
         this.inputFileNode.value = "";
 
+        this.parentFileElement.querySelector('#oldImage').value = "";
     }
 
 

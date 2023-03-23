@@ -1,4 +1,5 @@
 class SelectProductVariants {
+
     constructor(productVariantNode) {
 
         this.selectedVariantValue = [];
@@ -19,11 +20,12 @@ class SelectProductVariants {
 
     checkFirstLoad() {
         const hiddenInputValue = this.hiddenInputProductVariant.value;
-        if (hiddenInputValue.trim()) {
-            this.selectedVariantValue = hiddenInputValue.split('|');
 
+        if (hiddenInputValue.trim()) {
+
+            this.selectedVariantValue = hiddenInputValue.split('|').map((value) => Number(value));
             this.productVariant.forEach(variant => {
-                if (this.selectedVariantValue.includes(variant.getAttribute('value'))) {
+                if (this.selectedVariantValue.includes(Number(variant.getAttribute('value')))) {
                     variant.classList.add('selected-variant');
                 }
             })
@@ -31,13 +33,13 @@ class SelectProductVariants {
     }
 
     handleProductVariant(event) {
+
         const selectedVariant = event.target;
         selectedVariant.classList.toggle('selected-variant');
         const valueExist = this.selectedVariantValue.findIndex((value) =>
             value === Number(selectedVariant.getAttribute('value')));
 
         if (selectedVariant.classList.contains('selected-variant')) {
-            // check if exist in the array
 
             if (valueExist < 0) this
                 .selectedVariantValue
@@ -50,7 +52,6 @@ class SelectProductVariants {
 
         this.handleVariantHiddenInput();
     }
-
     handleVariantHiddenInput() {
         this.hiddenInputProductVariant.value = this.selectedVariantValue.join("|");
 

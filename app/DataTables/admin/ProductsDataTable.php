@@ -23,7 +23,6 @@ class ProductsDataTable extends DataTable
 
         return (new EloquentDataTable($query))
             ->addIndexColumn()
-            ->setRowId('id')
             ->editColumn('image', function (Product $product) {
                 return $product->image
                     ? "<img alt='product-image' src='/$product->image' width='50' height='50'/>"
@@ -88,7 +87,7 @@ class ProductsDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('DT_RowId')->title('التسلسل')->name('id'),
+            Column::make('DT_RowIndex')->title('التسلسل')->name('id'),
             Column::make('image')->title('صورة المنتج')->orderable(false)->className('image'),
             Column::make('product_name')->title('اسم المنتج'),
             Column::make('category')->name('category.cat_name')->title('القسم'),
