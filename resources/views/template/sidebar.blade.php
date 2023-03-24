@@ -1,4 +1,4 @@
-<aside class="sidebar">
+<aside class="sidebar" id="collapseSidebar">
     <ul class="list list-unstyled">
         <li class="item">
             <a class="button-toggle" data-toggle="toggle-submenu">
@@ -22,7 +22,10 @@
             <a href="#" class="title">المتجر</a>
         </li>
         <li class="item">
-            <a class="button-toggle" data-toggle="toggle-submenu">
+            <a @class([
+                'button-toggle',
+                'submenu-visible' => Request::segment(2) === 'categories',
+            ])>
                 <i class="fa-solid fa-tags icon"></i>
                 <span>الاقسام</span>
                 <i class="fa-solid fa-chevron-down chevron icon"></i>
@@ -37,7 +40,10 @@
             </ul>
         </li>
         <li class="item">
-            <a class="button-toggle" data-toggle="toggle-submenu">
+            <a @class([
+                'button-toggle',
+                'submenu-visible' => Request::segment(2) === 'products',
+            ])>
                 <i class="fa-solid fa-shop icon"></i>
                 <span>المنتجات</span>
                 <i class="fa-solid fa-chevron-down chevron icon"></i>
@@ -58,7 +64,10 @@
             </ul>
         </li>
         <li class="item">
-            <a class="button-toggle" data-toggle="toggle-submenu">
+            <a @class([
+                'button-toggle',
+                'submenu-visible' => Request::segment(2) === 'orders',
+            ])>
                 <i class="fa-solid fa-cart-shopping icon"></i>
                 <span>الاوردرات</span>
                 <i class="fa-solid fa-chevron-down chevron icon"></i>

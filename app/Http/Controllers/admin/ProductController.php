@@ -88,7 +88,6 @@ class ProductController extends Controller
 
     public function update(ProductForm $request, Product $product)
     {
-        $imagePath = null;
 
         $validatedInputs = $request->safe()
             ->except('color_id', 'size_id', 'old_image');
@@ -134,6 +133,17 @@ class ProductController extends Controller
             ->route('products.index')
             ->with(['Message' => ['تم تحديث المنتج بنجاح', 'success']]);
 
+
+    }
+
+    public function destroy(Product $product)
+    {
+
+        $product->colors()->detach();
+        $product->sizes()->detach();
+        $product->delete();
+        return redirect()->back()
+            ->with(['message' => ['تم حذف المنتج بنجاح', 'success']]);
 
     }
 }

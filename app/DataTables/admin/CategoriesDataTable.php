@@ -2,15 +2,18 @@
 
 namespace App\DataTables\admin;
 
-use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Psy\Command\EditCommand;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
+use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 
 use Yajra\DataTables\Services\DataTable;
 
-class ProductsDataTable extends DataTable
+
+class CategoriesDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -20,35 +23,28 @@ class ProductsDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-
         return (new EloquentDataTable($query))
             ->addIndexColumn()
-            ->editColumn('image', function (Product $product) {
-
-                return $product->image
-                    ? "<img alt='product-image' src='/$product->image' width='50' height='50'/>"
+            ->editColumn('image', function (Category $category) {
+                return $category->image
+                    ? "<img alt='category-image' src='/$category->image' width='50' height='50'/>"
                     : 'لا توجد صورة';
-            })->editColumn(
-                'category',
-                fn(Product $product) => $product->category->cat_name
 
-            )->editColumn('price', function (Product $product) {
-                return number_format($product->price);
-            })->editColumn('price_discount', function (Product $product) {
-            return $product->price_discount
-                ? $product->price_discount
-                : 'لا يوجد  تخفيض';
-        })->addColumn('action', function (Product $product) {
-            $routeParamter = ['product' => $product->id];
+            })->editColumn('parent_category', function (Category $category) {
+            return $category->parentCategory
+                ? "<span>{$category->parentCategory->cat_name}</span>"
+                : "لا يوجد قسم رئيسي";
+        })->addColumn('action', function (Category $category) {
+            $routeParamter = ['category' => $category->id];
             $btn =
                 '<div class="action-wrapper">
-                    <a class="btn-action" href=' . route('products.edit', $routeParamter) . '>
+                    <a class="btn-action" href=' . route('categories.edit', $routeParamter) . '>
                         <i class="fa fa-edit icon icon-edit"></i>
                     </a>
-                    <form method="POST" action="' . route('products.destroy', ['product' => $product->id]) . '"}}>
+                    <form method="POST" action="' . route('categories.destroy', $routeParamter) . '"}}>
                         ' . method_field('DELETE') . '
                         ' . csrf_field() . '
-                        <button class="btn-action" onclick="return confirm(\'هل انت متاكد؟\')">
+                            <button class="btn-action" onclick="return confirm(\'هل انت متاكد؟\')">
                             <i class="fa fa-trash icon icon-delete"></i>
                         </button>
                     </form>
@@ -56,20 +52,18 @@ class ProductsDataTable extends DataTable
             return $btn;
 
         })->rawColumns(['image', 'action']);
-
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Product $model
+     * @param \App\Models\Category $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Product $model): QueryBuilder
+    public function query(Category $model): QueryBuilder
     {
-        return $model->newQuery()
-            ->with('category')
-            ->select('products.*');
+        return $model->newQuery()->with('parentCategory');
+
     }
 
     /**
@@ -80,12 +74,13 @@ class ProductsDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('products-table')
+            ->setTableId('categories-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->parameters([
-                'order' => [0, 'desc']
-            ])->dom('frtip');
+            ->dom('frtip')
+            ->orderBy(1)
+            ->selectStyleSingle();
+
     }
 
     /**
@@ -97,13 +92,10 @@ class ProductsDataTable extends DataTable
     {
         return [
             Column::make('DT_RowIndex')->title('التسلسل')->name('id'),
-            Column::make('image')->title('صورة المنتج')->orderable(false)->className('image'),
-            Column::make('product_name')->title('اسم المنتج'),
-            Column::make('category')->name('category.cat_name')->title('القسم'),
-            Column::make('price')->title('السعر'),
-            Column::make('price_discount')->title('السعر بعد الخصم'),
+            Column::make('image')->title('صورة القسم')->orderable(false)->className('image'),
+            Column::make('cat_name')->title('اسم القسم'),
+            Column::make('parent_category')->title('القسم الرئيسي')->name('id'),
             Column::make('action')->title('اجراء'),
-
         ];
     }
 
@@ -114,6 +106,6 @@ class ProductsDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Products_' . date('YmdHis');
+        return 'Categories_' . date('YmdHis');
     }
 }

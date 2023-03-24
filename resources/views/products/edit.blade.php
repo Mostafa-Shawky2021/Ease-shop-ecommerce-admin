@@ -18,7 +18,7 @@
     <form method="POST" class='mainform-app px-3 py-3' enctype='multipart/form-data'
         action="{{ route('products.update', ['product' => $product->id]) }}">
         @csrf
-
+        @method('PUT')
         @include('products.form', ['product' => $product])
 
         <div class="mt-4 text-end">

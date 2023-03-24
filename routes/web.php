@@ -44,6 +44,9 @@ Route::prefix('admin')->group(function () {
             Route::get('/categories', 'index')->name('categories.index');
             Route::get('/categories/create', 'create')->name('categories.create');
             Route::post('/categories', 'store')->name('categories.store');
+            Route::get('/categories/{category}/edit', 'edit')->name('categories.edit');
+            Route::put('/categories/{category}', 'update')->name('categories.update');
+            Route::delete('/categories/{category}', 'destroy')->name('categories.destroy');
         }
     );
 
@@ -54,8 +57,8 @@ Route::prefix('admin')->group(function () {
             Route::get('/products/create', 'create')->name('products.create');
             Route::post('/products', 'store')->name('products.store');
             Route::get('/products/{product}/edit', 'edit')->name('products.edit');
-            Route::post('/products/{product}/update', 'update')->name('products.update');
-            Route::delete("/products/{product}", 'destroy')->name('products.destroy');
+            Route::put('/products/{product}', 'update')->name('products.update');
+            Route::delete("/store/products/{product}", 'destroy')->name('products.destroy');
         }
     );
 

@@ -3,51 +3,81 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\admin\CategoryForm;
 use Illuminate\Http\Request;
+use App\DataTables\admin\CategoriesDataTable;
 use App\Models\Category;
 
 class CategoryController extends Controller
 {
     //
-    public function index()
+    public function index(CategoriesDataTable $dataTable)
     {
-        $categories = Category::paginate();
-        return view('categories.index', compact('categories'));
-    }
+        return $dataTable->render('categories.index');
 
+    }
     public function create()
     {
+
         $categories = Category::where('parent_id', null)
             ->get();
 
         return view('categories.create', compact('categories'));
     }
-    public function store(Request $request)
+    public function store(CategoryForm $request)
     {
 
-        $request->validate([
-            'categoryName' => 'required|min:3|unique:categories,cat_name',
-            'categoryImage' => 'sometimes|mimes:jpg,jpeg,png,gif',
-        ]);
-        $filePath = null;
-        if ($request->has('categoryImage')) {
-            $filePath = $request->file('categoryImage')
-                ->store('images/categories');
+        $validatedInput = $request->validated();
+
+        if ($request->has('image')) {
+            $filePath = $request->file('image')
+                ->store('storage/categories');
+            $validatedInput['image'] = $filePath;
         }
-        Category::create([
-            'cat_name' => $request->input('categoryName'),
-            'image' => $filePath,
-            'description' => $request->input('description'),
-            'parent_id' => $request->input('parentId'),
-        ]);
+
+        Category::create($validatedInput);
 
         return redirect()
             ->route('categories.index')
             ->with([
-                'message' => ['Category Added Successfully', 'success']
+                'message' => ['تم اضافة القسم بنجاح', 'success']
             ]);
-
-
     }
+    public function edit(Category $category)
+    {
 
+        $categories = Category::where('parent_id', null)->get();
+        return view('categories.edit', compact('categories', 'category'));
+    }
+    public function update(CategoryForm $request, Category $category)
+    {
+        $validatedInput = $request->except('old_image');
+        if ($request->has('image')) {
+            $filePath = $request->file('image')
+                ->store('storage/categories');
+            $validatedInput['image'] = $filePath;
+        }
+        $category->update($validatedInput);
+
+        return redirect()->route('categories.index')->with([
+            'message' => ['تم اضافة القسم بنجاح', 'success']
+        ]);
+    }
+    public function destroy(Category $category)
+    {
+
+        $category->subCategories()->delete();
+
+        $category->products->each(function ($product) {
+            $product->colors()->detach();
+            $product->sizes()->detach();
+        });
+
+        $category->products()->delete();
+
+        $category->delete();
+
+        return redirect()->back()
+            ->with(['message' => ['تم حذف القسن بنجاح', 'success']]);
+    }
 }
