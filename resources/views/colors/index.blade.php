@@ -31,7 +31,9 @@
                                 <form method="POST"
                                     action="{{ route('colors.destroy', $routeParamter) }}">
                                     @method('DELETE')
-                                    <button class="btn-action">
+                                    @csrf
+                                    <button class="btn-action"
+                                        onclick="return confirm('هل انت متاكد؟')">
                                         <i class="fa fa-trash icon icon-delete"></i>
                                     </button>
                                 </form>

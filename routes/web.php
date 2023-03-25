@@ -81,7 +81,7 @@ Route::prefix('admin')->group(function () {
             Route::post('/colors', 'store')->name('colors.store');
             Route::get('/colors/{color}/edit', 'edit')->name('colors.edit');
             Route::put('/colors/{color}', 'update')->name('colors.update');
-            Route::delete('/colors', 'destroy')->name('colors.destroy');
+            Route::delete('/colors/{color}', 'destroy')->name('colors.destroy');
         }
     );
 
@@ -92,7 +92,8 @@ Route::prefix('admin')->group(function () {
             Route::get('/sizes/create', 'create')->name('sizes.create');
             Route::post('/sizes', 'store')->name('sizes.store');
             Route::get('/sizes/{size}/edit', 'edit')->name('sizes.edit');
-            Route::delete('/sizes', 'destroy')->name('sizes.destroy');
+            Route::put('/sizes/{size}', 'update')->name('sizes.update');
+            Route::delete('/sizes/{size}', 'destroy')->name('sizes.destroy');
         }
     );
 });

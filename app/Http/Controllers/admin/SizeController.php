@@ -40,14 +40,14 @@ class SizeController extends Controller
 
     public function edit(Size $size)
     {
-        return view('colors.edit', compact('size'));
+        return view('sizes.edit', compact('size'));
     }
 
     public function update(Request $request, Size $size)
     {
 
         $validated = $request->validate([
-            'color_name' => 'required|unique:sizes'
+            'size_name' => 'required|unique:sizes'
         ]);
 
         $size->update($validated);
@@ -55,7 +55,16 @@ class SizeController extends Controller
         return redirect()
             ->route('sizes.index')
             ->with(['Message' => ['تم تحديث المقاس بنجاح', 'success']]);
-
     }
+
+    public function destroy(Size $size)
+    {
+        $size->products()->detach();
+        $size->delete();
+        return redirect()
+            ->route('sizes.index')
+            ->with(['Message' => ['تم حذف المقاس بنجاح', 'success']]);
+    }
+
 
 }

@@ -40,9 +40,13 @@
             </ul>
         </li>
         <li class="item">
+            @php  $urlSegment = Request::segment(2); @endphp
             <a @class([
                 'button-toggle',
-                'submenu-visible' => Request::segment(2) === 'products',
+                'submenu-visible' =>
+                    $urlSegment === 'products' ||
+                    $urlSegment === 'colors' ||
+                    $urlSegment === 'sizes',
             ])>
                 <i class="fa-solid fa-shop icon"></i>
                 <span>المنتجات</span>
@@ -64,6 +68,7 @@
             </ul>
         </li>
         <li class="item">
+
             <a @class([
                 'button-toggle',
                 'submenu-visible' => Request::segment(2) === 'orders',

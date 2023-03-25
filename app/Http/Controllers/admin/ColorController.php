@@ -56,5 +56,13 @@ class ColorController extends Controller
 
     }
 
+    public function destroy(Color $color)
+    {
+        $color->products()->detach();
+        $color->delete();
+        return redirect()
+            ->route('colors.index')
+            ->with(['Message' => ['تم حذف الون بنجاح', 'success']]);
+    }
 
 }
