@@ -80,6 +80,7 @@ Route::prefix('admin')->group(function () {
             Route::get('/colors/create', 'create')->name('colors.create');
             Route::post('/colors', 'store')->name('colors.store');
             Route::get('/colors/{color}/edit', 'edit')->name('colors.edit');
+            Route::put('/colors/{color}', 'update')->name('colors.update');
             Route::delete('/colors', 'destroy')->name('colors.destroy');
         }
     );

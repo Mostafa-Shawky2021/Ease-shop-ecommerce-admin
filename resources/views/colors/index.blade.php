@@ -19,7 +19,7 @@
             </thead>
             <tbody>
                 @forelse($colors as $color)
-                    @php $routeParamter = ['color',$color->id] ;@endphp
+                    @php $routeParamter = ['color' => $color->id] ;@endphp
                     <tr>
                         <td>{{ $color->color_name }}</td>
                         <td>
@@ -43,9 +43,8 @@
                         <td colspan="2">لا توجد قيم لعرضها</td>
                     </tr>
                 @endforelse
-
             </tbody>
-
         </table>
+        {{ $colors->links() }}
     </div>
 @endsection

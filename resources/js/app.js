@@ -14,7 +14,6 @@ import 'summernote/dist/summernote-bs5';
 import 'summernote/dist/summernote-lite';
 
 // app scripts
-import './layout/sidebarToggleMenu';
 import './productImageUpload';
 import './categoryImageUpload';
 import './productvariants';

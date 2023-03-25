@@ -12,7 +12,7 @@ class SizeController extends Controller
     //
     public function index()
     {
-        $sizes = Size::all();
+        $sizes = Size::paginate();
         return view('sizes.index', compact('sizes'));
     }
     public function create()
@@ -37,4 +37,25 @@ class SizeController extends Controller
 
         return redirect()->route('sizes.index');
     }
+
+    public function edit(Size $size)
+    {
+        return view('colors.edit', compact('size'));
+    }
+
+    public function update(Request $request, Size $size)
+    {
+
+        $validated = $request->validate([
+            'color_name' => 'required|unique:sizes'
+        ]);
+
+        $size->update($validated);
+
+        return redirect()
+            ->route('sizes.index')
+            ->with(['Message' => ['تم تحديث المقاس بنجاح', 'success']]);
+
+    }
+
 }

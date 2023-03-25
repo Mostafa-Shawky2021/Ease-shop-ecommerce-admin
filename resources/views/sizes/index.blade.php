@@ -19,7 +19,7 @@
             </thead>
             <tbody>
                 @forelse($sizes as $size)
-                    @php $routeParamter = ['size',$size->id] ;@endphp
+                    @php $routeParamter = ['size' => $size->id] ;@endphp
                     <tr>
                         <td>{{ $size->size_name }}</td>
                         <td>
@@ -45,7 +45,7 @@
                 @endforelse
 
             </tbody>
-
+            {{ $sizes->links() }}
         </table>
     </div>
 @endsection

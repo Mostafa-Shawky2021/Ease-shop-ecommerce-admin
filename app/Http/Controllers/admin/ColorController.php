@@ -12,7 +12,7 @@ class ColorController extends Controller
     //
     public function index()
     {
-        $colors = Color::all();
+        $colors = Color::paginate();
         return view('colors.index', compact('colors'));
     }
     public function create()
@@ -27,7 +27,6 @@ class ColorController extends Controller
 
         $colorsValueArray = collect(explode('|', $validated['colors_name']));
 
-
         $colorsValueArray->each(function ($color) {
             $colorValueExist = Color::where('color_name', $color)->exists();
             if (!$colorValueExist)
@@ -36,4 +35,26 @@ class ColorController extends Controller
 
         return redirect()->route('colors.index');
     }
+
+    public function edit(Color $color)
+    {
+        return view('colors.edit', compact('color'));
+    }
+
+    public function update(Request $request, Color $color)
+    {
+
+        $validated = $request->validate([
+            'color_name' => 'required|unique:colors'
+        ]);
+
+        $color->update($validated);
+
+        return redirect()
+            ->route('colors.index')
+            ->with(['Message' => ['تم تحديث الون بنجاح', 'success']]);
+
+    }
+
+
 }

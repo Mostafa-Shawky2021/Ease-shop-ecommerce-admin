@@ -11,7 +11,7 @@
                 <form action="{{ route('colors.store') }}" class="mainform-app py-3 px-3"
                     id="colorsForm" method="post">
                     @csrf
-                    <div class="">
+                    <div>
                         <label class="label-control">اسم اللون</label>
                         <div class="mt-3">
                             <input type="text" class="form-control" id="variantInput">
