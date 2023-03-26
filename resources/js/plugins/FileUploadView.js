@@ -21,48 +21,30 @@ class FileUploadView {
         this.checkFirstLoad();
     }
     checkFirstLoad() {
-        const oldImagePath = this.parentFileElement.querySelector('#oldImage')?.value;
+
+        let oldImagePath = this.parentFileElement.querySelector('#oldImage')?.value;
+
         if (oldImagePath) {
-            // this.showFileName(oldImagePath);
+
+            if (oldImagePath.search(/\|/) > -1) {
+                oldImagePath = oldImagePath.split("|");
+
+            }
+
             this.handleBtnShow();
             this.handleShowRemoveButton();
             this.renderModalView(oldImagePath);
+
         }
     }
-    handleFileUploaded(event) {
 
-        // this.showFileName(event.target.files);
+    handleFileUploaded(event) {
 
         this.handleBtnShow(event.target.files);
 
         this.handleShowRemoveButton();
 
         this.renderModalView(event.target.files);
-
-    }
-
-    showFileName(files) {
-
-        let imageName = '';
-
-        if (files.length > 1) {
-
-            // render multiple files
-
-        } else {
-            imageName = files[0].name;
-
-        }
-
-        let imageNameContainer = this.parentFileElement.querySelector('.image-name-container');
-
-        if (!imageNameContainer) {
-            imageNameContainer = document.createElement('div');
-            imageNameContainer.className = 'image-name-container';
-            this.parentFileElement.appendChild(imageNameContainer);
-        }
-
-        imageNameContainer.innerHTML = `<span>${imageName}</span> `
 
     }
 
@@ -79,25 +61,50 @@ class FileUploadView {
             this.parentFileElement.appendChild(modalNodeWrapper);
         }
 
-        // render images to display
+        // in case of one file from the server 
         if (typeof files === 'string') {
+
             renderImage = `
-                 <div class='image-wrapper'>
-                    <img class="img-fluid" src=/${files} alt=${files} />
-                </div>`
+                 <div class='image-wrapper-single'>
+                    <img class="img-fluid" src=/${files} alt=${"image"} />
+                </div>`;
         }
-        else if (files.length > 1) {
+        else if (Array.isArray(files)) {
+
+            renderImage = `
+                    <div class="image-wrapper-multiple">
+                        ${files.map(file => {
+
+                return "<div class='image'><img src=/" + file + " alt='image'/> </div>";
+            })}
+                </div>`;
+        }
+
+        //  user upload multiple file
+        else if (files.length > 0 && typeof files === 'object') {
+
+            const filesArr = Array.from(files);
+            renderImage = `
+                <div class="image-wrapper-multiple">
+                        ${filesArr.map(file => {
+                const url = URL.createObjectURL(file)
+                return "<div class='image'><img src=" + url + " alt=" + file.name + "/> </div>";
+            })}
+                </div>`;
 
         } else {
+            console.log(typeof files);
             const url = URL.createObjectURL(files[0])
             renderImage = `
-                 <div class='image-wrapper'>
+                 <div class='image-wrapper-single'>
                     <img class="img-fluid" src=${url} alt=${files[0].name} />
-                </div>`
+                </div>`;
         }
 
+        const inputNodeId = this.inputFileNode.id;
+
         modalNodeWrapper.innerHTML = `
-            <div class="modal fade" id="showModalImages" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="${inputNodeId}-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog model-show-image">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -117,6 +124,8 @@ class FileUploadView {
     }
     handleBtnShow() {
 
+        const inputNodeId = this.inputFileNode.id;
+
         let btnShowNode = this.parentFileElement.querySelector('.view-btn');
 
         if (!btnShowNode) {
@@ -124,10 +133,10 @@ class FileUploadView {
             btnShowNode = document.createElement('button');
             btnShowNode.className = 'view-btn btn-action';
 
-            btnShowNode.setAttribute('data-bs-target', '#showModalImages');
+            btnShowNode.setAttribute('data-bs-target', `#${inputNodeId}-modal`);
             btnShowNode.setAttribute('data-bs-toggle', "modal");
 
-            this.parentFileElement.appendChild(btnShowNode)
+            this.parentFileElement.appendChild(btnShowNode);
             btnShowNode.innerHTML = `
             عرض الصورة
             <i class="fa-solid fa-eye icon"></i>`
@@ -157,7 +166,6 @@ class FileUploadView {
         event.preventDefault();
         this.parentFileElement.querySelector('.delete-btn').remove();
         this.parentFileElement.querySelector('.view-btn').remove();
-        // this.parentFileElement.querySelector('.image-name-container').remove();
 
         this.inputFileNode.value = "";
 

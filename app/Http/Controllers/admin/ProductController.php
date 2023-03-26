@@ -15,9 +15,11 @@ use App\Models\Size;
 use App\Http\Requests\admin\ProductForm;
 use App\Models\Image;
 
+use App\Traits\ImageStorage;
+
 class ProductController extends Controller
 {
-    //
+    use ImageStorage;
     public function index(ProductsDataTable $dataTable)
     {
 
@@ -59,11 +61,8 @@ class ProductController extends Controller
         if ($request->has('productImageThumbnails')) {
 
             $imageThumbnails = $request->file('productImageThumbnails');
-            foreach ($imageThumbnails as $img) {
-                $imageThumbnailPath = $img->store('images/products');
-                $image = new Image(['url' => $imageThumbnailPath]);
-                $product->images()->save($image);
-            }
+
+            self::storeImages($imageThumbnails, 'storage/products', $product);
 
         }
 
@@ -92,25 +91,26 @@ class ProductController extends Controller
         $validatedInputs = $request->safe()
             ->except('color_id', 'size_id', 'old_image');
 
-        if ($request->has('image')) {
+        $brandImagePath = $request->has('image')
+            ? $request->file('image')->store('storage/products')
+            : null;
 
-            $brandImagePath = $request->file('image')
-                ->store('storage/products');
+        Storage::exists($product->image) ? Storage::delete($product->image) : '';
 
-            Storage::exists($product->image) ? Storage::delete($product->image) : '';
-
-            $validatedInputs['image'] = $brandImagePath;
-        }
+        $validatedInputs['image'] = $brandImagePath;
 
 
         if ($request->has('productImageThumbnails')) {
+
+            $product->images->each(fn(Image $image) =>
+                Storage::exists($image->url) ? Storage::delete($image->url) : '');
+
             $product->images()->delete();
+
             $imageThumbnails = $request->file('productImageThumbnails');
-            foreach ($imageThumbnails as $img) {
-                $imageThumbnailPath = $img->store('images/products');
-                $image = new Image(['url' => $imageThumbnailPath]);
-                $product->images()->save($image);
-            }
+
+            self::storeImages($imageThumbnails, 'storage/products', $product);
+
         }
 
         $product->update($validatedInputs);
@@ -132,8 +132,6 @@ class ProductController extends Controller
         return redirect()
             ->route('products.index')
             ->with(['Message' => ['تم تحديث المنتج بنجاح', 'success']]);
-
-
     }
 
     public function destroy(Product $product)
@@ -141,8 +139,13 @@ class ProductController extends Controller
 
         $product->colors()->detach();
         $product->sizes()->detach();
+        Storage::exists($product->image) ? Storage::delete($product->image) : null;
+        $product->images->each(fn(Image $image) =>
+            Storage::exists($image->url) ? Storage::delete($image->url) : null);
+        $product->images()->delete();
         $product->delete();
-        return redirect()->back()
+        return redirect()
+            ->back()
             ->with(['message' => ['تم حذف المنتج بنجاح', 'success']]);
 
     }

@@ -74,24 +74,31 @@
     <label class='label-control'>صورة المنتج</label>
     <div class='col-6 mt-2'>
         <div class="file-wrapper form-control">
-            <input name="old_image" id="oldImage"value="{{ $product->image ?? '' }}"
-                hidden />
+            <input name="old_image" id="oldImage"
+                value="{{ $product->image ?? null }}" hidden />
             <input type='file' name='image' id='productImage' />
         </div>
     </div>
 </div>
-{{-- <div class="mt-4">
+<div class="mt-4">
     <label class='label-control'>مصغرات المنتج</label>
     <div class='col-6 mt-2'>
         <div class="file-wrapper">
+            @php
+                
+                $thumbnailsImages = null;
+                if ($product && $product->images->isNotEmpty()) {
+                    $thumbnailsImages = $product->images->map(fn($image) => $image->url)->implode('|');
+                }
+                
+            @endphp
+            <input name="old_image" id="oldImage" value="{{ $thumbnailsImages }}"
+                hidden />
             <input type='file' name='productImageThumbnails[]' id='productImages'
                 multiple />
-            <div class="description">Click To Upload Thumbnails</div>
-            <div class='file-content-show d-flex' id='boxImageShowmultiple'>
-            </div>
         </div>
     </div>
-</div> --}}
+</div>
 
 <h5 class="options"
     style="margin-top:1.5rem;padding-top:1rem; border-top: 1px solid #dedede">
@@ -125,11 +132,12 @@
 
 @push('scripts')
     <script type="module">
-    
+
     $('#editor').summernote({
         placeholder: 'Hello Bootstrap 5',
         tabsize: 2,
         height: 160,
       });
+
     </script>
 @endpush
