@@ -40,6 +40,7 @@ class FileUploadView {
 
     handleFileUploaded(event) {
 
+
         this.handleBtnShow(event.target.files);
 
         this.handleShowRemoveButton();
@@ -93,7 +94,7 @@ class FileUploadView {
                 </div>`;
 
         } else {
-            console.log(typeof files);
+
             const url = URL.createObjectURL(files[0])
             renderImage = `
                  <div class='image-wrapper-single'>

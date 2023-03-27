@@ -20,8 +20,7 @@ class ProductController extends Controller
         // greater than meaning the query contaienr query fitler string 
         if ($queryFilterCount > 0) {
 
-            $product = new Product();
-            $filteredProduct = $this->filterProducts($request, $product);
+            $filteredProduct = $this->filterProducts($request, Product::query());
 
             if ($filteredProduct->isNotEmpty()) {
 

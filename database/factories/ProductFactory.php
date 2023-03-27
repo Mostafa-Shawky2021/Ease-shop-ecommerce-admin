@@ -18,11 +18,11 @@ class ProductFactory extends Factory
     public function definition()
     {
         return [
-            'category_id' => 1,
+            'category_id' => 13,
             'product_name' => Str::random(20) . " " . Str::random(5),
             'price' => 2000,
             'price_discount' => 1500,
-            'image' => 'https://www.pngplay.com/wp-content/uploads/7/Android-Mobile-Download-Free-PNG.png',
+            // 'image' => 'https://www.pngplay.com/wp-content/uploads/7/Android-Mobile-Download-Free-PNG.png',
             'brand' => Str::random(7),
             'short_description' => Str::random(20),
             'long_description' => Str::random(30),

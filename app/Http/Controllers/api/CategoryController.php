@@ -95,31 +95,29 @@ class CategoryController extends Controller
             ], 200);
 
         }
-
         return response([
             'Message' => 'Sorry no product in that category',
         ], 200);
 
     }
-    public function randomCategories()
+    public function randomCategoriesProducts()
     {
         $randomCategories = Category::select(['id', 'cat_name', 'cat_slug'])
             ->has('products')
             ->limit(8)
-            ->orderBy('id', 'desc')
             ->inRandomOrder()
             ->get();
 
         foreach ($randomCategories as $index => $category) {
-            $categoryProducts = $category
-                ->products()
-                ->limit(5)
+            $categoryProducts = $category->products()
+                ->limit(8)
+                ->inRandomOrder()
                 ->get();
             $randomCategories[$index]->products = $categoryProducts;
         }
 
         if ($randomCategories->isEmpty()) {
-            return response(['message' => 'Sorry no data exit'], 200);
+            return response(['Message' => 'Sorry no categories products exist'], 200);
         }
 
         return response(['data' => $randomCategories], 200);

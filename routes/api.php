@@ -49,7 +49,7 @@ Route::controller(ProductController::class)->group(function () {
 // Categories Resource
 Route::controller(CategoryController::class)->group(function () {
 	Route::get('/categories', 'index');
-	Route::get('/categories/random/products', 'randomCategories');
+	Route::get('/categories/products/random', 'randomCategoriesProducts');
 	Route::get('/categories/catslug/{slug}', 'categoryProducts');
 	Route::get('/categories/{categroy}/subcategories', 'subCategories');
 });

@@ -7,6 +7,7 @@ use App\Http\Requests\admin\CategoryForm;
 use Illuminate\Http\Request;
 use App\DataTables\admin\CategoriesDataTable;
 use App\Models\Category;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -46,22 +47,29 @@ class CategoryController extends Controller
     public function edit(Category $category)
     {
 
-        $categories = Category::where('parent_id', null)->get();
+        $categories = Category::where('parent_id', null)
+            ->whereNot('id', $category->id)
+            ->get();
         return view('categories.edit', compact('categories', 'category'));
     }
     public function update(CategoryForm $request, Category $category)
     {
         $validatedInput = $request->except('old_image');
+
+
         if ($request->has('image')) {
             $filePath = $request->file('image')
                 ->store('storage/categories');
             $validatedInput['image'] = $filePath;
+            Storage::exists($category->image) ? Storage::delete($category->image) : null;
         }
         $category->update($validatedInput);
 
-        return redirect()->route('categories.index')->with([
-            'message' => ['تم اضافة القسم بنجاح', 'success']
-        ]);
+        return redirect()
+            ->route('categories.index')
+            ->with([
+                'message' => ['تم اضافة القسم بنجاح', 'success']
+            ]);
     }
     public function destroy(Category $category)
     {

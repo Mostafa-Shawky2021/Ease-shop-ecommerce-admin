@@ -4,8 +4,8 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 use App\DataTables\admin\ProductsDataTable;
 use App\Models\Category;
@@ -38,6 +38,7 @@ class ProductController extends Controller
     {
 
         $brandImagePath = null;
+
 
         $brandImagePath = $request->has('image')
             ? $request->file('image')->store('storage/products')
@@ -89,27 +90,36 @@ class ProductController extends Controller
     {
 
         $validatedInputs = $request->safe()
-            ->except('color_id', 'size_id', 'old_image');
+            ->except('color_id', 'size_id', 'old_image', 'old_images');
 
-        $brandImagePath = $request->has('image')
-            ? $request->file('image')->store('storage/products')
-            : null;
+        $brandImagePath = null;
+        if ($request->has('image')) {
+            $brandImagePath = $request->file('image')->store('storage/products');
+            $validatedInputs['image'] = $brandImagePath;
+            if ($product->image) {
+                Storage::exists($product->image) ? Storage::delete($product->image) : null;
+            }
 
-        Storage::exists($product->image) ? Storage::delete($product->image) : '';
-
-        $validatedInputs['image'] = $brandImagePath;
+        }
 
 
-        if ($request->has('productImageThumbnails')) {
+        // Check if request payload contain images thumbnails or contain empty old images string
+        // empty old images meaning the user deleted the prev thubmnails 
+        if ($request->has('productImageThumbnails') || !$request->input('old_images')) {
 
-            $product->images->each(fn(Image $image) =>
-                Storage::exists($image->url) ? Storage::delete($image->url) : '');
+            if ($product->images()->exists()) {
+                $product->images->each(fn(Image $image) =>
+                    Storage::exists($image->url) ? Storage::delete($image->url) : '');
 
-            $product->images()->delete();
+                $product->images()->delete();
+
+            }
 
             $imageThumbnails = $request->file('productImageThumbnails');
 
-            self::storeImages($imageThumbnails, 'storage/products', $product);
+            $request->has('productImageThumbnails')
+                ? self::storeImages($imageThumbnails, 'storage/products', $product)
+                : null;
 
         }
 
@@ -128,7 +138,7 @@ class ProductController extends Controller
         } else if ($request->filled('size_id')) {
             $product->sizes()->sync(explode("|", $request->input('size_id')));
         }
-
+   
         return redirect()
             ->route('products.index')
             ->with(['Message' => ['تم تحديث المنتج بنجاح', 'success']]);
@@ -139,7 +149,11 @@ class ProductController extends Controller
 
         $product->colors()->detach();
         $product->sizes()->detach();
-        Storage::exists($product->image) ? Storage::delete($product->image) : null;
+
+        if ($product->image) {
+            Storage::exists($product->image) ? Storage::delete($product->image) : null;
+        }
+
         $product->images->each(fn(Image $image) =>
             Storage::exists($image->url) ? Storage::delete($image->url) : null);
         $product->images()->delete();

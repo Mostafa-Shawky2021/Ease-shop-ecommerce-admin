@@ -30,7 +30,7 @@
         <label for="price-discount" class='label-control'>
             السعر بعد الخصم
         </label>
-        <input id='price-discount' name='priceDiscount'
+        <input id='price-discount' name='price_discount'
             value="{{ old('price_discount', $product->price_discount ?? '') }}"
             class="form-control mt-2" />
     </div>
@@ -92,7 +92,7 @@
                 }
                 
             @endphp
-            <input name="old_image" id="oldImage" value="{{ $thumbnailsImages }}"
+            <input name="old_images" id="oldImage" value="{{ $thumbnailsImages }}"
                 hidden />
             <input type='file' name='productImageThumbnails[]' id='productImages'
                 multiple />

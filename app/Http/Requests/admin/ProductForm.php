@@ -46,6 +46,7 @@ class ProductForm extends FormRequest
             'long_description' => 'sometimes',
             'color_id' => 'sometimes',
             'old_image' => 'sometimes',
+            'old_images' => 'sometimes',
             'size_id' => 'sometimes'
         ];
     }

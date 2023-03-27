@@ -11,6 +11,55 @@ trait FilterProducts
 {
     private $productModelFilter = null;
     private $limitFilter = null;
+
+    private function filterProducts(Request $request, Builder $query)
+    {
+
+        $this->productModelFilter = $query;
+
+        if ($request->has('productname')) {
+            $productName = urldecode($request->query('productname'));
+            $this->filterProductByName($productName);
+        }
+
+        if ($request->has('limit')) {
+            $limitNumber = $request->query('limit');
+            $this->limitFilter = intval($limitNumber);
+        }
+
+        if ($request->has('offers')) {
+            $this->productWithOffers();
+        }
+
+        if ($request->has('price')) {
+            $queryPrice = $request->query('price');
+            $this->filterProductByPrice($queryPrice);
+
+        }
+
+        if ($request->has('sizes')) {
+            $querySizes = $request->query('sizes');
+            $this->filterProductBySize($querySizes);
+
+        }
+
+        if ($request->has('colors')) {
+            $queryColors = $request->query('colors');
+            $this->filterProductByColors($queryColors);
+        }
+
+        if ($request->has('latest')) {
+            $this->filterbyLatestProduct();
+        }
+
+        if ($request->has('random')) {
+
+            $this->filterbyRandomProduct();
+        }
+        return $this->limitFilter
+            ? $this->productModelFilter->paginate($this->limitFilter)
+            : $this->productModelFilter->paginate(static::$paginationNumber);
+    }
     private function filterProductByName($productName)
     {
 
@@ -41,7 +90,7 @@ trait FilterProducts
             ->sort()
             ->slice(0, 2);
 
-        // in case no matching default fitler
+        // in case no matching default filter
         if ($matchingCollection->isEmpty()) {
             $matchingCollection[0] = 50;
             $matchingCollection[1] = 10000;
@@ -81,50 +130,12 @@ trait FilterProducts
     {
         $this->productModelFilter = $this->productModelFilter->latest('id');
     }
-    private function filterProducts(Request $request, $product)
+
+    private function filterbyRandomProduct()
     {
-
-        $this->productModelFilter = $product;
-
-        if ($request->has('productname')) {
-            $productName = urldecode($request->query('productname'));
-            $this->filterProductByName($productName);
-        }
-
-        if ($request->has('limit')) {
-            $limitNumber = $request->query('limit');
-            $this->limitFilter = intval($limitNumber);
-        }
-
-        if ($request->has('offers')) {
-            $this->productWithOffers();
-        }
-
-        if ($request->has('price')) {
-            $queryPrice = $request->query('price');
-            $this->filterProductByPrice($queryPrice);
-
-        }
-
-        if ($request->has('sizes')) {
-            $querySizes = $request->query('sizes');
-            $this->filterProductBySize($querySizes);
-
-        }
-
-        if ($request->has('colors')) {
-            $queryColors = $request->query('colors');
-            $this->filterProductByColors($queryColors);
-        }
-
-        if ($request->has('latest')) {
-            $this->filterbyLatestProduct();
-        }
-
-        return $this->limitFilter
-            ? $this->productModelFilter->paginate($this->limitFilter)
-            : $this->productModelFilter->paginate(static::$paginationNumber);
+        $this->productModelFilter = $this->productModelFilter->inRandomOrder();
     }
+
 }
 
 ?>

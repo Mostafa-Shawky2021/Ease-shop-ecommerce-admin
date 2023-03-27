@@ -58,7 +58,7 @@ Route::prefix('admin')->group(function () {
             Route::post('/products', 'store')->name('products.store');
             Route::get('/products/{product}/edit', 'edit')->name('products.edit');
             Route::put('/products/{product}', 'update')->name('products.update');
-            Route::delete("/store/products/{product}", 'destroy')->name('products.destroy');
+            Route::delete("/products/{product}", 'destroy')->name('products.destroy');
         }
     );
 

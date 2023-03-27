@@ -51,7 +51,7 @@ class CategoriesDataTable extends DataTable
                 </div>';
             return $btn;
 
-        })->rawColumns(['image', 'action']);
+        })->rawColumns(['image', 'action', 'parent_category']);
     }
 
     /**
