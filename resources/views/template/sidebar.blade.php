@@ -65,6 +65,9 @@
                 <li class="item">
                     <a href="{{ route('sizes.index') }}">المقاسات</a>
                 </li>
+                <li class="item">
+                    <a href="{{ route('brands.index') }}">البراند</a>
+                </li>
             </ul>
         </li>
         <li class="item">

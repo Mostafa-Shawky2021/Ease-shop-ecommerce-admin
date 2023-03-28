@@ -8,6 +8,7 @@ use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\OrderController;
 use App\Http\Controllers\admin\ColorController;
 use App\Http\Controllers\admin\SizeController;
+use App\Http\Controllers\admin\BrandController;
 
 /*
 |--------------------------------------------------------------------------
@@ -96,4 +97,17 @@ Route::prefix('admin')->group(function () {
             Route::delete('/sizes/{size}', 'destroy')->name('sizes.destroy');
         }
     );
+
+    //Brand Resource
+    Route::controller(BrandController::class)->group(
+        function () {
+            Route::get('/brands', 'index')->name('brands.index');
+            Route::get('/brands/create', 'create')->name('brands.create');
+            Route::post('/brands', 'store')->name('brands.store');
+            Route::get('/brands/{brand}/edit', 'edit')->name('brands.edit');
+            Route::put('/brands/{brand}', 'update')->name('brands.update');
+            Route::delete('/brands/{brand}', 'destroy')->name('brands.destroy');
+        }
+    );
+
 });
