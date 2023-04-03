@@ -36,7 +36,7 @@ class ProductForm extends FormRequest
         }
         return [
             'product_name' => $productNameRule,
-            'brand' => '',
+            'brand_id' => '',
             'price' => 'required|numeric',
             'price_discount' => 'nullable|numeric|lt:price',
             'image' => 'required_if:old_image,null|image',

@@ -37,6 +37,11 @@ trait FilterProducts
 
         }
 
+        if ($request->has('brands')) {
+            $queryBrands = $request->query('brands');
+            $this->filterProductByBrands($queryBrands);
+        }
+
         if ($request->has('sizes')) {
             $querySizes = $request->query('sizes');
             $this->filterProductBySize($querySizes);
@@ -60,8 +65,17 @@ trait FilterProducts
             ? $this->productModelFilter->paginate($this->limitFilter)
             : $this->productModelFilter->paginate(static::$paginationNumber);
     }
-    private function filterProductByName($productName)
+
+    private function filterProductByBrands($queryBrands)
     {
+        $brands = explode('-', $queryBrands);
+
+        $this->productModelFilter =
+            $this->productModelFilter->whereHas(
+                'brand',
+                fn($query) => $query->whereIn('brand_name', $brands)
+            ); }
+    private function filterProductByName($productName) {
 
         $this->productModelFilter =
             $this->productModelFilter
@@ -69,7 +83,6 @@ trait FilterProducts
                 ->where(
                     function (Builder $query) use ($productName) {
                         return $query->where('product_name', 'LIKE', "%$productName%")
-                            ->orWhere('brand', 'LIKE', "%$productName%")
                             ->orWhere('cat_name', 'LIKE', "%$productName%");
 
                     }

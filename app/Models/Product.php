@@ -11,17 +11,7 @@ class Product extends Model
 {
     use HasFactory;
     use Sluggable;
-    protected $fillable = [
-        'product_name',
-        'product_slug',
-        'category_id',
-        'price',
-        'price_discount',
-        'image',
-        'brand',
-        'short_description',
-        'long_description',
-    ];
+    protected $guarded = [];
 
 
     public function category()
@@ -42,6 +32,11 @@ class Product extends Model
     public function sizes()
     {
         return $this->belongsToMany(Size::class);
+    }
+
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class);
     }
     public function sluggable(): array
     {

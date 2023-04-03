@@ -82,12 +82,12 @@ class ProductController extends Controller
 
     public function show($productSlug)
     {
-        $product = Product::with(['category', 'images', 'colors', 'sizes'])
+        $product = Product::with(['category', 'images', 'colors', 'sizes', 'brand'])
             ->firstWhere('product_slug', $productSlug);
         if ($product) {
             return response($product, 200);
         }
-        return response(['Message' => 'Sorry no product exist',], 200);
+        return response(['Message' => 'Sorry no product exist'], 200);
     }
 
     public function relatedProduct(Request $request, $productSlug)
@@ -98,30 +98,24 @@ class ProductController extends Controller
         $product = Product::firstWhere('product_slug', $productSlug);
 
         if ($product) {
-            $productBrand = $product->brand;
+
             $productCategory = $product->category_id;
+            $productBrand = $product->brand_id;
 
-            // $productsWithBrand = Product::where('brand', $productBrand)
-            //     ->where('id', '!=', $productId)
-            //     ->limit($productLimit)
-            //     ->get();
+            $products = Product::where('product_slug', '!=', $productSlug)
+                ->where(function ($query) use ($productCategory, $productBrand) {
+                    return $query->where('category_id', $productCategory)
+                        ->orWhere->where('brand_id', $productBrand);
 
-            // if (!$productsWithBrand->isEmpty()) {
-            //     return response($productsWithBrand);
-            // }
+                })->limit($productLimit)->get();
 
-            $products = Product::where('category_id', $productCategory)
-                ->where('product_slug', '!=', $productSlug)
-                ->limit($productLimit)
-                ->get();
+            return response($products, 200);
 
-            return response($products);
-
-        } else {
-            return response([
-                'message' => 'no product with that id',
-            ], 200);
         }
+        return response([
+            'Message' => 'Sorry No Related Product Found',
+        ], 200);
+
 
     }
 

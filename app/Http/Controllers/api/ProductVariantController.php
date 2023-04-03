@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
 use Illuminate\Http\Request;
 
 use App\Models\Color;
@@ -15,10 +16,12 @@ class ProductVariantController extends Controller
     {
         $colors = Color::all();
         $sizes = Size::all();
+        $brands = Brand::all();
 
         return response([
             'colors' => $colors,
             'sizes' => $sizes,
+            'brands' => $brands
         ], 200);
 
     }

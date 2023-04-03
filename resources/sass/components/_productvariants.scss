@@ -3,14 +3,10 @@
     gap: 3px;
     flex-wrap: wrap;
 
-    .variant-wrapper {
+    .variant-default {
         position: relative;
-        background-color: #212224;
-        color: #fff;
+        margin-top: 1rem;
         padding: 9px 15px;
-        border: 1px solid #212224;
-        border-radius: 6px;
-        margin-top: 10px;
 
         &:not(:first-child) {
             margin-right: 5px;
@@ -19,15 +15,26 @@
 
         .delete-btn {
             position: absolute;
-            right: 0px;
-            top: -3px;
+            left: 0px;
+            top: 2px;
             background-color: transparent;
             border: none;
-            color: #fff;
-
-
+            color: var(--bs-danger);
+            font-size: 13px;
         }
 
+    }
 
+    .variant-color {
+        border-radius: 3px;
+        width: 33px;
+        height: 33px;
+    }
+
+    .variant {
+        background-color: #212224;
+        color: #fff;
+        border: 1px solid #212224;
+        border-radius: 6px;
     }
 }

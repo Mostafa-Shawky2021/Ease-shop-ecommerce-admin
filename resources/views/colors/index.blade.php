@@ -21,7 +21,13 @@
                 @forelse($colors as $color)
                     @php $routeParamter = ['color' => $color->id] ;@endphp
                     <tr>
-                        <td>{{ $color->color_name }}</td>
+                        <td>
+                            <span
+                                style="background:{{ $color->color_name }};
+                                width:33px;
+                                height:33px;
+                                border:1px solid #bfbfbf;"></span>
+                        </td>
                         <td>
                             <div class="action-wrapper">
                                 <a class="btn-action"

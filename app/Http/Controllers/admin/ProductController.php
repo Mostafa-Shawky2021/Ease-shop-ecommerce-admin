@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -30,8 +31,9 @@ class ProductController extends Controller
         $categories = Category::all();
         $colors = Color::all();
         $sizes = Size::all();
+        $brands = Brand::all();
 
-        return view('products.create', compact('categories', 'colors', 'sizes'));
+        return view('products.create', compact('categories', 'colors', 'sizes', 'brands'));
     }
 
     public function store(ProductForm $request)
@@ -39,12 +41,13 @@ class ProductController extends Controller
 
         $brandImagePath = null;
 
-
         $brandImagePath = $request->has('image')
             ? $request->file('image')->store('storage/products')
             : null;
 
-        $productinputFields = $request->safe()->except(['image', 'size_id', 'color_id']);
+        $productinputFields = $request->safe()
+            ->except(['size_id', 'color_id', 'old_image', 'old_images']);
+
         $productinputFields['image'] = $brandImagePath;
 
         $product = Product::create($productinputFields);
@@ -75,15 +78,16 @@ class ProductController extends Controller
     public function edit($product)
     {
 
-        $product = Product::with(['images', 'sizes', 'colors'])
+        $product = Product::with(['images', 'sizes', 'colors', 'brand'])
             ->where('id', $product)
             ->first();
 
         $categories = Category::all();
         $colors = Color::all();
         $sizes = Size::all();
+        $brands = Brand::all();
 
-        return view('products.edit', compact('product', 'categories', 'colors', 'sizes'));
+        return view('products.edit', compact('product', 'categories', 'colors', 'sizes', 'brands'));
     }
 
     public function update(ProductForm $request, Product $product)
@@ -138,7 +142,7 @@ class ProductController extends Controller
         } else if ($request->filled('size_id')) {
             $product->sizes()->sync(explode("|", $request->input('size_id')));
         }
-   
+
         return redirect()
             ->route('products.index')
             ->with(['Message' => ['تم تحديث المنتج بنجاح', 'success']]);

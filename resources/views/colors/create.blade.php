@@ -12,9 +12,9 @@
                     id="colorsForm" method="post">
                     @csrf
                     <div>
-                        <label class="label-control">اسم اللون</label>
+                        <label class="label-control"> اللون</label>
                         <div class="mt-3">
-                            <input type="text" class="form-control" id="variantInput">
+                            <input type="color" id="variantInput" style="width:200px">
                             <input type="text" id="variantHiddenInput"
                                 name="colors_name" hidden />
                         </div>

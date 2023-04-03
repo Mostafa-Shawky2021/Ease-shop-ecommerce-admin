@@ -30,11 +30,14 @@ use App\Http\Controllers\api\ProductVariantController;
 
 // Product Variants
 Route::controller(ProductVariantController::class)->group(function () {
+
 	Route::get('/productvariants', 'index');
+
 });
 
 // Products Resource
 Route::controller(ProductController::class)->group(function () {
+
 	Route::get('/products', 'index');
 	Route::get('/products/latestproducts', 'latestProduct');
 	Route::get('/products/productslug/{slug}', 'show');
@@ -48,27 +51,33 @@ Route::controller(ProductController::class)->group(function () {
 
 // Categories Resource
 Route::controller(CategoryController::class)->group(function () {
+
 	Route::get('/categories', 'index');
 	Route::get('/categories/products/random', 'randomCategoriesProducts');
 	Route::get('/categories/catslug/{slug}', 'categoryProducts');
 	Route::get('/categories/{categroy}/subcategories', 'subCategories');
+
 });
 
 
 //Auth Resource
 Route::controller(AuthController::class)->group(function () {
+
 	Route::post('/login', 'authenticate');
 	Route::post('/register', 'store');
+
 });
 
 //Cart Resource
 Route::controller(CartController::class)->group(function () {
+
 	Route::get('/carts/user/{userid}', 'index');
 	Route::post('/carts', 'store');
 	Route::put('/carts/user/{userid}', 'update')->middleware('auth:sanctum');
-	Route::post('/carts/{cart}/increment', 'increaseProduct');
-	Route::post('/carts/{cart}/decrement', 'decreaseProduct');
+	Route::put('/carts/{cart}/increment', 'increaseProduct');
+	Route::put('/carts/{cart}/decrement', 'decreaseProduct');
 	Route::delete('/carts/{cartId}', 'destroy');
+
 });
 
 //Order Resource 

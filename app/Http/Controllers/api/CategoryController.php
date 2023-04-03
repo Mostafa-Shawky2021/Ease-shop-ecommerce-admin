@@ -14,13 +14,16 @@ class CategoryController extends Controller
 {
     use FilterProducts;
     private static $paginationNumber = 25;
+
     public function index()
     {
 
-        $categories = Category::with('subCategories')->get();
+        $categories = Category::with('subCategories')
+            ->where('parent_id', null)
+            ->get();
 
         if ($categories->isEmpty()) {
-            return response(['Message' => 'Sorry no category in database'], 200);
+            return response(['Message' => 'Sorry no categories in database'], 200);
         }
         return response(['data' => $categories], 200);
     }

@@ -1,6 +1,7 @@
+import { GetColorName } from 'hex-color-to-color-name';
 class ProductVariant {
 
-    constructor(variantFormNode) {
+    constructor(variantFormNode, isColor = false) {
 
         this.variantFormNode = variantFormNode;
 
@@ -11,6 +12,8 @@ class ProductVariant {
         this.saveButtonNode = variantFormNode.querySelector('#saveBtn');
 
         this.addProductNode = variantFormNode.querySelector('#addProductVariant');
+
+        this.isColor = isColor ? isColor : null;
 
         this.handleAddProductVariant = this.handleAddProductVariant.bind(this);
 
@@ -27,53 +30,78 @@ class ProductVariant {
         event.preventDefault();
 
         let variantContainer = this.variantFormNode.querySelector('.variant-container');
+        console.log(Boolean(this.inputVariantNode.value.trim()));
         if (!this.inputVariantNode.value.trim()) {
+
             alert('من افضلك ادخل قيمه')
             return;
         }
         if (!variantContainer) {
+
             variantContainer = document.createElement('div');
             variantContainer.className = "variant-container";
             this.variantFormNode.appendChild(variantContainer);
         }
 
         const variantWrapper = document.createElement('div');
-        variantWrapper.className = "variant-wrapper";
-        variantContainer.appendChild(variantWrapper);
 
-        variantWrapper.innerHTML += `
+        variantWrapper.classList.add("variant-default");
+        variantWrapper.classList.add(this.isColor ? "variant-color" : "variant");
+
+        variantWrapper.innerHTML = `
             <button class="delete-btn">
                 <i class="fa fa-close"></i>
-            </button>
-            <span class='variant-value' value=${this.inputVariantNode.value}>
-                ${this.inputVariantNode.value}
-            </span>`;
+            </button>`;
+
+        variantWrapper.setAttribute('value', this.inputVariantNode.value);
+
+        if (this.isColor) {
+
+            variantWrapper.style.background = this.inputVariantNode.value;
+            variantWrapper.style.border = "1px solid rgb(221 221 221)";
+
+        } else {
+
+            const productVariantValueSpan = document.createElement('span');
+            productVariantValueSpan.createTextNode(this.inputVariantNode.value);
+            variantWrapper.appendChild(productVariantValueSpan);
+        }
+
+        variantContainer.appendChild(variantWrapper);
 
         this.inputVariantNode.value = '';
-        variantWrapper.addEventListener('click', this.handleDeleteVariant);
+
+        this.variantFormNode.querySelectorAll('.delete-btn').forEach(deletebtn => {
+
+            deletebtn.addEventListener('click', this.handleDeleteVariant);
+        })
 
     }
     handleDeleteVariant(event) {
 
         event.preventDefault();
-        event.currentTarget.remove();
-
+        event.currentTarget.parentElement.remove();
     }
 
     saveProductVariant(event) {
 
         event.preventDefault();
 
-        const variantValuesArrayWrapper = Array.from(this.variantFormNode.querySelectorAll('.variant-wrapper'));
-        let variantValueString = '';
-        if (variantValuesArrayWrapper.length === 0) {
-            alert('قم باضافة قيمة علي الاقل');
-            return;
-        }
-        variantValuesArrayWrapper.forEach(variant => {
+        const variantValuesArray = Array.from(this.variantFormNode.querySelectorAll('.variant-default'));
 
-            variantValueString += variant.querySelector('.variant-value').getAttribute('value') + '|';
-        })
+        let variantValueString = '';
+
+        if (variantValuesArray.length === 0) {
+
+            alert('قم باضافة قيمة علي الاقل');
+            return false;
+        }
+
+        variantValuesArray.forEach(variant => {
+
+            variantValueString += variant.getAttribute('value') + '|';
+        });
+
         const trimmedVariantValueString = variantValueString.slice(0, variantValueString.length - 1);
 
         this.hiddenInputNode.value = trimmedVariantValueString;

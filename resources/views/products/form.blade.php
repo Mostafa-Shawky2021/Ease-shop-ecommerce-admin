@@ -15,8 +15,16 @@
     </div>
     <div class="col-6">
         <label class='label-control' for="brand">البراند</label>
-        <input name='brand' id="brand" class="form-control mt-2"
-            autocomplete="off" value="{{ old('brand', $product->brand ?? '') }}" />
+        <select class='form-control mt-2' name='brand_id'>
+            <option value=''>...</option>
+            @forelse($brands as $brand)
+                <option value={{ $brand->id }} @selected(old('brand_id', $product->brand->id ?? '') == $brand->id)>
+                    {{ $brand->brand_name }}
+                </option>
+            @empty
+                <option disabled>لا يوجد اقسام للعرض</option>
+            @endforelse
+        </select>
     </div>
 </div>
 <div class='row mt-4'>

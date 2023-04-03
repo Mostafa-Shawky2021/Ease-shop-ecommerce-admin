@@ -21,14 +21,18 @@ class ColorController extends Controller
     }
     public function store(Request $request)
     {
+
         $validated = $request->validate([
+
             'colors_name' => 'required'
         ]);
 
         $colorsValueArray = collect(explode('|', $validated['colors_name']));
 
         $colorsValueArray->each(function ($color) {
+
             $colorValueExist = Color::where('color_name', $color)->exists();
+
             if (!$colorValueExist)
                 Color::create(['color_name' => $color]);
         });

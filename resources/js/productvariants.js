@@ -7,7 +7,7 @@ const brandsForm = document.getElementById('brandsForm');
 const selectColorsOtionsWrapper = document.getElementById('selectColorsOtionsWrapper');
 const selectSizesOptionWrapper = document.getElementById('selectSizesOptionWrapper');
 
-colorsForm && new ProductVariant(colorsForm);
+colorsForm && new ProductVariant(colorsForm, true);
 sizesForm && new ProductVariant(sizesForm);
 brandsForm && new ProductVariant(brandsForm);
 
