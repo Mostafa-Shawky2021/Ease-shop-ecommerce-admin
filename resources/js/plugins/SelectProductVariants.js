@@ -19,8 +19,8 @@ class SelectProductVariants {
     }
 
     checkFirstLoad() {
-        const hiddenInputValue = this.hiddenInputProductVariant.value;
 
+        const hiddenInputValue = this.hiddenInputProductVariant.value;
         if (hiddenInputValue.trim()) {
 
             this.selectedVariantValue = hiddenInputValue.split('|').map((value) => Number(value));

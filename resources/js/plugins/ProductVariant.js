@@ -1,7 +1,6 @@
-import { GetColorName } from 'hex-color-to-color-name';
 class ProductVariant {
 
-    constructor(variantFormNode, isColor = false) {
+    constructor(variantFormNode) {
 
         this.variantFormNode = variantFormNode;
 
@@ -12,8 +11,6 @@ class ProductVariant {
         this.saveButtonNode = variantFormNode.querySelector('#saveBtn');
 
         this.addProductNode = variantFormNode.querySelector('#addProductVariant');
-
-        this.isColor = isColor ? isColor : null;
 
         this.handleAddProductVariant = this.handleAddProductVariant.bind(this);
 
@@ -30,7 +27,6 @@ class ProductVariant {
         event.preventDefault();
 
         let variantContainer = this.variantFormNode.querySelector('.variant-container');
-        console.log(Boolean(this.inputVariantNode.value.trim()));
         if (!this.inputVariantNode.value.trim()) {
 
             alert('من افضلك ادخل قيمه')
@@ -44,30 +40,20 @@ class ProductVariant {
         }
 
         const variantWrapper = document.createElement('div');
-
         variantWrapper.classList.add("variant-default");
-        variantWrapper.classList.add(this.isColor ? "variant-color" : "variant");
-
-        variantWrapper.innerHTML = `
-            <button class="delete-btn">
-                <i class="fa fa-close"></i>
-            </button>`;
-
-        variantWrapper.setAttribute('value', this.inputVariantNode.value);
-
-        if (this.isColor) {
-
-            variantWrapper.style.background = this.inputVariantNode.value;
-            variantWrapper.style.border = "1px solid rgb(221 221 221)";
-
-        } else {
-
-            const productVariantValueSpan = document.createElement('span');
-            productVariantValueSpan.createTextNode(this.inputVariantNode.value);
-            variantWrapper.appendChild(productVariantValueSpan);
-        }
 
         variantContainer.appendChild(variantWrapper);
+        variantWrapper.setAttribute('value', this.inputVariantNode.value);
+
+        const productVariantSpan = document.createElement('span');
+        const productVariantValueSpan = document.createTextNode(this.inputVariantNode.value);
+        productVariantSpan.appendChild(productVariantValueSpan);
+        variantWrapper.appendChild(productVariantSpan);
+
+        variantWrapper.innerHTML += `
+            <button class="delete-btn">
+                <i class="fa fa-close"></i>
+            </button>`
 
         this.inputVariantNode.value = '';
 
@@ -77,6 +63,7 @@ class ProductVariant {
         })
 
     }
+
     handleDeleteVariant(event) {
 
         event.preventDefault();
@@ -92,11 +79,9 @@ class ProductVariant {
         let variantValueString = '';
 
         if (variantValuesArray.length === 0) {
-
             alert('قم باضافة قيمة علي الاقل');
             return false;
         }
-
         variantValuesArray.forEach(variant => {
 
             variantValueString += variant.getAttribute('value') + '|';
@@ -109,6 +94,5 @@ class ProductVariant {
         this.variantFormNode.submit();
     }
 }
-
 
 export default ProductVariant;

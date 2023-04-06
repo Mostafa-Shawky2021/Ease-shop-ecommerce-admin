@@ -17,6 +17,7 @@ class CartController extends Controller
         $carts = Cart::with('product')
             ->where('user_id', $userId)
             ->get();
+
         return response($carts);
     }
     public function store(CartRequest $request)
@@ -33,24 +34,19 @@ class CartController extends Controller
                 'quantity' => $request->input('quantity'),
                 'unit_price' => $request->input('unit_price'),
                 'total_price' => $request->input('total_price')
-
             ]);
 
             if ($cart) {
 
-                $cartWithProductData = $cart->with('product')->first();
-
                 return response([
 
                     'Message' => 'Cart Added successfully',
-                    'data' => $cartWithProductData
-
+                    'data' => $cart->loadMissing('product')
                 ], 201);
             }
             return response([
 
                 'Message' => 'Sorry There are error while adding new cart',
-
             ], 422);
 
         }

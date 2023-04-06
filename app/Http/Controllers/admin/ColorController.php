@@ -4,7 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use ourcodeworld\NameThatColor\ColorInterpreter;
 use App\Models\Color;
 
 class ColorController extends Controller
@@ -34,6 +34,7 @@ class ColorController extends Controller
             $colorValueExist = Color::where('color_name', $color)->exists();
 
             if (!$colorValueExist)
+
                 Color::create(['color_name' => $color]);
         });
 

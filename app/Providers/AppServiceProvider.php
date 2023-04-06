@@ -7,6 +7,7 @@ use Illuminate\Pagination\Paginator;
 
 use Illuminate\Database\Eloquent\Model;
 
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -17,6 +18,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         //
+
     }
 
     /**

@@ -15,8 +15,8 @@ use App\Models\Color;
 use App\Models\Size;
 use App\Http\Requests\admin\ProductForm;
 use App\Models\Image;
-
 use App\Traits\ImageStorage;
+
 
 class ProductController extends Controller
 {
@@ -46,7 +46,13 @@ class ProductController extends Controller
             : null;
 
         $productinputFields = $request->safe()
-            ->except(['size_id', 'color_id', 'old_image', 'old_images']);
+            ->except([
+                'size_id',
+                'color_id',
+                'old_image',
+                'old_images',
+                'productImageThumbnails'
+            ]);
 
         $productinputFields['image'] = $brandImagePath;
 
@@ -56,6 +62,7 @@ class ProductController extends Controller
             $product->colors()
                 ->attach(explode('|', $request->input('color_id')));
         }
+
         if ($request->filled('size_id')) {
             $product->sizes()
                 ->attach(explode('|', $request->input('size_id')));
@@ -65,9 +72,7 @@ class ProductController extends Controller
         if ($request->has('productImageThumbnails')) {
 
             $imageThumbnails = $request->file('productImageThumbnails');
-
             self::storeImages($imageThumbnails, 'storage/products', $product);
-
         }
 
         return redirect()
@@ -94,29 +99,36 @@ class ProductController extends Controller
     {
 
         $validatedInputs = $request->safe()
-            ->except('color_id', 'size_id', 'old_image', 'old_images');
+            ->except([
+                'color_id',
+                'size_id',
+                'old_image',
+                'old_images'
+            ]);
 
         $brandImagePath = null;
+
         if ($request->has('image')) {
+
             $brandImagePath = $request->file('image')->store('storage/products');
             $validatedInputs['image'] = $brandImagePath;
+
             if ($product->image) {
                 Storage::exists($product->image) ? Storage::delete($product->image) : null;
             }
 
         }
 
-
         // Check if request payload contain images thumbnails or contain empty old images string
         // empty old images meaning the user deleted the prev thubmnails 
         if ($request->has('productImageThumbnails') || !$request->input('old_images')) {
 
             if ($product->images()->exists()) {
+
                 $product->images->each(fn(Image $image) =>
                     Storage::exists($image->url) ? Storage::delete($image->url) : '');
 
                 $product->images()->delete();
-
             }
 
             $imageThumbnails = $request->file('productImageThumbnails');
@@ -129,9 +141,12 @@ class ProductController extends Controller
 
         $product->update($validatedInputs);
 
+        // null meaning that user deleted the the old color in case it were exist in last time
+        // so need to check if null and there are color related to that product
         if ($request->input('color_id') === null && $product->colors()->exists()) {
             $product->colors()->detach();
 
+            // user choose new value 
         } else if ($request->filled('color_id')) {
             $product->colors()->sync(explode("|", $request->input('color_id')));
         }

@@ -15,6 +15,7 @@ class ProductController extends Controller
     private static $paginationNumber = 25;
     public function index(Request $request)
     {
+
         // check if there are url filter data
         $queryFilterCount = collect($request->except('page'))->count();
         // greater than meaning the query contaienr query fitler string 

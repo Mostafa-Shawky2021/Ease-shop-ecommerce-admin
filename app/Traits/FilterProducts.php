@@ -62,8 +62,10 @@ trait FilterProducts
             $this->filterbyRandomProduct();
         }
         return $this->limitFilter
-            ? $this->productModelFilter->paginate($this->limitFilter)
-            : $this->productModelFilter->paginate(static::$paginationNumber);
+            ? $this->productModelFilter->with(['colors', 'sizes'])
+                ->paginate($this->limitFilter)
+            : $this->productModelFilter->with(['colors', 'sizes'])
+                ->paginate(static::$paginationNumber);
     }
 
     private function filterProductByBrands($queryBrands)
