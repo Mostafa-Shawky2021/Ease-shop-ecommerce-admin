@@ -19,11 +19,16 @@
                                 name="sizes_name" hidden />
                         </div>
                         <div class="mt-3">
-                            <button class="btn btn-primary" id="addProductVariant">اضافة
-                                عنصر
-                                جديد</button>
-                            <button class="btn btn-primary" id="saveBtn">
-                                حفظ</button>
+                            <button class="btn btn-dark" style="font-size:0.8rem"
+                                id="addProductVariant">اضافة
+                                عنصر جديد
+                                <i class="icon fa fa-plus"></i>
+                            </button>
+                            <button class="btn-add d-block ms-auto" id="saveBtn"
+                                style="border-radius:8px;font-size:0.8rem">
+                                حفظ المقاس
+                                <i class="icon fa fa-save"></i>
+                            </button>
                         </div>
                     </div>
                 </form>

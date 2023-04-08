@@ -1,4 +1,4 @@
-class ProductVariant {
+class Variant {
 
     constructor(variantFormNode) {
 
@@ -16,52 +16,29 @@ class ProductVariant {
 
         this.saveProductVariant = this.saveProductVariant.bind(this);
 
+        this.handleDeleteVariant = this.handleDeleteVariant.bind(this);
+
+        this.registerDeleteEvent = this.registerDeleteEvent.bind(this);
+
         this.addProductNode.addEventListener('click', this.handleAddProductVariant);
 
         this.saveButtonNode.addEventListener('click', this.saveProductVariant);
 
     }
 
-    handleAddProductVariant(event) {
+    createElement(elementNode, classesName, parentNode) {
 
-        event.preventDefault();
+        const variantContainer = document.createElement(elementNode);
+        variantContainer.classList.add(...(Array.isArray(classesName) ? classesName : [classesName]));
+        parentNode.appendChild(variantContainer);
+        return variantContainer;
+    }
 
-        let variantContainer = this.variantFormNode.querySelector('.variant-container');
-        if (!this.inputVariantNode.value.trim()) {
-
-            alert('من افضلك ادخل قيمه')
-            return;
-        }
-        if (!variantContainer) {
-
-            variantContainer = document.createElement('div');
-            variantContainer.className = "variant-container";
-            this.variantFormNode.appendChild(variantContainer);
-        }
-
-        const variantWrapper = document.createElement('div');
-        variantWrapper.classList.add("variant-default");
-
-        variantContainer.appendChild(variantWrapper);
-        variantWrapper.setAttribute('value', this.inputVariantNode.value);
-
-        const productVariantSpan = document.createElement('span');
-        const productVariantValueSpan = document.createTextNode(this.inputVariantNode.value);
-        productVariantSpan.appendChild(productVariantValueSpan);
-        variantWrapper.appendChild(productVariantSpan);
-
-        variantWrapper.innerHTML += `
-            <button class="delete-btn">
-                <i class="fa fa-close"></i>
-            </button>`
-
-        this.inputVariantNode.value = '';
+    registerDeleteEvent() {
 
         this.variantFormNode.querySelectorAll('.delete-btn').forEach(deletebtn => {
-
-            deletebtn.addEventListener('click', this.handleDeleteVariant);
-        })
-
+            deletebtn.addEventListener('click', this.handleDeleteVariant)
+        });
     }
 
     handleDeleteVariant(event) {
@@ -82,10 +59,9 @@ class ProductVariant {
             alert('قم باضافة قيمة علي الاقل');
             return false;
         }
-        variantValuesArray.forEach(variant => {
 
-            variantValueString += variant.getAttribute('value') + '|';
-        });
+        variantValuesArray.forEach(variant =>
+            variantValueString += variant.getAttribute('value') + '|');
 
         const trimmedVariantValueString = variantValueString.slice(0, variantValueString.length - 1);
 
@@ -93,6 +69,10 @@ class ProductVariant {
 
         this.variantFormNode.submit();
     }
+
+    handleAddProductVariant(event) { }
+
+
 }
 
-export default ProductVariant;
+export default Variant;

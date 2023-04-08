@@ -4,7 +4,6 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use ourcodeworld\NameThatColor\ColorInterpreter;
 use App\Models\Color;
 
 class ColorController extends Controller
@@ -12,6 +11,7 @@ class ColorController extends Controller
     //
     public function index()
     {
+
         $colors = Color::paginate();
         return view('colors.index', compact('colors'));
     }
@@ -27,15 +27,20 @@ class ColorController extends Controller
             'colors_name' => 'required'
         ]);
 
+
         $colorsValueArray = collect(explode('|', $validated['colors_name']));
 
         $colorsValueArray->each(function ($color) {
 
-            $colorValueExist = Color::where('color_name', $color)->exists();
+            $colorsValue = explode(',', $color);
+            $colorValueExist = Color::where('color_name', $colorsValue[0])->exists();
 
             if (!$colorValueExist)
 
-                Color::create(['color_name' => $color]);
+                Color::create([
+                    'color_name' => $colorsValue[0],
+                    'color_value' => $colorsValue[1],
+                ]);
         });
 
         return redirect()->route('colors.index');

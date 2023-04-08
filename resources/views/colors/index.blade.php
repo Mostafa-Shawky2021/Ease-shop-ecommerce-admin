@@ -14,6 +14,7 @@
             <thead>
                 <tr>
                     <th>الاسم</th>
+                    <th>قيمة اللون</th>
                     <th>اجراء</th>
                 </tr>
             </thead>
@@ -22,6 +23,11 @@
                     @php $routeParamter = ['color' => $color->id] ;@endphp
                     <tr>
                         <td>{{ $color->color_name }}</td>
+                        <td>
+                            <span
+                                style="width:15px;height:15px;background:{{ $color->color_value }}">
+                            </span>
+                        </td>
                         <td>
                             <div class="action-wrapper">
                                 <a class="btn-action"

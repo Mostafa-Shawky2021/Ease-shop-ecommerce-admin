@@ -6,35 +6,50 @@
     .variant-default {
         position: relative;
         margin-top: 1rem;
-        padding: 9px 15px;
+        padding: 10px 15px 10px 27px;
+        border: 1px solid #c9c9c9;
 
         &:not(:first-child) {
             margin-right: 5px;
-
         }
 
         .delete-btn {
             position: absolute;
-            left: 0px;
-            top: 2px;
-            background-color: transparent;
+            left: 2px;
+            top: 4px;
+            background-color: #ECECEC;
             border: none;
-            color: var(--bs-danger);
+            color: #222;
             font-size: 13px;
+            transition: all 0.3s;
         }
 
+        .delete-btn:hover {
+            background-color: var(--bs-primary);
+            color: #fff;
+        }
     }
 
-    .variant-color {
-        border-radius: 3px;
-        width: 33px;
-        height: 33px;
-    }
-
-    .variant {
-        background-color: #212224;
-        color: #fff;
-        border: 1px solid #212224;
+    .variant-size {
         border-radius: 6px;
     }
+
+    .color-variant {
+        border-radius: 3px;
+        gap: 8px;
+
+    }
+
+    .color-variant .color-box {
+        border-radius: 50%;
+        width: 15px;
+        height: 15px;
+    }
+
+    .color-variant .color-text-value {
+        border-right: 1px solid #c9c9c9;
+        padding-right: 5px;
+
+    }
+
 }

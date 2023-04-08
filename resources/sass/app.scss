@@ -14,6 +14,9 @@
 @use "datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css" as *;
 @use 'datatables.net-select-bs5/css/select.bootstrap5.css' as *;
 
+//color picker
+@use '@simonwep/pickr/dist/themes/classic.min.css';
+
 // app style
 // basic
 @use './fonts';
@@ -35,6 +38,7 @@
 @use './components/modal';
 @use './components/orderstatus';
 @use './components/productvariants';
+@use './components/colorpicker';
 
 //pages
 @use './pages/orderdetails';
