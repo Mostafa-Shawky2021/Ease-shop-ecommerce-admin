@@ -3,6 +3,7 @@
 namespace App\Http\Requests\admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CategoryForm extends FormRequest
 {
@@ -23,19 +24,18 @@ class CategoryForm extends FormRequest
      */
     public function rules()
     {
-        $catNameRules = ['required', 'min:3'];
+
 
         $category = $this->route('category') ? $this->route('category') : null;
 
-        if ($category && $this->input('cat_name') !== $category->cat_name) {
-            $catNameRules[] = "unique:categories";
-
-        }
         return [
-            'cat_name' => $catNameRules,
+            'cat_name' => [
+                'required',
+                Rule::unique('categories')->ignore($category->id ?? null)
+            ],
+            'parent_id' => 'nullable|integer',
             'image' => 'required_if:old_image,null|image',
-            'parent_id' => '',
-            'old_image' => '',
+            'image_thumbnail' => 'sometimes|image'
         ];
     }
 }

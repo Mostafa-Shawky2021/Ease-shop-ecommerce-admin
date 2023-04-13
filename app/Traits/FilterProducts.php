@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 
+
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -76,16 +77,19 @@ trait FilterProducts
             $this->productModelFilter->whereHas(
                 'brand',
                 fn($query) => $query->whereIn('brand_name', $brands)
-            ); }
-    private function filterProductByName($productName) {
+            );
+    }
+    private function filterProductByName($productName)
+    {
 
         $this->productModelFilter =
             $this->productModelFilter
+                ->select('products.*')
                 ->join('categories', 'products.category_id', '=', 'categories.id')
                 ->where(
                     function (Builder $query) use ($productName) {
-                        return $query->where('product_name', 'LIKE', "%$productName%")
-                            ->orWhere('cat_name', 'LIKE', "%$productName%");
+                        return $query->where('products.product_name', 'LIKE', "%$productName%")
+                            ->orWhere('categories.cat_name', 'LIKE', "%$productName%");
 
                     }
                 );

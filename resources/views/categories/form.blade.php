@@ -9,7 +9,7 @@
     <div class='col-6'>
         <label class='label-control'>القسم الرئيسي</label>
     </div>
-    <div class="col-12 col-sm-10">
+    <div class="col-6">
         <select class='form-control mt-2' name='parent_id'>
             <option value=''>...</option>
             @forelse($categories as $cat)
@@ -32,9 +32,20 @@
         </div>
     </div>
 </div>
+<div class="mt-4">
+    <label class='label-control'>صورة مصغرة</label>
+    <div class='col-6 mt-2'>
+        <div class="file-wrapper form-control">
+            <input name="old_image_thumbnail" id="oldImage"
+                value="{{ $category->imageThumbnail->url ?? '' }}" hidden />
+            <input type='file' name='image_thumbnail'
+                id='thumbnailCategoryImage' />
+        </div>
+    </div>
+</div>
 <div class="mt-4 text-end">
     <button class="btn-add">
-        <i class="icon fa fa-plus"></i>
         اضافة قسم
+        <i class="icon fa fa-plus"></i>
     </button>
 </div>

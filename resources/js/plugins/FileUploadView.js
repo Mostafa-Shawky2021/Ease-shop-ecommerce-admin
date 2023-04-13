@@ -14,165 +14,183 @@ class FileUploadView {
 
         this.renderModalView = this.renderModalView.bind(this);
 
-        this.handleShowRemoveButton = this.handleShowRemoveButton.bind(this);
+        this.renderRemoveBtn = this.renderRemoveBtn.bind(this);
 
         this.inputFileNode.addEventListener('change', this.handleFileUploaded)
 
         this.checkFirstLoad();
     }
+
+
     checkFirstLoad() {
 
         let oldImagePath = this.parentFileElement.querySelector('#oldImage')?.value;
 
-        if (oldImagePath) {
+        if (!oldImagePath) return false; // no old image found
 
-            if (oldImagePath.search(/\|/) > -1) {
-                oldImagePath = oldImagePath.split("|");
+        oldImagePath = oldImagePath.search(/\|/) > -1
+            ? oldImagePath = oldImagePath.split("|")
+            : oldImagePath;
 
-            }
-
-            this.handleBtnShow();
-            this.handleShowRemoveButton();
-            this.renderModalView(oldImagePath);
-
-        }
+        this.renderBtnShow();
+        this.renderRemoveBtn();
+        this.renderImageWrapper(oldImagePath);
     }
 
     handleFileUploaded(event) {
 
+        this.renderBtnShow(event.target.files);
 
-        this.handleBtnShow(event.target.files);
+        this.renderRemoveBtn();
 
-        this.handleShowRemoveButton();
-
-        this.renderModalView(event.target.files);
-
+        this.renderImageWrapper(event.target.files);
     }
 
-    renderModalView(files) {
+    renderImageWrapper(files) {
 
-        let modalNodeWrapper = this.parentFileElement.querySelector('.modalWrapper');
+        let imageWrapperContainer = this.createElement('div');
+        console.log(this.isImageOld(files))
+        if (this.isImageOld(files)) {
 
-        let renderImage = '';
+            if (typeof files === 'string') {
+                const image = this.createElement('img', 'img-fluid', imageWrapperContainer);
+                imageWrapperContainer.classList.add("image-wrapper-single");
+                image.src = `/${files}`;
+                image.alt = "file image";
 
-        if (!modalNodeWrapper) {
+            } else {
 
-            modalNodeWrapper = document.createElement('div');
-            modalNodeWrapper.className = "modalWrapper";
-            this.parentFileElement.appendChild(modalNodeWrapper);
-        }
-
-        // in case of one file from the server 
-        if (typeof files === 'string') {
-
-            renderImage = `
-                 <div class='image-wrapper-single'>
-                    <img class="img-fluid" src=/${files} alt=${"image"} />
-                </div>`;
-        }
-        else if (Array.isArray(files)) {
-
-            renderImage = `
-                    <div class="image-wrapper-multiple">
-                        ${files.map(file => {
-
-                return "<div class='image'><img src=/" + file + " alt='image'/> </div>";
-            })}
-                </div>`;
-        }
-
-        //  user upload multiple file
-        else if (files.length > 0 && typeof files === 'object') {
-
-            const filesArr = Array.from(files);
-            renderImage = `
-                <div class="image-wrapper-multiple">
-                        ${filesArr.map(file => {
-                const url = URL.createObjectURL(file)
-                return "<div class='image'><img src=" + url + " alt=" + file.name + "/> </div>";
-            })}
-                </div>`;
+                imageWrapper.classList.add('image-wrapper-multiple');
+                files.forEach(file => {
+                    const imageContent = this.createElement('div', 'image-content', imageWrapper);
+                    const image = this.createElement('img', 'img-fluid', imageContent);
+                    image.src = `/${file}`;
+                    image.alt = "file image";
+                });
+            }
 
         } else {
 
-            const url = URL.createObjectURL(files[0])
-            renderImage = `
-                 <div class='image-wrapper-single'>
-                    <img class="img-fluid" src=${url} alt=${files[0].name} />
-                </div>`;
+            if (Array.isArray(files) && files.length > 0) {
+
+                imageWrapperContainer.classList.add('image-wrapper-multiple');
+                files.forEach(file => {
+
+                    const imageContent = this.createElement('div', 'image-content', imageWrapper);
+                    const image = this.createElement('img', 'img-fluid', imageContent);
+                    image.src = URL.createObjectURL(file);
+                    image.alt = "file image";
+                });
+
+            } else {
+
+                imageWrapperContainer.classList.add('image-wrapper-single');
+                const image = this.createElement('img', 'img-fluid', imageWrapperContainer);
+                image.src = URL.createObjectURL(files[0]);
+                image.alt = "file image";
+            }
+
         }
+
+        this.renderModalView(imageWrapperContainer);
+
+    }
+
+    renderModalView(imageWrapperContainerNode) {
+
+        let modalNodeWrapper = this.parentFileElement.querySelector('.modalWrapper');
+
+        modalNodeWrapper = !modalNodeWrapper
+            ? this.createElement('div', 'modalWrapper', this.parentFileElement)
+            : modalNodeWrapper;
 
         const inputNodeId = this.inputFileNode.id;
 
         modalNodeWrapper.innerHTML = `
-            <div class="modal fade" id="${inputNodeId}-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog model-show-image">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">الصور</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body" style='position:realtive;'>
-                             ${renderImage}
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">اغلاق</button>
-                        </div>
+        <div class="modal fade" id="${inputNodeId}-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog model-show-image">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">الصور</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" style='position:realtive;'>
+                       
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">اغلاق</button>
                     </div>
                 </div>
-          </div>`
+            </div>
+      </div>`;
+
+        modalNodeWrapper.querySelector('.modal-body').appendChild(imageWrapperContainerNode);
 
     }
-    handleBtnShow() {
 
-        const inputNodeId = this.inputFileNode.id;
+    isImageOld(image) {
+        // check if the image is old represet regular string or array 
+        // new represet instance of file list
+        if (Array.isArray(image) || typeof image === "string") return true;
+        return false;
+    }
+
+    renderBtnShow() {
+
+        // get input file id so we can bind it to bootstrap modal
+        const inputFileNodeId = this.inputFileNode.id;
 
         let btnShowNode = this.parentFileElement.querySelector('.view-btn');
 
         if (!btnShowNode) {
 
-            btnShowNode = document.createElement('button');
-            btnShowNode.className = 'view-btn btn-action';
+            btnShowNode = this.createElement(
+                "button",
+                ['view-btn', 'btn-action'],
+                this.parentFileElement);
 
-            btnShowNode.setAttribute('data-bs-target', `#${inputNodeId}-modal`);
+            btnShowNode.setAttribute('data-bs-target', `#${inputFileNodeId}-modal`);
             btnShowNode.setAttribute('data-bs-toggle', "modal");
 
-            this.parentFileElement.appendChild(btnShowNode);
-            btnShowNode.innerHTML = `
-            عرض الصورة
-            <i class="fa-solid fa-eye icon"></i>`
+            btnShowNode.innerHTML = ` عرض الصورة <i class="fa-solid fa-eye icon"></i>`
         }
 
-        btnShowNode.onclick = (event) => event.preventDefault();
+        btnShowNode.addEventListener('click', (event) => event.preventDefault());
     }
 
-    handleShowRemoveButton() {
+    renderRemoveBtn() {
 
         let btnShowNode = this.parentFileElement.querySelector('.delete-btn');
 
         if (!btnShowNode) {
 
-            btnShowNode = document.createElement('button');
-            btnShowNode.className = 'delete-btn btn-action';
+            btnShowNode = this.createElement('button', ['delete-btn', 'btn-action'], this.parentFileElement);
 
-            this.parentFileElement.appendChild(btnShowNode)
-            btnShowNode.innerHTML = `
-            حذف الصورة 
-            <i class="fa-solid fa-trash icon"></i>`
+            btnShowNode.innerHTML = `حذف الصورة <i class="fa-solid fa-trash icon"></i>`
         }
+
         btnShowNode.addEventListener('click', this.handleDeleteImage);
     }
+
     handleDeleteImage(event) {
 
         event.preventDefault();
-        this.parentFileElement.querySelector('.delete-btn').remove();
-        this.parentFileElement.querySelector('.view-btn').remove();
-
+        this.parentFileElement.querySelector('.delete-btn')?.remove();
+        this.parentFileElement.querySelector('.view-btn')?.remove();
+        this.parentFileElement.querySelector('.modalWrapper')?.remove();
         this.inputFileNode.value = "";
 
+        // reset old image so server can detected that the user delete old image
         this.parentFileElement.querySelector('#oldImage').value = "";
     }
 
+    createElement(elementNode = 'div', classesName = null, parentNode = null) {
+
+        const createdElement = document.createElement(elementNode);
+        classesName && createdElement.classList.add(...(Array.isArray(classesName) ? classesName : [classesName]));
+        parentNode && parentNode.appendChild(createdElement);
+        return createdElement;
+    }
 
 }
 

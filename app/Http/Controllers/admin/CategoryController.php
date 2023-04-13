@@ -5,9 +5,10 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\admin\CategoryForm;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\DataTables\admin\CategoriesDataTable;
 use App\Models\Category;
-use Illuminate\Support\Facades\Storage;
+use App\Models\Image;
 
 class CategoryController extends Controller
 {
@@ -31,15 +32,21 @@ class CategoryController extends Controller
         $validatedInput = $request->validated();
 
         if ($request->has('image')) {
-            $filePath = $request->file('image')
-                ->store('storage/categories');
+
+            $filePath = $request->file('image')->store('storage/categories');
             $validatedInput['image'] = $filePath;
         }
 
-        Category::create($validatedInput);
+        if ($request->has('image_thumbnail')) {
 
-        return redirect()
-            ->route('categories.index')
+            $filePath = $request->file('image_thumbnail')->store('storage/categories');
+            $imageThumbnail = new Image(['url' => $filePath]);
+        }
+
+        $category = Category::create($validatedInput);
+        $category->imageThumbnail()->save($imageThumbnail);
+
+        return redirect()->route('categories.index')
             ->with([
                 'message' => ['تم اضافة القسم بنجاح', 'success']
             ]);
@@ -79,6 +86,8 @@ class CategoryController extends Controller
         $category->products->each(function ($product) {
             $product->colors()->detach();
             $product->sizes()->detach();
+            // TODO::confirm user first
+            $product->orders()->detach();
         });
 
         $category->products()->delete();

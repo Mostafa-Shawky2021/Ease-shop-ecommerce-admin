@@ -39,4 +39,10 @@ class Category extends Model
     {
         return $this->belongsTo(Category::class, 'parent_id', 'id');
     }
+
+    public function imageThumbnail()
+    {
+
+        return $this->morphOne(Image::class, 'imageable');
+    }
 }

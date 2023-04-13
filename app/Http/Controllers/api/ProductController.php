@@ -18,7 +18,8 @@ class ProductController extends Controller
 
         // check if there are url filter data
         $queryFilterCount = collect($request->except('page'))->count();
-        // greater than meaning the query contaienr query fitler string 
+        // greater than meaning the query contain query fitler string 
+
         if ($queryFilterCount > 0) {
 
             $filteredProduct = $this->filterProducts($request, Product::query());
@@ -26,6 +27,7 @@ class ProductController extends Controller
             if ($filteredProduct->isNotEmpty()) {
 
                 return response([
+
                     'products' => $filteredProduct->items(),
                     'meta_pagination' => [
                         'current_page' => $filteredProduct->currentPage(),

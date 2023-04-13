@@ -18,12 +18,13 @@ class CategoryController extends Controller
     public function index()
     {
 
-        $categories = Category::with('subCategories')
-            ->where('parent_id', null)
-            ->get();
+        $categories = Category::with([
+            'subCategories.imageThumbnail',
+            'imageThumbnail'
+        ])->get();
 
         if ($categories->isEmpty()) {
-            return response(['Message' => 'Sorry no categories in database'], 200);
+            return response(['Message' => 'Sorry no categories in database'], 404);
         }
         return response(['data' => $categories], 200);
     }
@@ -32,7 +33,6 @@ class CategoryController extends Controller
 
         $category = Category::select(['id', 'cat_name'])
             ->firstWhere('cat_slug', $categorySlug);
-
 
         if (!$category) {
             return response(['Message' => 'Sorry no category Exist with slug'], 200);
@@ -46,7 +46,7 @@ class CategoryController extends Controller
 
         $categoriesId->prepend($category->id);
 
-        $product = new Product();
+        $product = Product::query();
 
         $products = $product->whereIn('category_id', $categoriesId);
 

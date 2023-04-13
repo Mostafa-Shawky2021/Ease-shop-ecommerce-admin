@@ -169,7 +169,6 @@ class CartController extends Controller
         return response([
 
             'Message' => 'There are no cart with secific id',
-
         ], 404);
     }
 }

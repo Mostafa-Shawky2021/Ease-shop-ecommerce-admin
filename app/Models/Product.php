@@ -13,7 +13,16 @@ class Product extends Model
     use Sluggable;
     protected $guarded = [];
 
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class)
+            ->withPivot([
+                'size',
+                'color',
+                'quantity'
+            ]);
 
+    }
     public function category()
     {
         return $this->belongsTo(Category::class);
