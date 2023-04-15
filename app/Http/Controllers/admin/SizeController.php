@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Size;
+use Illuminate\Validation\Rule;
 
 class SizeController extends Controller
 {
@@ -47,18 +48,22 @@ class SizeController extends Controller
     {
 
         $validated = $request->validate([
-            'size_name' => 'required|unique:sizes'
+            'size_name' => [
+                'required',
+                Rule::unique('sizes')->ignore($size->id ?? null)
+            ]
         ]);
 
         $size->update($validated);
 
         return redirect()
             ->route('sizes.index')
-            ->with(['Message' => ['تم تحديث المقاس بنجاح', 'success']]);
+            ->with(['message' => ['تم تحديث المقاس بنجاح', 'success']]);
     }
 
     public function destroy(Size $size)
     {
+
         $size->products()->detach();
         $size->delete();
         return redirect()

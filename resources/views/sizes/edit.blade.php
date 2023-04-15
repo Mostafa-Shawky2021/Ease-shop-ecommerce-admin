@@ -24,7 +24,7 @@
                             <input type="text" class="form-control" name="size_name"
                                 id="variantInput" value="{{ $size->size_name }}">
                         </div>
-                        <div class="mt-3">
+                        <div class="mt-4">
                             <button class="btn-add d-block ms-auto" id="editBtn"
                                 style="border-radius:8px;font-size:0.8rem">
                                 تعديل المقاس
