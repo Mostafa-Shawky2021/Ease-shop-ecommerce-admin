@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Brand;
+use Illuminate\Validation\Rule;
 
 class BrandController extends Controller
 {
@@ -45,14 +46,17 @@ class BrandController extends Controller
     {
 
         $validated = $request->validate([
-            'brand_name' => 'required|unique:brands'
+            'brand_name' => [
+                'required',
+                Rule::unique('brands')->ignore($brand->id ?? null)
+            ],
         ]);
 
         $brand->update($validated);
 
         return redirect()
             ->route('brands.index')
-            ->with(['Message' => ['تم تحديث البراند بنجاح', 'success']]);
+            ->with(['message' => ['تم تحديث البراند بنجاح', 'success']]);
 
     }
 
