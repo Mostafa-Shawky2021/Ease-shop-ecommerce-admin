@@ -10,7 +10,9 @@ class Variant {
 
         this.saveButtonNode = variantFormNode.querySelector('#saveBtn');
 
-        this.addProductNode = variantFormNode.querySelector('#addProductVariant');
+        this.addButtonNode = variantFormNode.querySelector('#addProductVariant');
+
+        this.editButtonNode = variantFormNode.querySelector('#editProductVariant');
 
         this.handleAddProductVariant = this.handleAddProductVariant.bind(this);
 
@@ -20,9 +22,9 @@ class Variant {
 
         this.registerDeleteEvent = this.registerDeleteEvent.bind(this);
 
-        this.addProductNode.addEventListener('click', this.handleAddProductVariant);
+        this.addButtonNode?.addEventListener('click', this.handleAddProductVariant);
 
-        this.saveButtonNode.addEventListener('click', this.saveProductVariant);
+        this.saveButtonNode?.addEventListener('click', this.saveProductVariant);
 
     }
 

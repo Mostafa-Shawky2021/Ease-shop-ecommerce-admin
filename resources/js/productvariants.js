@@ -1,5 +1,5 @@
 import { SelectProductVariants } from './plugins';
-import { SizeVariant, ColorVariant } from './plugins/variants';
+import { SizeVariant, ColorVariant, BrandVariant } from './plugins/variants';
 
 
 const colorsForm = document.getElementById('colorsForm');
@@ -11,7 +11,7 @@ const selectSizesOptionWrapper = document.getElementById('selectSizesOptionWrapp
 
 sizesForm && new SizeVariant(sizesForm);
 colorsForm && new ColorVariant(colorsForm);
-brandsForm && new ProductVariant(brandsForm);
+brandsForm && new BrandVariant(brandsForm);
 
 selectColorsOtionsWrapper && new SelectProductVariants(selectColorsOtionsWrapper);
 selectSizesOptionWrapper && new SelectProductVariants(selectSizesOptionWrapper);

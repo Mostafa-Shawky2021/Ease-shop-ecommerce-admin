@@ -7,11 +7,14 @@ class ColorVariant extends Variant {
 
         super(variantFormNode);
 
+        this.editButtonNode = this.variantFormNode.querySelector('#editBtn');
+        console.log(this.editButtonNode);
         this.picker = Pickr.create({
             el: '.color-picker',
             theme: 'classic',
             appClass: 'color-picker-app',
             comparison: true,
+
             container: '.color-picker-wrapper',
             useAsButton: false,
             components: {
@@ -20,16 +23,48 @@ class ColorVariant extends Variant {
                 hue: true,
                 palette: true,
                 interaction: {
-                    hex: false,
+                    hex: true,
                     rgba: true,
                     input: true,
-                    clear: false,
-                    save: false,
-                    cancel: true
+                    cancel: true,
+                    save: true
                 }
             }
         });
 
+        this.picker.on('save', (instance) => this.picker.hide());
+
+        this.handleEditColorVaraint = this.handleEditColorVaraint.bind(this);
+
+        this.editButtonNode?.addEventListener('click', this.handleEditColorVaraint)
+
+        this.loadProductVariant();
+    }
+
+    loadProductVariant() {
+
+        if (!this.hiddenInputNode.value.trim()) return false;
+        const colorValue = this.hiddenInputNode.value.split(',');
+
+        this.picker.setColor(colorValue[1]);
+        this.picker.options.default = colorValue[1];
+
+    }
+
+    handleEditColorVaraint(event) {
+
+        event.preventDefault();
+
+        const colorName = this.inputVariantNode.value.trim();
+        if (!colorName) {
+            alert('لا يجب ان يكون اسم اللون فارغاً')
+            return false;
+        }
+        const colorPickerValue = this.picker.getColor().toHEXA().toString();
+
+        this.hiddenInputNode.value = `${colorName},${colorPickerValue}`;
+
+        this.variantFormNode.submit();
     }
 
     handleAddProductVariant(event) {

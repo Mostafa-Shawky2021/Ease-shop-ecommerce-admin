@@ -19,6 +19,12 @@
         action="{{ route('categories.store') }}">
         @csrf
         @include('categories.form', ['category' => null])
+        <div class="mt-4 text-end">
+            <button class="btn-add">
+                اضافة قسم
+                <i class="icon fa fa-plus"></i>
+            </button>
+        </div>
     </form>
 
 @endsection

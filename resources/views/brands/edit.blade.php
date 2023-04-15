@@ -25,7 +25,7 @@
                                 id="variantInput" value="{{ $brand->brand_name }}">
                         </div>
                         <div class="mt-3">
-                            <button class="btn btn-primary"> تعديل</button>
+                            <button class="btn-add"> تعديل</button>
                         </div>
                     </div>
                 </form>

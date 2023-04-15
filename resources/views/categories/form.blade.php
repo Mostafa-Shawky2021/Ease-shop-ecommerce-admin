@@ -17,7 +17,7 @@
                     {{ $cat->cat_name }}
                 </option>
             @empty
-                <option disabled>Sorry No Categories</option>
+                <option disabled>لا يوجد اقسام</option>
             @endforelse
         </select>
     </div>
@@ -42,10 +42,4 @@
                 id='thumbnailCategoryImage' />
         </div>
     </div>
-</div>
-<div class="mt-4 text-end">
-    <button class="btn-add">
-        اضافة قسم
-        <i class="icon fa fa-plus"></i>
-    </button>
 </div>

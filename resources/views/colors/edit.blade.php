@@ -15,18 +15,16 @@
         <div class="row">
             <div class="col-6">
                 <form action="{{ route('colors.update', $routeParamter) }}"
-                    class="mainform-app py-3 px-3" method="post">
+                    class="mainform-app py-3 px-3" id="colorsForm" method="post">
                     @csrf
                     @method('PUT')
-                    <div>
-                        <label class="label-control">اسم اللون</label>
-                        <div class="mt-3">
-                            <input type="text" class="form-control" name="color_name"
-                                id="variantInput" value="{{ $color->color_name }}">
-                        </div>
-                        <div class="mt-3">
-                            <button class="btn btn-primary"> تعديل</button>
-                        </div>
+                    @include('colors.form', compact('color'))
+                    <div class="mt-4">
+                        <button class="btn-add d-block ms-auto" id="editBtn"
+                            style="border-radius:8px;font-size:0.8rem">
+                            تعديل اللون
+                            <i class="icon fa fa-edit"></i>
+                        </button>
                     </div>
                 </form>
             </div>

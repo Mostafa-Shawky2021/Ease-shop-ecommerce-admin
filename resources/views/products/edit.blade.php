@@ -23,7 +23,7 @@
 
         <div class="mt-4 text-end">
             <button class="btn-add">
-                <i class="icon fa fa-plus"></i>
+                <i class="icon fa fa-edit"></i>
                 تعديل المنتج
             </button>
         </div>

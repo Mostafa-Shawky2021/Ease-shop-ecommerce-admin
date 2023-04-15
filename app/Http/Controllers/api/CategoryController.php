@@ -21,12 +21,12 @@ class CategoryController extends Controller
         $categories = Category::with([
             'subCategories.imageThumbnail',
             'imageThumbnail'
-        ])->get();
+        ])->withCount('products')->get();
 
         if ($categories->isEmpty()) {
             return response(['Message' => 'Sorry no categories in database'], 404);
         }
-        return response(['data' => $categories], 200);
+        return response($categories, 200);
     }
     public function categoryProducts(Request $request, $categorySlug)
     {

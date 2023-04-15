@@ -37,14 +37,14 @@ class CategoryController extends Controller
             $validatedInput['image'] = $filePath;
         }
 
+        $category = Category::create($validatedInput);
+
         if ($request->has('image_thumbnail')) {
 
             $filePath = $request->file('image_thumbnail')->store('storage/categories');
             $imageThumbnail = new Image(['url' => $filePath]);
+            $category->imageThumbnail()->save($imageThumbnail);
         }
-
-        $category = Category::create($validatedInput);
-        $category->imageThumbnail()->save($imageThumbnail);
 
         return redirect()->route('categories.index')
             ->with([
@@ -61,17 +61,38 @@ class CategoryController extends Controller
     }
     public function update(CategoryForm $request, Category $category)
     {
-        $validatedInput = $request->except('old_image');
 
+        $validatedInput = $request->validated();
 
         if ($request->has('image')) {
-            $filePath = $request->file('image')
-                ->store('storage/categories');
+
+            $filePath = $request->file('image')->store('storage/categories');
             $validatedInput['image'] = $filePath;
-            Storage::exists($category->image) ? Storage::delete($category->image) : null;
+            if ($category->image)
+                Storage::exists($category->image) ? Storage::delete($category->image) : null;
         }
+
         $category->update($validatedInput);
 
+        // Check if request payload contain images thumbnails or contain empty old images string
+        // empty old images meaning the user deleted the prev thubmnail 
+        if ($request->has('image_thumbnail') || !$request->input('old_image_thumbnail')) {
+
+            if ($category->imageThumbnail()->exists()) {
+
+                $imagePath = $category->imageThumbnail->url;
+                Storage::exists($imagePath) ? Storage::delete($imagePath) : null;
+                $category->imageThumbnail()->delete();
+            }
+
+            if ($request->has('image_thumbnail')) {
+
+                $imageThumbnailPath = $request->file('image_thumbnail')->store('storage/categories');
+                $imageThumbnail = new Image(['url' => $imageThumbnailPath]);
+                $category->imageThumbnail()->save($imageThumbnail);
+            }
+
+        }
         return redirect()
             ->route('categories.index')
             ->with([
@@ -90,6 +111,15 @@ class CategoryController extends Controller
             $product->orders()->detach();
         });
 
+        if ($category->image) {
+            Storage::exists($category->image) ? Storage::delete($category->image) : null;
+        }
+        if ($category->imageThumbnail()->exists()) {
+
+            $thumbnailPath = $category->imageThumbnail->url;
+            Storage::exists($thumbnailPath) ? Storage::delete($thumbnailPath) : null;
+            $category->imageThumbnail()->delete();
+        }
         $category->products()->delete();
 
         $category->delete();

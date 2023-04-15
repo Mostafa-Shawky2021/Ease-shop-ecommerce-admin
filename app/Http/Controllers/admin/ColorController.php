@@ -48,6 +48,7 @@ class ColorController extends Controller
 
     public function edit(Color $color)
     {
+
         return view('colors.edit', compact('color'));
     }
 
@@ -55,14 +56,31 @@ class ColorController extends Controller
     {
 
         $validated = $request->validate([
-            'color_name' => 'required|unique:colors'
+            'colors_name' => 'required'
         ]);
 
-        $color->update($validated);
+        $colorValueToArr = explode(',', $validated['colors_name']);
+
+        $colorExist = Color::where('color_name', $colorValueToArr[0])
+            ->where('id', '!=', $color->id)
+            ->exists();
+
+
+        if ($colorExist) {
+            return redirect()->back()
+                ->with([
+                    'message' => 'اسم اللون موجود مسبقاً'
+                ]);
+        }
+
+        $color->update([
+            'color_name' => $colorValueToArr[0],
+            'color_value' => $colorValueToArr[1]
+        ]);
 
         return redirect()
             ->route('colors.index')
-            ->with(['Message' => ['تم تحديث الون بنجاح', 'success']]);
+            ->with(['message' => ['تم تحديث الون بنجاح', 'success']]);
 
     }
 

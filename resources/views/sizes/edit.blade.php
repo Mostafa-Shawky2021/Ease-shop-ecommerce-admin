@@ -25,7 +25,11 @@
                                 id="variantInput" value="{{ $size->size_name }}">
                         </div>
                         <div class="mt-3">
-                            <button class="btn btn-primary"> تعديل</button>
+                            <button class="btn-add d-block ms-auto" id="editBtn"
+                                style="border-radius:8px;font-size:0.8rem">
+                                تعديل المقاس
+                                <i class="icon fa fa-edit"></i>
+                            </button>
                         </div>
                     </div>
                 </form>
