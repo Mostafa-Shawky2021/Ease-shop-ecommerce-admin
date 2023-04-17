@@ -1,80 +1,126 @@
 @use '../helper/var';
 
-.table-data-layout {
-    margin-top: 0.3rem;
-
-    td:first-child,
-    th:first-child,
-    td:last-child,
-    th:last-child {
-        border-left-width: 0px !important;
-        border-right-width: 0px !important;
+.datatable-wrapper {
+    .search {
+        width: 212px;
+        font-size: 0.8rem;
+        padding: 7px 26px 7px 13px;
+        border-radius: 14px;
+        border: 1px solid #dedede
     }
 
-    &>:not(caption)>*>* {
-        background-color: #fff !important;
-        box-shadow: none !important;
-        border-width: 0px;
+    .icon-search {
+        position: absolute;
+        right: 9px;
+        top: 7px;
+        color: #888;
     }
 
-    thead th {
-        border-top: 0px !important;
-        background-color: #eff2f7 !important;
-        font-weight: 600;
-        color: #333333;
+    .table-data-layout {
+        margin-top: 1.2rem !important;
 
-    }
+        td:first-child,
+        th:first-child,
+        td:last-child,
+        th:last-child {
+            border-left-width: 0px !important;
+            border-right-width: 0px !important;
+        }
 
-    tbody tr td {
-        border-bottom-width: 0px !important;
-    }
+        .sorting_disabled {
+            padding-right: 16px !important
+        }
 
-    tbody tr:not(:last-child) td {
-        border-bottom: 1px solid #dedede !important;
-    }
+        .sorting_disabled::after {
+            content: "" !important;
 
-    tbody>tr:hover>* {
-        background-color: var.$bodycolor !important;
-    }
+        }
 
-    th,
-    td {
-        padding: 1.2rem 0.86rem;
-        text-align: center !important;
-        font-size: 0.9rem;
-    }
+        .sorting_disabled::before {
+            content: "" !important;
 
-    tbody td {
-        color: #5e5e5e !important;
-        font-weight: 600;
-        vertical-align: middle;
-        max-width: 356px !important;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+        }
 
-    tbody td.image {
-        padding: 0px;
-    }
+        .image {
+            width: 76px !important;
+        }
+
+        &>:not(caption)>*>* {
+            background-color: #fff !important;
+            box-shadow: none !important;
+            border-width: 0px;
+        }
+
+        thead th {
+            border-top: 0px !important;
+            background-color: #eff2f7 !important;
+            font-weight: 600;
+            color: #333333;
 
 
-    .action-wrapper {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 15px;
-    }
+        }
 
-    .action-wrapper .icon-edit {
-        color: var(--bs-green);
-    }
+        tbody tr td {
+            border-bottom-width: 0px !important;
+        }
 
-    .action-wrapper .btn-action {
-        border: none;
-        background-color: transparent;
-    }
+        tbody tr:not(:last-child) td {
+            border-bottom: 1px solid #dedede !important;
+        }
 
-    .action-wrapper .icon-delete {
-        color: var(--bs-danger);
+        tbody>tr:hover>* {
+            background-color: var.$bodycolor !important;
+        }
+
+        th,
+        td {
+            padding: 1rem 0.86rem;
+            text-align: center !important;
+            font-size: 0.8rem;
+        }
+
+        .action-multiple-wrapper {
+            width: 15px !important;
+        }
+
+        tbody td {
+            color: #5e5e5e !important;
+            font-weight: 600;
+            vertical-align: middle;
+            max-width: 356px !important;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .multiple-action {
+            width: 15px;
+            height: 15px;
+            border: 1px solid #dedede
+        }
+
+        tbody td.image {
+            padding: 0px;
+        }
+
+
+        .action-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .action-wrapper .icon-edit {
+            color: var(--bs-green);
+        }
+
+        .action-wrapper .btn-action {
+            border: none;
+            background-color: transparent;
+        }
+
+        .action-wrapper .icon-delete {
+            color: var(--bs-danger);
+        }
     }
 }

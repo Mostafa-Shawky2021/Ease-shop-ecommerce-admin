@@ -60,6 +60,7 @@ Route::prefix('admin')->group(function () {
             Route::get('/products/{product}/edit', 'edit')->name('products.edit');
             Route::put('/products/{product}', 'update')->name('products.update');
             Route::delete("/products/{product}", 'destroy')->name('products.destroy');
+            Route::post('/products/delete', 'deleteMultipleProducts')->name('products.deleteMultiple');
         }
     );
 

@@ -1,3 +1,4 @@
+@php  $urlSegment = Request::segment(2); @endphp
 <aside class="sidebar" id="collapseSidebar">
     <ul class="list list-unstyled">
         <li class="item">
@@ -40,13 +41,10 @@
             </ul>
         </li>
         <li class="item">
-            @php  $urlSegment = Request::segment(2); @endphp
+
             <a @class([
                 'button-toggle',
-                'submenu-visible' =>
-                    $urlSegment === 'products' ||
-                    $urlSegment === 'colors' ||
-                    $urlSegment === 'sizes',
+                'submenu-visible' => $urlSegment === 'products',
             ])>
                 <i class="fa-solid fa-shop icon"></i>
                 <span>المنتجات</span>
@@ -59,6 +57,21 @@
                 <li class="item">
                     <a href="{{ route('products.create') }}">اضافة منتج</a>
                 </li>
+            </ul>
+        </li>
+        <li class="item">
+            <a @class([
+                'button-toggle',
+                'submenu-visible' =>
+                    $urlSegment === 'colors' ||
+                    $urlSegment === 'sizes' ||
+                    $urlSegment === 'brands',
+            ])>
+                <i class="fa-solid fa-box icon"></i>
+                <span>خيارات المنتجات</span>
+                <i class="fa-solid fa-chevron-down chevron icon"></i>
+            </a>
+            <ul class="list-submenu toggle-submenu">
                 <li class="item">
                     <a href="{{ route('colors.index') }}">الالون</a>
                 </li>

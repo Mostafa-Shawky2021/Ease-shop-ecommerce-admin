@@ -163,7 +163,7 @@ class ProductController extends Controller
             ->with(['Message' => ['تم تحديث المنتج بنجاح', 'success']]);
     }
 
-    public function destroy(Product $product)
+    public function destroy(Request $request, Product $product)
     {
 
         $product->colors()->detach();
@@ -181,5 +181,22 @@ class ProductController extends Controller
             ->back()
             ->with(['message' => ['تم حذف المنتج بنجاح', 'success']]);
 
+    }
+
+    public function deleteMultipleProducts(Request $request)
+    {
+        if ($request->ajax()) {
+
+            $deletedCount = Product::whereIn('id', $request->input('id'))->delete();
+            if ($deletedCount > 0) {
+                return response([
+                    'message' => 'Products deleted successfully'
+                ], 200);
+
+            }
+            return response([
+                'message' => 'no products found'
+            ], 404);
+        }
     }
 }

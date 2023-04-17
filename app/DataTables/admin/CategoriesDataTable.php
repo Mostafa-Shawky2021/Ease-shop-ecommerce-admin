@@ -25,6 +25,7 @@ class CategoriesDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addIndexColumn()
+            ->addColumn('action-muliple-wrapper', fn($category) => "<input value='" . $category->id . "'type='checkbox' class='action-multiple-box'/>")
             ->editColumn('image', function (Category $category) {
                 return $category->image
                     ? "<img alt='category-image' src='/$category->image' width='50' height='50'/>"
@@ -45,13 +46,13 @@ class CategoriesDataTable extends DataTable
                         ' . method_field('DELETE') . '
                         ' . csrf_field() . '
                             <button class="btn-action" onclick="return confirm(\'هل انت متاكد؟\')">
-                            <i class="fa fa-trash icon icon-delete"></i>
+                                <i class="fa fa-trash icon icon-delete"></i>
                         </button>
                     </form>
                 </div>';
             return $btn;
 
-        })->rawColumns(['image', 'action', 'parent_category']);
+        })->rawColumns(['action-muliple-wrapper', 'image', 'parent_category', 'action']);
     }
 
     /**
@@ -77,9 +78,9 @@ class CategoriesDataTable extends DataTable
             ->setTableId('categories-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->dom('frtip')
-            ->orderBy(1)
-            ->selectStyleSingle();
+            ->dom('rtip')
+            ->parameters(['order' => [0, 'desc']]);
+        // ->selectStyleSingle();
 
     }
 
@@ -91,11 +92,11 @@ class CategoriesDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('DT_RowIndex')->title('التسلسل')->name('id'),
-            Column::make('image')->title('صورة القسم')->orderable(false)->className('image'),
+            Column::make('action-muliple-wrapper')->addClass('action-multiple-wrapper')->title('#')->name('id'),
+            Column::make('image')->title('صورة المنتج')->orderable(false)->className('image'),
             Column::make('cat_name')->title('اسم القسم'),
             Column::make('parent_category')->title('القسم الرئيسي')->name('id'),
-            Column::make('action')->title('اجراء'),
+            Column::make('action')->title('اجراء')->orderable(false),
         ];
     }
 

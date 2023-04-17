@@ -15,4 +15,5 @@ import './productImageUpload';
 import './categoryImageUpload';
 import './productvariants';
 import './sidebarToggle';
+import './dataTable';
 

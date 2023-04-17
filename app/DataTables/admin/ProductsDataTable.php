@@ -23,10 +23,11 @@ class ProductsDataTable extends DataTable
 
         return (new EloquentDataTable($query))
             ->addIndexColumn()
+            ->addColumn('action-muliple-wrapper', fn($product) => "<input value='" . $product->id . "'type='checkbox' class='action-multiple-box'/>")
             ->editColumn('image', function (Product $product) {
 
                 return $product->image
-                    ? "<img alt='product-image' src='/$product->image' width='50' height='50'/>"
+                    ? "<img alt='product-image' src='/$product->image' width='30' height='30'/>"
                     : 'لا توجد صورة';
             })->editColumn(
                 'category',
@@ -55,7 +56,7 @@ class ProductsDataTable extends DataTable
                 </div>';
             return $btn;
 
-        })->rawColumns(['image', 'action']);
+        })->rawColumns(['image', 'action', 'action-muliple-wrapper']);
 
     }
 
@@ -85,7 +86,7 @@ class ProductsDataTable extends DataTable
             ->minifiedAjax()
             ->parameters([
                 'order' => [0, 'desc']
-            ])->dom('frtip');
+            ])->dom('rtip');
     }
 
     /**
@@ -96,13 +97,13 @@ class ProductsDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('DT_RowIndex')->title('التسلسل')->name('id'),
+            Column::make('action-muliple-wrapper')->addClass('action-multiple-wrapper')->title('#')->name('id'),
             Column::make('image')->title('صورة المنتج')->orderable(false)->className('image'),
             Column::make('product_name')->title('اسم المنتج'),
             Column::make('category')->name('category.cat_name')->title('القسم'),
             Column::make('price')->title('السعر'),
             Column::make('price_discount')->title('السعر بعد الخصم'),
-            Column::make('action')->title('اجراء'),
+            Column::make('action')->title('اجراء')->orderable(false),
 
         ];
     }
