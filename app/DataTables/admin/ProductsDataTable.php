@@ -31,7 +31,7 @@ class ProductsDataTable extends DataTable
                     : 'لا توجد صورة';
             })->editColumn(
                 'category',
-                fn(Product $product) => $product->category->cat_name ?? ''
+                fn(Product $product) => $product->category->cat_name ?? 'لا يوجد'
 
             )->editColumn('price', function (Product $product) {
                 return number_format($product->price);

@@ -25,7 +25,6 @@ class CategoryForm extends FormRequest
     public function rules()
     {
 
-
         $category = $this->route('category') ? $this->route('category') : null;
 
         return [

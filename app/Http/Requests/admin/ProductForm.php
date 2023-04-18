@@ -40,7 +40,7 @@ class ProductForm extends FormRequest
             'image' => 'required_if:old_image,null|image',
             'productImageThumbnails.*' => 'sometimes|image',
             'short_description' => 'required',
-            'category_id' => 'required|numeric',
+            'category_id' => 'nullable|numeric',
             'long_description' => 'sometimes',
             'color_id' => 'sometimes',
             'old_image' => 'sometimes',
