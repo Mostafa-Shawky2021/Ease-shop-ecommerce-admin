@@ -62,10 +62,28 @@ class BrandController extends Controller
 
     public function destroy(Brand $brand)
     {
-        $brand->products()->detach();
         $brand->delete();
         return redirect()
             ->route('brands.index')
             ->with(['Message' => ['تم حذف البراند بنجاح', 'success']]);
     }
+
+    public function deleteMultipleBrands(Request $request)
+    {
+        if ($request->ajax()) {
+
+            // remove related products from intermediate table
+            $deletedCount = Brand::whereIn('id', $request->input('id'))->delete();
+            if ($deletedCount > 0) {
+                return response([
+                    'message' => 'brands deleted successfully'
+                ], 200);
+
+            }
+            return response([
+                'message' => 'no brands found'
+            ], 404);
+        }
+    }
+
 }

@@ -5,6 +5,7 @@ namespace App\Http\Requests\admin;
 use Illuminate\Foundation\Http\FormRequest;
 
 use App\Models\Product;
+use Illuminate\Validation\Rule;
 
 class ProductForm extends FormRequest
 {
@@ -26,17 +27,14 @@ class ProductForm extends FormRequest
     public function rules()
     {
         $product = $this->route('product');
-        $productNameRule = ['min:5', 'required'];
 
-        if ($product) {
-            if ($this->input('product_name') !== $product->product_name) {
-                $productNameRule[] = 'unique:products';
-            }
-
-        }
         return [
-            'product_name' => $productNameRule,
-            'brand_id' => '',
+            'product_name' => [
+                'required',
+                'min:4',
+                Rule::unique('products')->ignore($product->id ?? null)->whereNull('deleted_at')
+            ],
+            'brand_id' => 'nullable',
             'price' => 'required|numeric',
             'price_discount' => 'nullable|numeric|lt:price',
             'image' => 'required_if:old_image,null|image',

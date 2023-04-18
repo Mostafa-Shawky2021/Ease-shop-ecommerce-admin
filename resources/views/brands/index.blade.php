@@ -9,44 +9,52 @@
 @endsection
 
 @section('content')
-    <div class="table-responsive">
-        <table class="table table-data-layout">
-            <thead>
-                <tr>
-                    <th>الاسم</th>
-                    <th>اجراء</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($brands as $brand)
-                    @php $routeParamter = ['brand' => $brand->id] ;@endphp
+    <div class="datatable-wrapper" id="brandsWrapper">
+        @include('partials.datatableheader')
+        <div class="table-responsive">
+            <table class="table table-data-layout">
+                <thead>
                     <tr>
-                        <td>{{ $brand->brand_name }}</td>
-                        <td>
-                            <div class="action-wrapper">
-                                <a class="btn-action"
-                                    href="{{ route('brands.edit', $routeParamter) }}">
-                                    <i class="fa fa-edit icon icon-edit"></i>
-                                </a>
-                                <form method="POST"
-                                    action="{{ route('brands.destroy', $routeParamter) }}">
-                                    @method('DELETE')
-                                    @csrf
-                                    <button class="btn-action"
-                                        onclick="return confirm('هل انت متاكد؟')">
-                                        <i class="fa fa-trash icon icon-delete"></i>
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
+                        <th class="action-multiple-wrapper">#</th>
+                        <th>الاسم</th>
+                        <th>اجراء</th>
                     </tr>
-                @empty
-                    <tr>
-                        <td colspan="2">لا توجد قيم لعرضها</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
-        {{ $brands->links() }}
+                </thead>
+                <tbody>
+                    @forelse($brands as $brand)
+                        @php $routeParamter = ['brand' => $brand->id] ;@endphp
+                        <tr>
+                            <td>
+                                <input value="{{ $brand->id }}" type='checkbox'
+                                    class='action-multiple-box' />
+                            </td>
+                            <td>{{ $brand->brand_name }}</td>
+                            <td>
+                                <div class="action-wrapper">
+                                    <a class="btn-action"
+                                        href="{{ route('brands.edit', $routeParamter) }}">
+                                        <i class="fa fa-edit icon icon-edit"></i>
+                                    </a>
+                                    <form method="POST"
+                                        action="{{ route('brands.destroy', $routeParamter) }}">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button class="btn-action"
+                                            onclick="return confirm('هل انت متاكد؟')">
+                                            <i class="fa fa-trash icon icon-delete"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="2">لا توجد قيم لعرضها</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+            {{ $brands->links() }}
+        </div>
     </div>
 @endsection

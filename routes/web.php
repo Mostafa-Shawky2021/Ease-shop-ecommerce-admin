@@ -48,6 +48,8 @@ Route::prefix('admin')->group(function () {
             Route::get('/categories/{category}/edit', 'edit')->name('categories.edit');
             Route::put('/categories/{category}', 'update')->name('categories.update');
             Route::delete('/categories/{category}', 'destroy')->name('categories.destroy');
+            Route::post('/categories/delete', 'deleteMultipleCategories')->name('categories.deleteMultiple');
+
         }
     );
 
@@ -71,7 +73,7 @@ Route::prefix('admin')->group(function () {
             Route::get('/orders/create', 'create')->name('orders.create');
             Route::get('/orders/{order}', 'show')->name('orders.show');
             Route::put('/orders/{order}', 'update')->name('orders.update');
-            Route::delete('/orders/{order}', 'destroy')->name('orders.destroy');
+            Route::delete('/orders/{order}', 'deleteMultipleOrder')->name('orders.destroy');
         }
     );
 
@@ -84,6 +86,7 @@ Route::prefix('admin')->group(function () {
             Route::get('/colors/{color}/edit', 'edit')->name('colors.edit');
             Route::put('/colors/{color}', 'update')->name('colors.update');
             Route::delete('/colors/{color}', 'destroy')->name('colors.destroy');
+            Route::post('/colors/delete', 'deleteMultipleColor')->name('colors.deleteMultiple');
         }
     );
 
@@ -96,6 +99,8 @@ Route::prefix('admin')->group(function () {
             Route::get('/sizes/{size}/edit', 'edit')->name('sizes.edit');
             Route::put('/sizes/{size}', 'update')->name('sizes.update');
             Route::delete('/sizes/{size}', 'destroy')->name('sizes.destroy');
+            Route::post('/sizes/delete', 'deleteMultipleSizes')->name('sizes.deleteMultiple');
+
         }
     );
 
@@ -108,6 +113,8 @@ Route::prefix('admin')->group(function () {
             Route::get('/brands/{brand}/edit', 'edit')->name('brands.edit');
             Route::put('/brands/{brand}', 'update')->name('brands.update');
             Route::delete('/brands/{brand}', 'destroy')->name('brands.destroy');
+            Route::post('/brands/delete', 'deleteMultipleBrands')->name('brands.deleteMultiple');
+
         }
     );
 

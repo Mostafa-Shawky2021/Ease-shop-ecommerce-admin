@@ -12,9 +12,9 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::table('products', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             //
-            $table->foreignId('brand_id')->nullable()->constrained();
+            $table->tinyInteger('is_admin')->default(0);
         });
     }
 
@@ -25,10 +25,9 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::table('products', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             //
-            $table->dropForeign('products_brand_id_foreign');
-            $table->dropColumn('brand_id');
+            $table->dropColumn('is_admin');
         });
     }
 };

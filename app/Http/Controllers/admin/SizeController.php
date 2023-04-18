@@ -71,5 +71,30 @@ class SizeController extends Controller
             ->with(['Message' => ['تم حذف المقاس بنجاح', 'success']]);
     }
 
+    public function deleteMultipleSizes(Request $request)
+    {
+        if ($request->ajax()) {
+
+            // detach product relation from intermediate table
+            collect($request->input('id'))->each(function ($sizeId) {
+                $size = Size::find($sizeId);
+                if ($size)
+                    $size->products()->detach();
+
+            });
+
+            // detach product relation from intermediate table
+            $deletedCount = Size::whereIn('id', $request->input('id'))->delete();
+            if ($deletedCount > 0) {
+                return response([
+                    'message' => 'sizes deleted successfully'
+                ], 200);
+
+            }
+            return response([
+                'message' => 'no sizes found'
+            ], 404);
+        }
+    }
 
 }

@@ -92,5 +92,30 @@ class ColorController extends Controller
             ->route('colors.index')
             ->with(['Message' => ['تم حذف الون بنجاح', 'success']]);
     }
+    public function deleteMultipleColor(Request $request)
+    {
+        if ($request->ajax()) {
+
+            // detach product relation from intermediate table
+            collect($request->input('id'))->each(function ($colorId) {
+                $color = Color::find($colorId);
+                if ($color)
+                    $color->products()->detach();
+
+            });
+
+            // detach product relation from intermediate table
+            $deletedCount = Color::whereIn('id', $request->input('id'))->delete();
+            if ($deletedCount > 0) {
+                return response([
+                    'message' => 'colors deleted successfully'
+                ], 200);
+
+            }
+            return response([
+                'message' => 'no colors found'
+            ], 404);
+        }
+    }
 
 }

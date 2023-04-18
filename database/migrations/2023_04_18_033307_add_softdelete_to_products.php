@@ -14,7 +14,7 @@ return new class extends Migration {
     {
         Schema::table('products', function (Blueprint $table) {
             //
-            $table->foreignId('brand_id')->nullable()->constrained();
+            $table->softDeletes();
         });
     }
 
@@ -27,8 +27,7 @@ return new class extends Migration {
     {
         Schema::table('products', function (Blueprint $table) {
             //
-            $table->dropForeign('products_brand_id_foreign');
-            $table->dropColumn('brand_id');
+            $table->dropSoftDeletes();
         });
     }
 };

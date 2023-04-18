@@ -9,50 +9,58 @@
 @endsection
 
 @section('content')
-    <div class="table-responsive">
-        <table class="table table-data-layout">
-            <thead>
-                <tr>
-                    <th>الاسم</th>
-                    <th>قيمة اللون</th>
-                    <th>اجراء</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($colors as $color)
-                    @php $routeParamter = ['color' => $color->id] ;@endphp
+    <div class="datatable-wrapper" id="colorsWrapper">
+        @include('partials.datatableheader')
+        <div class="table-responsive">
+            <table class="table table-data-layout">
+                <thead>
                     <tr>
-                        <td>{{ $color->color_name }}</td>
-                        <td>
-                            <span
-                                style="width:15px;height:15px;background:{{ $color->color_value }}">
-                            </span>
-                        </td>
-                        <td>
-                            <div class="action-wrapper">
-                                <a class="btn-action"
-                                    href="{{ route('colors.edit', $routeParamter) }}">
-                                    <i class="fa fa-edit icon icon-edit"></i>
-                                </a>
-                                <form method="POST"
-                                    action="{{ route('colors.destroy', $routeParamter) }}">
-                                    @method('DELETE')
-                                    @csrf
-                                    <button class="btn-action"
-                                        onclick="return confirm('هل انت متاكد؟')">
-                                        <i class="fa fa-trash icon icon-delete"></i>
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
+                        <th class="action-multiple-wrapper">#</th>
+                        <th>الاسم</th>
+                        <th>قيمة اللون</th>
+                        <th>اجراء</th>
                     </tr>
-                @empty
-                    <tr>
-                        <td colspan="2">لا توجد قيم لعرضها</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
-        {{ $colors->links() }}
+                </thead>
+                <tbody>
+                    @forelse($colors as $color)
+                        @php $routeParamter = ['color' => $color->id] ;@endphp
+                        <tr>
+                            <td>
+                                <input value="{{ $color->id }}" type='checkbox'
+                                    class='action-multiple-box' />
+                            </td>
+                            <td>{{ $color->color_name }}</td>
+                            <td>
+                                <span
+                                    style="width:15px;height:15px;background:{{ $color->color_value }}">
+                                </span>
+                            </td>
+                            <td>
+                                <div class="action-wrapper">
+                                    <a class="btn-action"
+                                        href="{{ route('colors.edit', $routeParamter) }}">
+                                        <i class="fa fa-edit icon icon-edit"></i>
+                                    </a>
+                                    <form method="POST"
+                                        action="{{ route('colors.destroy', $routeParamter) }}">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button class="btn-action"
+                                            onclick="return confirm('هل انت متاكد؟')">
+                                            <i class="fa fa-trash icon icon-delete"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="2">لا توجد قيم لعرضها</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+            {{ $colors->links() }}
+        </div>
     </div>
 @endsection

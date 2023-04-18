@@ -12,12 +12,9 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('order_product', function (Blueprint $table) {
-            $table->string('size')->nullable();
-            $table->string('color')->nullable();
-            $table->smallInteger('quantity');
-            $table->foreignId('product_id')->constrained();
-            $table->foreignId('order_id')->constrained();
+        Schema::table('colors', function (Blueprint $table) {
+            //
+            $table->string('color_value')->nullable();
         });
     }
 
@@ -28,8 +25,9 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::table('product_order', function (Blueprint $table) {
+        Schema::table('colors', function (Blueprint $table) {
             //
+            $table->dropColumn('color_value');
         });
     }
 };

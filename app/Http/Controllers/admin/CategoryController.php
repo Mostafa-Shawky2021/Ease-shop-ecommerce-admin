@@ -15,6 +15,7 @@ class CategoryController extends Controller
     //
     public function index(CategoriesDataTable $dataTable)
     {
+
         return $dataTable->render('categories.index');
 
     }
@@ -126,5 +127,25 @@ class CategoryController extends Controller
 
         return redirect()->back()
             ->with(['message' => ['تم حذف القسن بنجاح', 'success']]);
+    }
+
+    public function deleteMultipleCategories(Request $request)
+    {
+
+        if ($request->ajax()) {
+
+
+            $deletedCount = Category::whereIn('id', $request->input('id'))->delete();
+
+            if ($deletedCount > 0) {
+                return response([
+                    'message' => 'Category deleted successfully'
+                ], 200);
+
+            }
+            return response([
+                'message' => 'no products found'
+            ], 404);
+        }
     }
 }

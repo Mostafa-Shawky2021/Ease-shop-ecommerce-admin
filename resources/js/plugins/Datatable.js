@@ -2,31 +2,32 @@ import axios from "axios";
 
 class Datatable {
 
-    constructor(datatableId, url) {
+    constructor(dataTableWrapper, datatableId, url) {
 
         this.selectedValue = [];
 
         this.dataTableId = datatableId;
 
-        this.dataTableWrapper = document.getElementById('datatableWrapper');
+        this.dataTableWrapper = dataTableWrapper;
 
         this.endPointUrl = url;
 
-        this.searchInputNode = this.dataTableWrapper.querySelector('#searchDatatable');
+        this.searchInputNode = this.dataTableWrapper?.querySelector('#searchDatatable');
 
-        this.deleteBtnNode = this.dataTableWrapper.querySelector("#delete-action");
+        this.deleteBtnNode = this.dataTableWrapper?.querySelector("#delete-action");
 
-        this.handleCheckbox = this.handleCheckbox.bind(this);
+        this.handleCheckbox = this.handleCheckbox?.bind(this);
 
-        this.handleDeleteBtn = this.handleDeleteBtn.bind(this);
+        this.handleDeleteBtn = this.handleDeleteBtn?.bind(this);
 
-        this.handleSearchInput = this.handleSearchInput.bind(this);
+        this.handleSearchInput = this.handleSearchInput?.bind(this);
 
-        document.body.addEventListener('click', this.handleCheckbox);
+        this.dataTableWrapper && document.body.addEventListener('click', this.handleCheckbox);
 
-        this.searchInputNode.addEventListener('keyup', this.handleSearchInput);
+        this.searchInputNode?.addEventListener('keyup', this.handleSearchInput);
 
-        this.deleteBtnNode.addEventListener('click', this.handleDeleteBtn);
+        this.deleteBtnNode?.addEventListener('click', this.handleDeleteBtn);
+
     }
 
     handleSearchInput(event) {
@@ -44,7 +45,10 @@ class Datatable {
 
         try {
             const res = await axios.post(this.endPointUrl, { id: this.selectedValue });
-            if (res.status === 200) window.LaravelDataTables[this.dataTableId].draw();
+            if (res.status === 200) {
+                if (this.dataTableId) window.LaravelDataTables[this.dataTableId].draw();
+                else window.location.reload();
+            }
         } catch (error) {
             console.log(error);
         }

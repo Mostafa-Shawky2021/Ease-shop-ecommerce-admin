@@ -12,9 +12,10 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::table('colors', function (Blueprint $table) {
+        Schema::table('products', function (Blueprint $table) {
             //
-            $table->string('color_value')->nullable();
+            $table->dropForeign('products_category_id_foreign');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
         });
     }
 
@@ -25,8 +26,11 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::table('colors', function (Blueprint $table) {
+        Schema::table('products', function (Blueprint $table) {
             //
+            $table->dropForeign('products_category_id_foreign');
+            $table->foreign('category_id')->references('id')->on('categories');
         });
+
     }
 };

@@ -9,14 +9,8 @@
 @endsection
 
 @section('content')
-    <div class="datatable-wrapper" id="datatableWrapper">
-        <div class="d-flex align-items-center justify-content-between">
-            <div style="position:relative">
-                <input id="searchDatatable" class="form-control search" placeholder="بحث" />
-                <span class="icon-search"><i class="fa fa-search"></i></span>
-            </div>
-            <button id="delete-action">delete</button>
-        </div>
+    <div class="datatable-wrapper" id="productsWrapper">
+        @include('partials.datatableheader', ['withSearch' => true])
         {{ $dataTable->table(['class' => 'table table-data-layout']) }}
     </div>
 @endsection

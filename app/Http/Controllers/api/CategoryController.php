@@ -135,7 +135,10 @@ class CategoryController extends Controller
             $subCategories = $category->subCategories;
             return response($subCategories);
         }
-        return [];
+
+        return response([
+            'message' => 'sorry no subcategory exist for that category',
+        ], 404);
     }
 
 
