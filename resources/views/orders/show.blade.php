@@ -28,48 +28,50 @@
                 <span class='status {{ $orderStatusClass }}'>{{ $orderStatusText }}</span>
             </div>
         </header>
-        <div class="table-responsive">
-            <table class="table-data-layout table">
-                <thead>
-                    <tr>
-                        <th>صورة </th>
-                        <th>اسم المنتج</th>
-                        <th>اللون</th>
-                        <th>المقاس</th>
-                        <th>السعر</th>
-                        <th>الكمية</th>
-                        <th>اجمالي السعر</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($order->products as $product)
-                        @php
-                            $productPrice = $product->price_discount ?? $product->price;
-                        @endphp
+        <div class="datatable-wrapper">
+            <div class="table-responsive">
+                <table class="table-data-layout table">
+                    <thead>
                         <tr>
-                            <td class="image" style="width:80px">
-                                <img width="50" height="50"
-                                    src="{{ asset("$product->image") }}"
-                                    alt="{{ $product->product_name }}" />
-                            </td>
-                            <td>{{ $product->product_name }}</td>
-                            <td>{{ $product->pivot->color ?? '--' }}</td>
-                            <td>{{ $product->pivot->size ?? '--' }}</td>
-                            <td> {{ number_format($productPrice) }}</td>
-                            <td>{{ $product->pivot->quantity }}</td>
-                            <td>
-                                @php $totalProductPrice = $productPrice * $product->pivot->quantity; @endphp
-                                {{ number_format($totalProductPrice) }}
-                            </td>
+                            <th>صورة </th>
+                            <th>اسم المنتج</th>
+                            <th>اللون</th>
+                            <th>المقاس</th>
+                            <th>السعر</th>
+                            <th>الكمية</th>
+                            <th>اجمالي السعر</th>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="7">لا توجد منتجات </td>
-                        </tr>
-                    @endforelse
+                    </thead>
+                    <tbody>
+                        @forelse($order->products as $product)
+                            @php
+                                $productPrice = $product->price_discount ?? $product->price;
+                            @endphp
+                            <tr>
+                                <td class="image">
+                                    <img width="30" height="30"
+                                        src="{{ asset("$product->image") }}"
+                                        alt="{{ $product->product_name }}" />
+                                </td>
+                                <td>{{ $product->product_name }}</td>
+                                <td>{{ $product->pivot->color ?? '--' }}</td>
+                                <td>{{ $product->pivot->size ?? '--' }}</td>
+                                <td> {{ number_format($productPrice) }}</td>
+                                <td>{{ $product->pivot->quantity }}</td>
+                                <td>
+                                    @php $totalProductPrice = $productPrice * $product->pivot->quantity; @endphp
+                                    {{ number_format($totalProductPrice) }}
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="7">لا توجد منتجات </td>
+                            </tr>
+                        @endforelse
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <div class="customer-details py-4 px-3 mt-4">

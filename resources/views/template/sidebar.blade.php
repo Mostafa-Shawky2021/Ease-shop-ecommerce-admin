@@ -57,6 +57,10 @@
                 <li class="item">
                     <a href="{{ route('products.create') }}">اضافة منتج</a>
                 </li>
+                <li class="item">
+                    <a href="{{ route('products.index', ['status' => 'trashed']) }}">المنتجات
+                        المحذوفة</a>
+                </li>
             </ul>
         </li>
         <li class="item">
@@ -99,6 +103,11 @@
                 </li>
                 <li class="item">
                     <a href="{{ route('orders.create') }}">اضافة اوردر</a>
+                </li>
+                <li class="item">
+                    <a
+                        href="{{ route('orders.index', ['status' => 'completed']) }}">الاوردرات
+                        المكتملة</a>
                 </li>
             </ul>
         </li>

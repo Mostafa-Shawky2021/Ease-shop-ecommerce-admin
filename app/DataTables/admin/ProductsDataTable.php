@@ -40,13 +40,33 @@ class ProductsDataTable extends DataTable
                 ? $product->price_discount
                 : 'لا يوجد  تخفيض';
         })->addColumn('action', function (Product $product) {
+
             $routeParamter = ['product' => $product->id];
-            $btn =
+            $productStatus = request()->query('status');
+
+            // inject status query string if we in trashed page
+            $routeParamter = $productStatus === 'trashed'
+                ? array_merge($routeParamter, ['status' => 'trashed'])
+                : $routeParamter;
+
+            // if we in trashed page render resotre button
+            $restoreBtn = $productStatus === 'trashed'
+                ? "<form method='POST' action='" . route('products.restore', $routeParamter) . "'> 
+                    " . csrf_field() . "
+                    <button class='btn-action icon-restore' onclick='return confirm(\"هل انت متاكد؟\")'>
+                        <i class='fa fa-rotate'></i>
+                    </button>
+                </form>"
+                : "";
+
+            // edit,restore,delete
+            $actionbtns =
                 '<div class="action-wrapper">
                     <a class="btn-action" href=' . route('products.edit', $routeParamter) . '>
                         <i class="fa fa-edit icon icon-edit"></i>
                     </a>
-                    <form method="POST" action="' . route('products.destroy', ['product' => $product->id]) . '"}}>
+                    ' . $restoreBtn . '
+                    <form method="POST" action="' . route('products.destroy', $routeParamter) . '"}}>
                         ' . method_field('DELETE') . '
                         ' . csrf_field() . '
                         <button class="btn-action" onclick="return confirm(\'هل انت متاكد؟\')">
@@ -54,7 +74,7 @@ class ProductsDataTable extends DataTable
                         </button>
                     </form>
                 </div>';
-            return $btn;
+            return $actionbtns;
 
         })->rawColumns(['image', 'action', 'action-muliple-wrapper']);
 
@@ -68,9 +88,15 @@ class ProductsDataTable extends DataTable
      */
     public function query(Product $model): QueryBuilder
     {
-        return $model->newQuery()
-            ->with('category')
-            ->select('products.*');
+        $productStatus = request()->query('status');
+
+        $modelBuilder = null;
+        if ($productStatus === 'trashed') {
+            $modelBuilder = $model->newQuery()->with('category')->select('products.*')->onlyTrashed();
+        } else {
+            $modelBuilder = $model->newQuery()->with('category')->select('products.*');
+        }
+        return $modelBuilder;
     }
 
     /**
@@ -80,6 +106,7 @@ class ProductsDataTable extends DataTable
      */
     public function html(): HtmlBuilder
     {
+
         return $this->builder()
             ->setTableId('products-table')
             ->columns($this->getColumns())
@@ -96,6 +123,7 @@ class ProductsDataTable extends DataTable
      */
     public function getColumns(): array
     {
+
         return [
             Column::make('action-muliple-wrapper')->addClass('action-multiple-wrapper')->title('#')->name('id'),
             Column::make('image')->title('صورة المنتج')->orderable(false)->className('image'),

@@ -56,12 +56,17 @@ Route::prefix('admin')->group(function () {
     // Products Resource
     Route::controller(ProductController::class)->group(
         function () {
+            // if contain ?staus=trashed will show trashed products
             Route::get('/products', 'index')->name('products.index');
             Route::get('/products/create', 'create')->name('products.create');
             Route::post('/products', 'store')->name('products.store');
-            Route::get('/products/{product}/edit', 'edit')->name('products.edit');
-            Route::put('/products/{product}', 'update')->name('products.update');
-            Route::delete("/products/{product}", 'destroy')->name('products.destroy');
+            Route::get('/products/{product}/edit', 'edit')->name('products.edit')->withTrashed();
+            Route::put('/products/{product}', 'update')->name('products.update')->withTrashed();
+
+            // if contain ?status=trashed will delete product permanently
+            Route::delete("/products/{product}", 'destroy')->name('products.destroy')->withTrashed();
+            Route::post('/products/{product}/restore', 'restoreProduct')->name('products.restore')->withTrashed();
+            Route::post('/products/restore', 'restoreMultipleProducts')->name('products.restoreMultiple')->withTrashed();
             Route::post('/products/delete', 'deleteMultipleProducts')->name('products.deleteMultiple');
         }
     );
@@ -73,7 +78,7 @@ Route::prefix('admin')->group(function () {
             Route::get('/orders/create', 'create')->name('orders.create');
             Route::get('/orders/{order}', 'show')->name('orders.show');
             Route::put('/orders/{order}', 'update')->name('orders.update');
-            Route::delete('/orders/{order}', 'deleteMultipleOrder')->name('orders.destroy');
+            Route::delete('/orders/{order}', 'destory')->name('orders.destroy');
         }
     );
 

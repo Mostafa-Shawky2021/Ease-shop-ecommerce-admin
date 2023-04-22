@@ -9,8 +9,17 @@
 @endsection
 
 @section('content')
-    <div class="datatable-wrapper" id="productsWrapper">
-        @include('partials.datatableheader', ['withSearch' => true])
+    @php
+        $productQuery = Request::query('status');
+        $dataTableId = $productQuery === 'trashed' ? 'trashedProductsWrapper' : 'productsWrapper';
+    @endphp
+    <div class="datatable-wrapper" id="{{ $dataTableId }}">
+        @php
+            $datatableHeaderOptions = ['withSearch' => true];
+            $datatableHeaderOptions = $productQuery === 'trashed' ? array_merge($datatableHeaderOptions, ['withRestoreBtn' => true]) : $datatableHeaderOptions;
+            
+        @endphp
+        @include('partials.datatableheader', $datatableHeaderOptions)
         {{ $dataTable->table(['class' => 'table table-data-layout']) }}
     </div>
 @endsection

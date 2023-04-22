@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Brand;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\Rule;
 
 class BrandController extends Controller
@@ -13,6 +14,7 @@ class BrandController extends Controller
     //
     public function index()
     {
+
         $brands = Brand::paginate();
         return view('brands.index', compact('brands'));
     }

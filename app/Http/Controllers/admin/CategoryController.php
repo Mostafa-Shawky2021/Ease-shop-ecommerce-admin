@@ -106,9 +106,8 @@ class CategoryController extends Controller
         $category->subCategories()->delete();
 
         $category->products->each(function ($product) {
-            $product->colors()->detach();
-            $product->sizes()->detach();
             // TODO::confirm user first
+            $product->deleteProductVariant();
             $product->orders()->detach();
         });
 

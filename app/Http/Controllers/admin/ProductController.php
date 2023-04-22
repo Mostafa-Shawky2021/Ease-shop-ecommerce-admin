@@ -4,7 +4,6 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -80,19 +79,25 @@ class ProductController extends Controller
             ->with(['message' => ['تم اضافة المنتج بنجاح', 'success']]);
     }
 
-    public function edit($product)
+    public function edit(Product $product)
     {
-
-        $product = Product::with(['images', 'sizes', 'colors', 'brand'])
-            ->where('id', $product)
-            ->first();
+        $product = $product->load('images', 'sizes', 'colors', 'brand');
 
         $categories = Category::all();
         $colors = Color::all();
         $sizes = Size::all();
         $brands = Brand::all();
 
-        return view('products.edit', compact('product', 'categories', 'colors', 'sizes', 'brands'));
+        return view(
+            'products.edit',
+            compact(
+                'product',
+                'categories',
+                'colors',
+                'sizes',
+                'brands'
+            )
+        );
     }
 
     public function update(ProductForm $request, Product $product)
@@ -165,18 +170,25 @@ class ProductController extends Controller
 
     public function destroy(Request $request, Product $product)
     {
+        $productStatus = $request->query('status');
 
-        $product->colors()->detach();
-        $product->sizes()->detach();
+        if ($productStatus === 'trashed') {
 
-        if ($product->image) {
-            Storage::exists($product->image) ? Storage::delete($product->image) : null;
-        }
+            $product->deleteProductVariant();
+            $product->orders()->detach();
 
-        $product->images->each(fn(Image $image) =>
-            Storage::exists($image->url) ? Storage::delete($image->url) : null);
-        $product->images()->delete();
-        $product->delete();
+            if ($product->image)
+                Storage::exists($product->image) ? Storage::delete($product->image)
+                    : null;
+
+            $product->images->each(fn(Image $image) =>
+                Storage::exists($image->url) ? Storage::delete($image->url) : null);
+            $product->images()->delete();
+            $product->forceDelete();
+        } else
+            $product->delete();
+
+
         return redirect()
             ->back()
             ->with(['message' => ['تم حذف المنتج بنجاح', 'success']]);
@@ -187,8 +199,32 @@ class ProductController extends Controller
     {
         if ($request->ajax()) {
 
-            $deletedCount = Product::whereIn('id', $request->input('id'))->delete();
+            $products = Product::whereIn('id', $request->input('id'));
+
+            $deletedCount = 0;
+
+            if ($request->query('status') === 'trashed') {
+
+                $products->withTrashed()->each(function ($product) {
+
+                    $product->deleteProductVariant();
+
+                    if ($product->image) {
+
+                        Storage::exists($product->image)
+                            ? Storage::delete($product->image)
+                            : null;
+                    }
+
+                });
+
+                $deletedCount = $products->forceDelete();
+
+            } else
+                $deletedCount = $products->delete();
+
             if ($deletedCount > 0) {
+
                 return response([
                     'message' => 'Products deleted successfully'
                 ], 200);
@@ -199,4 +235,32 @@ class ProductController extends Controller
             ], 404);
         }
     }
+
+    public function restoreProduct(Product $product)
+    {
+
+        $product->restore();
+        return redirect()->back()
+            ->with(['message' => ['تم استعادة المنتج بنجاح', 'success']]);
+    }
+
+    public function restoreMultipleProducts(Request $request)
+    {
+
+        if ($request->ajax()) {
+            $restoredCount = Product::withTrashed()
+                ->whereIn('id', $request->input('id'))
+                ->restore();
+
+            if ($restoredCount > 0) {
+                return response([
+                    'message' => 'products ' . $restoredCount . 'successfully restored'
+                ], 200);
+            }
+            return response([
+                'message' => 'no products to restore'
+            ], 404);
+        }
+    }
+
 }

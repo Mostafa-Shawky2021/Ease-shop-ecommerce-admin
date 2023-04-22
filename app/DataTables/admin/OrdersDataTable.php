@@ -22,6 +22,7 @@ class OrdersDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->setRowId('id')
+            ->addColumn('action-muliple-wrapper', fn($order) => "<input value='" . $order->id . "'type='checkbox' class='action-multiple-box'/>")
             ->editColumn('invoice_number', function ($order) {
                 $orderRoute = ['order' => $order->id];
                 return "<a href='" . route('orders.show', $orderRoute) . "'>$order->invoice_number</a>";
@@ -38,7 +39,8 @@ class OrdersDataTable extends DataTable
                 fn($order) => number_format($order->total_price)
 
             )->editColumn(
-                'order_status', function ($order) {
+                'order_status',
+                function ($order) {
 
                     $btn = '';
                     if ($order->order_status === 0) {
@@ -68,7 +70,7 @@ class OrdersDataTable extends DataTable
                     </div>';
                     return $btns;
                 }
-            )->rawColumns(['action', 'order_status', 'invoice_number']);
+            )->rawColumns(['action', 'order_status', 'invoice_number', 'action-muliple-wrapper']);
     }
 
     /**
@@ -79,7 +81,14 @@ class OrdersDataTable extends DataTable
      */
     public function query(Order $model): QueryBuilder
     {
-        return $model->newQuery()->where('order_status', 0);
+        $queryBuilderModel = null;
+        $orderStatus = request()->query('status');
+
+        $queryBuilderModel = $orderStatus === 'completed'
+            ? $model->newQuery()->where('order_status', 1)
+            : $model->newQuery()->where('order_status', 0);
+
+        return $queryBuilderModel;
     }
 
     /**
@@ -93,7 +102,7 @@ class OrdersDataTable extends DataTable
             ->setTableId('orders-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->dom('frtip')
+            ->dom('rtip')
             ->parameters([
                 'order' =>
                 [4, 'desc']
@@ -109,6 +118,7 @@ class OrdersDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+            Column::make('action-muliple-wrapper')->addClass('action-multiple-wrapper')->title('#')->name('id'),
             Column::make('invoice_number')->title('رقم الفاتورة')->orderable(false),
             Column::make('governorate')->title('المحافظة'),
             Column::make('street')->title('عنوان الشارع'),
