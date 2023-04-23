@@ -40,13 +40,13 @@ class CartController extends Controller
 
                 return response([
 
-                    'Message' => 'Cart Added successfully',
+                    'message' => 'Cart Added successfully',
                     'data' => $cart->loadMissing('product')
                 ], 201);
             }
             return response([
 
-                'Message' => 'Sorry There are error while adding new cart',
+                'message' => 'Sorry There are error while adding new cart',
             ], 422);
 
         }
@@ -74,7 +74,7 @@ class CartController extends Controller
         }
 
         return response([
-            'Message' => 'no record updated',
+            'message' => 'no record updated',
         ], 200);
 
     }
@@ -97,7 +97,7 @@ class CartController extends Controller
 
         return response([
 
-            'Message' => 'product increase successfully',
+            'message' => 'product increase successfully',
             'data' => $cart,
 
         ], 200);
@@ -111,9 +111,7 @@ class CartController extends Controller
         if (!$cart) {
 
             return response([
-
-                'Message' => 'Sorry no cart found with specific id'
-
+                'message' => 'Sorry no cart found with specific id'
             ], 404);
 
         }
@@ -128,7 +126,7 @@ class CartController extends Controller
 
             return response([
 
-                'Message' => 'product decreased successfully',
+                'message' => 'product decreased successfully',
                 'data' => $cart,
 
             ], 200);
@@ -142,7 +140,7 @@ class CartController extends Controller
 
             return response([
                 'data' => ['deletedCartId' => $oldCartId],
-                'Message' => 'cart has been deleted  because it has reached the minimum value',
+                'message' => 'cart has been deleted  because it has reached the minimum value',
 
             ], 200);
         }
@@ -158,17 +156,14 @@ class CartController extends Controller
             $cart->delete();
 
             return response([
-
                 'message' => 'Cart deleted successfully',
                 'data' => $cart
-
             ], 200);
 
         }
 
         return response([
-
-            'Message' => 'There are no cart with secific id',
+            'message' => 'There are no cart with secific id',
         ], 404);
     }
 }

@@ -8,13 +8,22 @@
 @endphp
 <div class='row'>
     <div class="col-6">
-
         <label class='label-control' for="product-name">اسم المنتج</label>
         <input name='product_name' class="form-control mt-2" id="product-name"
             value="{{ old('product_name', $product->product_name ?? '') }}" />
     </div>
     <div class="col-6">
-        <label class='label-control' for="brand">البراند</label>
+        <div class="d-flex justify-content-between">
+            <label class='label-control' for="brand">البراند</label>
+            <button class="btn btn-add-fast" data-bs-toggle="modal"
+                data-bs-target="#productBrandModal" onclick="return false">اضافة
+                براند</button>
+        </div>
+        @include('products.variantmodal', [
+            'id' => 'productBrandModal',
+            'title' => 'اضافه براند',
+            'labelName' => 'اسم البراند',
+        ])
         <select class='form-control mt-2' name='brand_id'>
             <option value=''>...</option>
             @forelse($brands as $brand)
@@ -22,7 +31,7 @@
                     {{ $brand->brand_name }}
                 </option>
             @empty
-                <option disabled>لا يوجد اقسام للعرض</option>
+                <option disabled>لا يوجد براندات للعرض</option>
             @endforelse
         </select>
     </div>
@@ -43,11 +52,21 @@
             class="form-control mt-2" />
     </div>
 </div>
-
-<div class="mt-4">
-    <label class='label-control'>الاقسام</label>
+<div class="mt-4 row">
     <div class="col-6">
-        <select class='form-control mt-2' name='category_id'>
+        <div class="d-flex justify-content-between">
+            <label class='label-control'>الاقسام</label>
+            <button class="btn btn-add-fast" data-bs-toggle="modal"
+                data-bs-target="#productCategoryModal" onclick="return false">اضافة
+                قسم</button>
+        </div>
+
+        @include('products.variantmodal', [
+            'id' => 'productCategoryModal',
+            'title' => 'اضافه قسم',
+            'labelName' => 'اسم القسم',
+        ])
+        <select class='form-control mسt-2' name='category_id'>
             <option value=''>...</option>
             @forelse($categories as $category)
                 <option value={{ $category->id }} @selected(old('category_id', $product->category_id ?? '') == $category->id)>
@@ -57,7 +76,10 @@
                 <option disabled>لا يوجد اقسام للعرض</option>
             @endforelse
         </select>
+
     </div>
+
+
 </div>
 <div class="row mt-4">
     <div class="col-6">

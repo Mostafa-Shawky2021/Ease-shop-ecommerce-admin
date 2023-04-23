@@ -11,6 +11,10 @@
     border-radius: 20px;
     font-size: 0.8rem;
 
+    .spinner {
+        display: none;
+    }
+
     &:hover,
     &:focus {
         background-color: #066a6c;

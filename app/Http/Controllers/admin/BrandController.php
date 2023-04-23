@@ -24,10 +24,31 @@ class BrandController extends Controller
     }
     public function store(Request $request)
     {
+
+        if ($request->ajax()) {
+
+            $validated = $request->validate([
+                'brand_name' => 'required'
+            ]);
+
+            $brandValueExist = Brand::where('brand_name', $validated['brand_name'])->exists();
+            $brandData = null;
+            $brandData = !$brandValueExist ? Brand::create($validated) : null;
+
+            if ($brandData) {
+                return response([
+                    'message' => 'brand added successfully',
+                    'data' => $brandData
+                ], 201);
+
+            }
+            return response([
+                'message' => 'the brand name has already exist'
+            ], 422);
+        }
         $validated = $request->validate([
             'brands_name' => 'required'
         ]);
-
         $brandsValueArray = collect(explode('|', $validated['brands_name']));
 
         $brandsValueArray->each(function ($brand) {

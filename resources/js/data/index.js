@@ -1,1 +1,1 @@
-export { default as URI } from './uri';
+export { default as dataTableUri } from './dataTableUri';

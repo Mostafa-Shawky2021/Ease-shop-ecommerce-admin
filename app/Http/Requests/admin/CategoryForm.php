@@ -24,7 +24,11 @@ class CategoryForm extends FormRequest
      */
     public function rules()
     {
-
+        // if (request()->ajax()) {
+        //     return [
+        //         'cat_name' => 'required|min:3|unique:categories'
+        //     ];
+        // }
         $category = $this->route('category') ? $this->route('category') : null;
 
         return [

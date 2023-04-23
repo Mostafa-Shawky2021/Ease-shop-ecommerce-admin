@@ -1,5 +1,5 @@
 import Pickr from "@simonwep/pickr/dist/pickr.es5.min";
-import Variant from "./Variant";
+import Variant from "./VariantForm";
 
 class ColorVariant extends Variant {
 
@@ -7,8 +7,8 @@ class ColorVariant extends Variant {
 
         super(variantFormNode);
 
-        this.editButtonNode = this.variantFormNode.querySelector('#editBtn');
-        console.log(this.editButtonNode);
+        this.editButtonNode = this.variantFormNode?.querySelector('#editBtn');
+
         this.picker = Pickr.create({
             el: '.color-picker',
             theme: 'classic',

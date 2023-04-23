@@ -1,12 +1,12 @@
-import Variant from './Variant';
+import VariantForm from './VariantForm';
 
-class BrandVariant extends Variant {
+class SizeVariant extends VariantForm {
+
     constructor(variantFormNode) {
         super(variantFormNode);
     }
 
     handleAddProductVariant(event) {
-
 
         event.preventDefault();
 
@@ -24,12 +24,12 @@ class BrandVariant extends Variant {
 
         const variantWrapper = this.createElement(
             'div',
-            ['variant-default', 'variant-brand'],
+            ['variant-default', 'variant-size'],
             variantContainer);
 
         variantWrapper.setAttribute('value', this.inputVariantNode.value);
 
-        const productVariantSpan = this.createElement('span', 'brand-text-value', variantWrapper);
+        const productVariantSpan = this.createElement('span', 'size-text-value', variantWrapper);
 
         const productVariantValueSpan = document.createTextNode(this.inputVariantNode.value);
         productVariantSpan.appendChild(productVariantValueSpan);
@@ -40,7 +40,9 @@ class BrandVariant extends Variant {
         deleteButton.innerHTML = '<i class="fa fa-close"></i>';
 
         this.registerDeleteEvent();
+
     }
+
 }
 
-export default BrandVariant;
+export default SizeVariant;
