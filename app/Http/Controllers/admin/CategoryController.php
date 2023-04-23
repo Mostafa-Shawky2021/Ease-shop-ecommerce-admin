@@ -46,7 +46,12 @@ class CategoryController extends Controller
             $imageThumbnail = new Image(['url' => $filePath]);
             $category->imageThumbnail()->save($imageThumbnail);
         }
-
+        if ($request->ajax()) {
+            return response([
+                'message' => 'Category created successfully',
+                'data' => $category
+            ], 201);
+        }
         return redirect()->route('categories.index')
             ->with([
                 'message' => ['تم اضافة القسم بنجاح', 'success']

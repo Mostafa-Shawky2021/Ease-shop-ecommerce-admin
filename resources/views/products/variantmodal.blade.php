@@ -14,6 +14,7 @@
                 <div>
                     <label class="label-control">{{ $labelName }}</label>
                     <input class="form-control mt-2" id="variantInput" />
+
                     <button type="button" id="btnSave"
                         class="btn-add mt-3 d-flex">
                         حفظ

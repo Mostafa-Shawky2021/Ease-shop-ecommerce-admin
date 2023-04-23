@@ -2,17 +2,17 @@ class ProductAjaxForm {
 
     constructor(productVariantModal) {
 
-        this.productVariantModal = productVariantModal;
+        this._productVariantModal = productVariantModal;
         this._errorMsg = "";
-        this._errorBox = productVariantModal.querySelector('.modal-body #error');
-        this._variantInputNode = productVariantModal.querySelector('.modal-body #variantInput');
-        this._saveBtnNode = productVariantModal.querySelector('.modal-body #btnSave');
+        this._errorBox = this._productVariantModal.querySelector('.modal-body #error');
+        this._variantInputNode = this._productVariantModal.querySelector('.modal-body #variantInput');
+        this._saveBtnNode = this._productVariantModal.querySelector('.modal-body #btnSave');
 
         this.handleSaveProductVariantValue = this.handleSaveProductVariantValue.bind(this);
         this.handleCloseModal = this.handleOnCloseModal.bind(this);
 
         this._saveBtnNode?.addEventListener('click', this.handleSaveProductVariantValue);
-        productVariantModal.addEventListener('hide.bs.modal', this.handleCloseModal);
+        this._productVariantModal.addEventListener('hide.bs.modal', this.handleCloseModal);
 
     }
 

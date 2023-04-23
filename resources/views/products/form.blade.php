@@ -66,7 +66,7 @@
             'title' => 'اضافه قسم',
             'labelName' => 'اسم القسم',
         ])
-        <select class='form-control mسt-2' name='category_id'>
+        <select class='form-control mt-2' name='category_id'>
             <option value=''>...</option>
             @forelse($categories as $category)
                 <option value={{ $category->id }} @selected(old('category_id', $product->category_id ?? '') == $category->id)>

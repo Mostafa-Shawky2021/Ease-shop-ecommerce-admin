@@ -24,11 +24,7 @@ class CategoryForm extends FormRequest
      */
     public function rules()
     {
-        // if (request()->ajax()) {
-        //     return [
-        //         'cat_name' => 'required|min:3|unique:categories'
-        //     ];
-        // }
+
         $category = $this->route('category') ? $this->route('category') : null;
 
         return [
@@ -37,7 +33,7 @@ class CategoryForm extends FormRequest
                 Rule::unique('categories')->ignore($category->id ?? null)
             ],
             'parent_id' => 'nullable|integer',
-            'image' => 'required_if:old_image,null|image',
+            'image' => 'sometimes|image',
             'image_thumbnail' => 'sometimes|image'
         ];
     }

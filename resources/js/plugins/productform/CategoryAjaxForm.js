@@ -9,7 +9,6 @@ class CategoryAjaxForm extends ProductAjaxForm {
         super(productVariantModal);
 
         this._categorySelectBox = productVariantModal.nextElementSibling;
-
         this._modalBootstrap = new bootstrap.Modal(document.getElementById('productCategoryModal'));
 
     }
@@ -22,7 +21,7 @@ class CategoryAjaxForm extends ProductAjaxForm {
 
         if (!this.checkProductVariantValue(categoryVariantValue)) return false;
 
-        this.sendProductVariantValue({ cat_name: brandVariantValue });
+        this.sendProductVariantValue({ cat_name: categoryVariantValue });
 
     }
 
@@ -32,17 +31,17 @@ class CategoryAjaxForm extends ProductAjaxForm {
 
         try {
 
-            const res = await axios.post(productFormVariantUri.ADD_BRAND, variantValue);
+            const res = await axios.post(productFormVariantUri.ADD_CATEGORY, variantValue);
 
             if (res.status === 201) {
-                const lastOption = this._brandSelectBox.length - 1;
-                const isDisableOptionExist = this._brandSelectBox[lastOption].disabled;
+                const lastOption = this._categorySelectBox.length - 1;
+                const isDisableOptionExist = this._categorySelectBox[lastOption].disabled;
 
-                if (isDisableOptionExist) this._brandSelectBox[lastOption].remove();
+                if (isDisableOptionExist) this._categorySelectBox[lastOption].remove();
 
                 const { data } = res.data;
-                const option = new Option(data.brand_name, data.id, false, true);
-                this._brandSelectBox[lastOption] = option;
+                const option = new Option(data.cat_name, data.id, false, true);
+                this._categorySelectBox[lastOption] = option;
 
                 this._saveBtnNode.querySelector('.icon').style.display = "block";
                 this._saveBtnNode.querySelector('.spinner').style.display = "none";
@@ -81,3 +80,5 @@ class CategoryAjaxForm extends ProductAjaxForm {
     }
 
 }
+
+export default CategoryAjaxForm;
