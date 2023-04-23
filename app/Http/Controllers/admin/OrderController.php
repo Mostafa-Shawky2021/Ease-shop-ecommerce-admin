@@ -35,7 +35,25 @@ class OrderController extends Controller
             return redirect()->route('orders.index');
         }
 
+    }
 
+    public function deleteMultipleOrder(Request $request)
+    {
 
+        if ($request->ajax()) {
+
+            $deletedCount = Order::whereIn('id', $request->input('id'))->delete();
+
+            if ($deletedCount > 0) {
+
+                return response([
+                    'message' => 'orders deleted successfully'
+                ], 200);
+
+            }
+            return response([
+                'message' => 'no orders found'
+            ], 404);
+        }
     }
 }

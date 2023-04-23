@@ -79,6 +79,7 @@ Route::prefix('admin')->group(function () {
             Route::get('/orders/{order}', 'show')->name('orders.show');
             Route::put('/orders/{order}', 'update')->name('orders.update');
             Route::delete('/orders/{order}', 'destory')->name('orders.destroy');
+            Route::post('/orders/delete', 'deleteMultipleOrder')->name('orders.deleteMultiple');
         }
     );
 
