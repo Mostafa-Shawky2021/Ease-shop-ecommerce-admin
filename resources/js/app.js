@@ -13,5 +13,5 @@ import './categoryImageUpload';
 import './productvariants';
 import './sidebarToggle';
 import './dataTable';
-
+import './layoutImageUpload';
 

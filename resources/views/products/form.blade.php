@@ -115,7 +115,6 @@
     <div class='col-6 mt-2'>
         <div class="file-wrapper">
             @php
-                
                 $thumbnailsImages = null;
                 if ($product && $product->images->isNotEmpty()) {
                     $thumbnailsImages = $product->images->map(fn($image) => $image->url)->implode('|');

@@ -4,7 +4,6 @@ namespace App\Traits;
 
 use App\Models\Image;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 
 trait ImageStorage
 {

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\admin\LayoutHomepageCarousel;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\ProductController;
@@ -29,6 +30,16 @@ Route::get('/', function (Request $request) {
 
 Route::prefix('admin')->group(function () {
 
+    //Layout Resource
+    Route::controller(LayoutHomepageCarousel::class)->group(function () {
+        Route::get('/layout/homepage/carousel', 'index')->name('layout.homepage.carousel');
+        Route::get('/layout/homepage/carousel/create', 'create')->name('layout.homepage.carousel.create');
+        Route::post('/layout/homepage/carousel', 'store')->name('layout.homepage.carousel.store');
+        Route::get('/layout/homepage/{carousel}/edit', 'edit')->name('layoutfront.homepage.carousel.edit');
+        Route::put('/layout/homepage/{carousel}', 'update')->name('layoutfront.homepage.carousel.update');
+        Route::delete('/layout/homepage/{carousel}', 'destroy')->name('layoutfront.homepage.carousel.destroy');
+
+    });
     // User Resource
     Route::controller(UserController::class)->group(
         function () {

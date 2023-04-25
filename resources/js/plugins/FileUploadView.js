@@ -49,7 +49,7 @@ class FileUploadView {
     renderImageWrapper(files) {
 
         let imageWrapperContainer = this.createElement('div');
-        console.log(this.isImageOld(files))
+
         if (this.isImageOld(files)) {
 
             if (typeof files === 'string') {
@@ -62,7 +62,7 @@ class FileUploadView {
 
                 imageWrapper.classList.add('image-wrapper-multiple');
                 files.forEach(file => {
-                    const imageContent = this.createElement('div', 'image-content', imageWrapper);
+                    const imageContent = this.createElement('div', 'image-content', imageWrapperContainer);
                     const image = this.createElement('img', 'img-fluid', imageContent);
                     image.src = `/${file}`;
                     image.alt = "file image";
@@ -71,12 +71,12 @@ class FileUploadView {
 
         } else {
 
-            if (Array.isArray(files) && files.length > 0) {
+            if (files instanceof FileList && files.length > 1) {
 
                 imageWrapperContainer.classList.add('image-wrapper-multiple');
                 files.forEach(file => {
 
-                    const imageContent = this.createElement('div', 'image-content', imageWrapper);
+                    const imageContent = this.createElement('div', 'image-content', imageWrapperContainer);
                     const image = this.createElement('img', 'img-fluid', imageContent);
                     image.src = URL.createObjectURL(file);
                     image.alt = "file image";

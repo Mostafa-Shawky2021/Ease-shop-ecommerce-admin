@@ -52,7 +52,7 @@ class CategoryController extends Controller
                 'data' => $category
             ], 201);
         }
-        return redirect()->route('categories.index')
+        return redirect()->route('catego    ries.index')
             ->with([
                 'message' => ['تم اضافة القسم بنجاح', 'success']
             ]);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Http\Requests\api\StoreOrderRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -18,13 +19,14 @@ class OrderController extends Controller
     {
 
     }
-    public function store(Request $request)
+    public function store(StoreOrderRequest $request)
     {
 
         $guestId = $request->input('guest_id');
 
-        $user = User::where('guest_id', $guestId)->first();
+        $user = User::firstWhere('guest_id', $guestId);
 
+        // if user dosen't exist create one so we can make realtion with order data
         if (!$user) {
             $user = User::create([
                 'guest_id' => $request->input('guest_id'),
@@ -36,28 +38,30 @@ class OrderController extends Controller
 
         // calc total price 
         $totalCartsPrice = 0;
-        foreach ($guestUserCarts as $cart) {
-            $totalCartsPrice += $cart->total_price;
-        }
 
-        $order = Order::create([
+        foreach ($guestUserCarts as $cart)
+            $totalCartsPrice += $cart->total_price;
+
+        // merge the order details with 
+        $validatedInputs = $request->safe()->merge([
             'invoice_number' => self::generateInvoice(),
-            'username' => $request->input('username'),
-            'phone' => $request->input('phone'),
-            'governorate' => $request->input('governorate'),
-            'street' => $request->input('street'),
-            'email' => $request->input('email'),
-            'order_notes' => $request->input('order_notes'),
             'user_id' => $user->id,
             'total_price' => $totalCartsPrice
-        ]);
+        ])->toArray();
+
+        $order = Order::create($validatedInputs);
 
         if ($order) {
-            $guestUserCarts->map(function ($cart) use ($order) {
-                $order->products()->attach($cart->product_id, ['quantity' => $cart->quantity]);
-                $cart->delete();
-            });
-            return response(['message' => 'order created successfully'], 201);
+            $guestUserCarts->map(
+                function ($cart) use ($order) {
+                    $order->products()->attach($cart->product_id, ['quantity' => $cart->quantity]);
+                    $cart->delete();
+                }
+            );
+            return response([
+                'message' => 'order created successfully',
+                'data' => $order
+            ], 201);
         }
 
         return response(['message' => 'Error with creating order'], 422);

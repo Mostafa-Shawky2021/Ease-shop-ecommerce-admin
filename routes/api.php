@@ -59,7 +59,6 @@ Route::controller(CategoryController::class)->group(function () {
 
 });
 
-
 //Auth Resource
 Route::controller(AuthController::class)->group(function () {
 
@@ -71,12 +70,12 @@ Route::controller(AuthController::class)->group(function () {
 //Cart Resource
 Route::controller(CartController::class)->group(function () {
 
-	Route::get('/carts/user/{userid}', 'index');
+	Route::get('/carts/user/{user}', 'index');
 	Route::post('/carts', 'store');
-	Route::put('/carts/user/{userid}', 'update')->middleware('auth:sanctum');
+	Route::put('/carts/user/{user}', 'update')->middleware('auth:sanctum');
 	Route::put('/carts/{cart}/increment', 'increaseProduct');
 	Route::put('/carts/{cart}/decrement', 'decreaseProduct');
-	Route::delete('/carts/{cartId}', 'destroy');
+	Route::delete('/carts/{cart}', 'destroy');
 
 });
 

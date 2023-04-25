@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\api;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\CartRequest;
 use App\Http\Controllers\Controller;
 
+use App\Http\Requests\api\StoreCartRequest;
 use App\Models\Cart;
 
 class CartController extends Controller
@@ -20,36 +20,23 @@ class CartController extends Controller
 
         return response($carts);
     }
-    public function store(CartRequest $request)
+    public function store(StoreCartRequest $request)
     {
 
-        if ($request->validated()) {
+        $validatedInputs = $request->validated();
+        $cart = Cart::create($validatedInputs);
 
-            $cart = Cart::create([
+        if ($cart) {
 
-                'user_id' => $request->input('user_id'),
-                'product_id' => $request->input('product_id'),
-                'size' => $request->input('size'),
-                'color' => $request->input('color'),
-                'quantity' => $request->input('quantity'),
-                'unit_price' => $request->input('unit_price'),
-                'total_price' => $request->input('total_price')
-            ]);
-
-            if ($cart) {
-
-                return response([
-
-                    'message' => 'Cart Added successfully',
-                    'data' => $cart->loadMissing('product')
-                ], 201);
-            }
             return response([
-
-                'message' => 'Sorry There are error while adding new cart',
-            ], 422);
-
+                'message' => 'Cart Added successfully',
+                'data' => $cart->loadMissing('product')
+            ], 201);
         }
+
+        return response([
+            'message' => 'Sorry There are error while adding new cart',
+        ], 422);
 
     }
     public function update(Request $request, $userId)
@@ -79,42 +66,29 @@ class CartController extends Controller
 
     }
 
-    public function increaseProduct(Request $request, $cart)
+    public function increaseProduct(Request $request, Cart $cart)
     {
-
-        $cart = Cart::find($cart);
-
-        if (!$cart) {
-
-            return response(['Message' => 'Sorry no cart found with specific id'], 404);
-        }
 
         $cart->quantity += $request->has('quantity') ? $request->input('quantity') : 1;
 
         $cart->total_price = $cart->unit_price * $cart->quantity;
 
-        $cart->save();
+        if ($cart->save()) {
+            return response([
+
+                'message' => 'product increase successfully',
+                'data' => $cart,
+
+            ], 200);
+        }
 
         return response([
-
-            'message' => 'product increase successfully',
-            'data' => $cart,
-
-        ], 200);
+            'message' => 'error while increase product'
+        ], 422);
 
     }
-    public function decreaseProduct(Request $request, $cart)
+    public function decreaseProduct(Request $request, Cart $cart)
     {
-
-        $cart = Cart::find($cart);
-
-        if (!$cart) {
-
-            return response([
-                'message' => 'Sorry no cart found with specific id'
-            ], 404);
-
-        }
 
         if ($cart->quantity > 1) {
 
@@ -122,29 +96,29 @@ class CartController extends Controller
 
             $cart->total_price = $cart->unit_price * $cart->quantity;
 
-            $cart->save();
+            if ($cart->save()) {
 
+                return response([
+                    'message' => 'product decreased successfully',
+                    'data' => $cart,
+                ], 200);
+            }
             return response([
-
-                'message' => 'product decreased successfully',
-                'data' => $cart,
-
-            ], 200);
-
+                'message' => 'error while decrease product'
+            ], 422);
         }
+
         $oldCartId = $cart->id;
 
-        $cartDeletedStatus = $cart->delete();
+        $isCartDeleted = $cart->delete();
 
-        if ($cartDeletedStatus) {
+        if ($isCartDeleted) {
 
             return response([
                 'data' => ['deletedCartId' => $oldCartId],
                 'message' => 'cart has been deleted  because it has reached the minimum value',
-
             ], 200);
         }
-
 
     }
     public function destroy(Request $request, $cartId)

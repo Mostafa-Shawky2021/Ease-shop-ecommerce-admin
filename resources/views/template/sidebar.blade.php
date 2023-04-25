@@ -2,6 +2,30 @@
 <aside class="sidebar" id="collapseSidebar">
     <ul class="list list-unstyled">
         <li class="item">
+            <a href="#" class="title">العرض</a>
+        </li>
+        <li class="item">
+            <a @class([
+                'button-toggle',
+                'submenu-visible' => Request::segment(2) === 'layout',
+            ])>
+                <i class="fa-solid fa-tags icon"></i>
+                <span>الصفحة الرئيسية</span>
+                <i class="fa-solid fa-chevron-down chevron icon"></i>
+            </a>
+            <ul class="list-submenu toggle-submenu">
+                <li class="item">
+                    <a href="{{ route('layout.homepage.carousel') }}">السليدر</a>
+                </li>
+                <li class="item">
+                    <a href="{{ route('categories.create') }}">اضافة قسم</a>
+                </li>
+            </ul>
+        </li>
+        <li class="item">
+            <a href="#" class="title">الادارة</a>
+        </li>
+        <li class="item">
             <a class="button-toggle" data-toggle="toggle-submenu">
                 <i class="fa fa-user icon"></i>
                 <span>المستخدمين</span>
