@@ -33,7 +33,6 @@ Route::prefix('admin')->group(function () {
 
     //Layout Resources
     Route::resource('layout/homepage/carousel', LayoutHomepageCarouselController::class)->except(['show']);
-    Route::resource('layout/homepage/topcategories', LayoutHomepageTopcategoriesController::class)->except(['show']);
 
     // User Resource
     Route::controller(UserController::class)->group(
@@ -43,7 +42,6 @@ Route::prefix('admin')->group(function () {
             Route::post('/users', 'store')->name('users.store');
         }
     );
-
 
     //Category Resource
     Route::controller(CategoryController::class)->group(

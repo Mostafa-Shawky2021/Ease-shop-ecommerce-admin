@@ -10,13 +10,7 @@ use Illuminate\Support\Facades\Route;
 class Category extends Model
 {
     use HasFactory, Sluggable;
-    protected $fillable =
-        [
-            'cat_name',
-            'image',
-            'parent_id',
-            'description'
-        ];
+    protected $guarded = [];
 
     public function sluggable(): array
     {
@@ -44,4 +38,5 @@ class Category extends Model
 
         return $this->morphOne(Image::class, 'imageable');
     }
+
 }

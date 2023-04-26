@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\admin\CategoryForm;
+use App\Http\Requests\admin\StoreCategoryForm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\DataTables\admin\CategoriesDataTable;
@@ -27,7 +27,7 @@ class CategoryController extends Controller
 
         return view('categories.create', compact('categories'));
     }
-    public function store(CategoryForm $request)
+    public function store(StoreCategoryForm $request)
     {
 
         $validatedInput = $request->validated();
@@ -36,6 +36,11 @@ class CategoryController extends Controller
 
             $filePath = $request->file('image')->store('storage/categories');
             $validatedInput['image'] = $filePath;
+        }
+
+        if ($request->has('image_topcategory')) {
+            $filePath = $request->file('image_topcategory')->store('storage/categories');
+            $validatedInput['image_topcategory'] = $filePath;
         }
 
         $category = Category::create($validatedInput);
@@ -52,7 +57,7 @@ class CategoryController extends Controller
                 'data' => $category
             ], 201);
         }
-        return redirect()->route('catego    ries.index')
+        return redirect()->route('categories.index')
             ->with([
                 'message' => ['تم اضافة القسم بنجاح', 'success']
             ]);
@@ -65,7 +70,7 @@ class CategoryController extends Controller
             ->get();
         return view('categories.edit', compact('categories', 'category'));
     }
-    public function update(CategoryForm $request, Category $category)
+    public function update(StoreCategoryForm $request, Category $category)
     {
 
         $validatedInput = $request->validated();

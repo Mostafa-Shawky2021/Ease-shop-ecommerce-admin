@@ -12,7 +12,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Color;
 use App\Models\Size;
-use App\Http\Requests\admin\ProductForm;
+use App\Http\Requests\admin\StoreProductForm;
 use App\Models\Image;
 use App\Traits\ImageStorage;
 
@@ -36,7 +36,7 @@ class ProductController extends Controller
         return view('products.create', compact('categories', 'colors', 'sizes', 'brands'));
     }
 
-    public function store(ProductForm $request)
+    public function store(StoreProductForm $request)
     {
 
         $brandImagePath = null;
@@ -101,7 +101,7 @@ class ProductController extends Controller
         );
     }
 
-    public function update(ProductForm $request, Product $product)
+    public function update(StoreProductForm $request, Product $product)
     {
 
         $validatedInputs = $request->safe()

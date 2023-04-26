@@ -5,7 +5,7 @@ namespace App\Http\Requests\admin;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class CategoryForm extends FormRequest
+class StoreCategoryForm extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -33,8 +33,10 @@ class CategoryForm extends FormRequest
                 Rule::unique('categories')->ignore($category->id ?? null)
             ],
             'parent_id' => 'nullable|integer',
-            'image' => 'sometimes|image',
-            'image_thumbnail' => 'sometimes|image'
+            'image' => 'image',
+            'image_thumbnail' => 'image',
+            'is_special' => 'sometimes',
+            'image_topcategory' => 'image',
         ];
     }
 }

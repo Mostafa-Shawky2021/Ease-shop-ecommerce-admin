@@ -43,3 +43,24 @@
         </div>
     </div>
 </div>
+<div class="mt-4">
+    <label class='label-control' for="is_special">حالة القسم</label>
+    <div class='col-6 mt-2'>
+        <select class="form-control" name="is_special" id="is_special"
+            style="font-size:0.8rem">
+            <option value="0">عادي</option>
+            <option value="1">مميز</option>
+        </select>
+    </div>
+</div>
+<div class="mt-4">
+    <label class='label-control'>صورة مميزة للقسم</label>
+    <div class='col-6 mt-2'>
+        <div class="file-wrapper form-control">
+            <input name="old_image" id="oldImage"
+                value="{{ $category->image_topcategory ?? '' }}" hidden />
+            <input type='file' name='image_topcategory'
+                id='topCategoryImageFile' />
+        </div>
+    </div>
+</div>
