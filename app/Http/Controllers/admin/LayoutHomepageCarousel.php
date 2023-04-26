@@ -12,20 +12,20 @@ use App\Models\Carousel;
 use App\Traits\ImageStorage;
 use App\Models\Image;
 
-class LayoutHomepageCarousel extends Controller
+class LayoutHomepageCarouselController extends Controller
 {
     //
     use ImageStorage;
-    public function index()
+    public function index(Request $request)
     {
+
         $carouselHomePage = Carousel::first();
-        return view('layoutfront.homepagecarousel.index', compact('carouselHomePage'));
+        return view('layoutfront.homepage.carousel.index', compact('carouselHomePage'));
     }
     public function create()
     {
-        return view('layoutfront.homepagecarousel.create');
+        return view('layoutfront.homepage.carousel.create');
     }
-
 
     public function store(StoreCarouselRequest $request)
     {
@@ -42,7 +42,7 @@ class LayoutHomepageCarousel extends Controller
         }
 
         return redirect()
-            ->route('layout.homepage.carousel')
+            ->route('carousel.index')
             ->with([
                 'message' => ['تم اضافة المنتج بنجاح', 'success']
             ]);
@@ -51,7 +51,7 @@ class LayoutHomepageCarousel extends Controller
     public function edit(Carousel $carousel)
     {
 
-        return view('layoutfront.homepagecarousel.edit', compact('carousel'));
+        return view('layoutfront.homepage.carousel.edit', compact('carousel'));
 
     }
 
@@ -84,11 +84,11 @@ class LayoutHomepageCarousel extends Controller
         }
         if ($carousel->update($validatedInputs)) {
             return redirect()
-                ->route('layout.homepage.carousel')
+                ->route('carousel.index')
                 ->with(['message' => ['تم تحديث السليدر بنجاح', 'success']]);
         }
         return redirect()
-            ->route('layout.homepage.carousel')
+            ->route('carousel.index')
             ->with(['message' => ['حدثت مشكله اثناء التعديل حاول مره اخري', 'error']]);
     }
 
@@ -100,12 +100,12 @@ class LayoutHomepageCarousel extends Controller
 
         if ($carousel->delete()) {
             return redirect()
-                ->route('layout.homepage.carousel')
+                ->route('carousel.index')
                 ->with(['message' => ['تم حذف السليدر بنجاح', 'success']]);
         }
 
         return redirect()
-            ->route('layout.homepage.carousel')
+            ->route('carousel.index')
             ->with(['message' => ['حدثت مشكله اثناء التعديل حاول مره اخري', 'error']]);
     }
 }

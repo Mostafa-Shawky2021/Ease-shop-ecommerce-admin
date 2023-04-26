@@ -2,7 +2,7 @@
 
 @section('header-content')
     <h5> بيانات السليدر</h5>
-    <a class="btn-add" href="{{ route('layout.homepage.carousel.create') }}">
+    <a class="btn-add" href="{{ route('carousel.create') }}">
         اضافة محتوي
         <i class="icon fa fa-plus"></i>
     </a>
@@ -26,7 +26,9 @@
                     </tr>
                 @else
                     <tr>
-                        <td>{{ $carouselHomePage->content }}</td>
+                        <td style="text-align:right !important;">
+                            {!! $carouselHomePage->content ?? 'لا يوجد' !!}
+                        </td>
                         <td>{{ $carouselHomePage->carousel_time }}</td>
                         <td>
                             @forelse($carouselHomePage->images as $image)
@@ -40,11 +42,11 @@
                             <div class="action-wrapper">
                                 @php $routeParamter = ['carousel' => $carouselHomePage->id] @endphp
                                 <a class="btn-action"
-                                    href="{{ route('layoutfront.homepage.carousel.edit', $routeParamter) }}">
+                                    href="{{ route('carousel.edit', $routeParamter) }}">
                                     <i class="fa fa-edit icon icon-edit"></i>
                                 </a>
                                 <form method="POST"
-                                    action="{{ route('layoutfront.homepage.carousel.destroy', $routeParamter) }}">
+                                    action="{{ route('carousel.destroy', $routeParamter) }}">
                                     @method('DELETE')
                                     @csrf
                                     <button class="btn-action"

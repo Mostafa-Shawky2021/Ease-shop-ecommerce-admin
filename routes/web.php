@@ -1,8 +1,9 @@
 <?php
 
+use App\Http\Controllers\admin\LayoutHomepageTopcategoriesController;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\admin\LayoutHomepageCarousel;
+use App\Http\Controllers\admin\LayoutHomepageCarouselController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\ProductController;
@@ -30,16 +31,10 @@ Route::get('/', function (Request $request) {
 
 Route::prefix('admin')->group(function () {
 
-    //Layout Resource
-    Route::controller(LayoutHomepageCarousel::class)->group(function () {
-        Route::get('/layout/homepage/carousel', 'index')->name('layout.homepage.carousel');
-        Route::get('/layout/homepage/carousel/create', 'create')->name('layout.homepage.carousel.create');
-        Route::post('/layout/homepage/carousel', 'store')->name('layout.homepage.carousel.store');
-        Route::get('/layout/homepage/{carousel}/edit', 'edit')->name('layoutfront.homepage.carousel.edit');
-        Route::put('/layout/homepage/{carousel}', 'update')->name('layoutfront.homepage.carousel.update');
-        Route::delete('/layout/homepage/{carousel}', 'destroy')->name('layoutfront.homepage.carousel.destroy');
+    //Layout Resources
+    Route::resource('layout/homepage/carousel', LayoutHomepageCarouselController::class)->except(['show']);
+    Route::resource('layout/homepage/topcategories', LayoutHomepageTopcategoriesController::class)->except(['show']);
 
-    });
     // User Resource
     Route::controller(UserController::class)->group(
         function () {

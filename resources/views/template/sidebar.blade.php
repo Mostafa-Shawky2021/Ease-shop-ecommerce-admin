@@ -7,7 +7,7 @@
         <li class="item">
             <a @class([
                 'button-toggle',
-                'submenu-visible' => Request::segment(2) === 'layout',
+                'submenu-visible' => Request::is('admin/layout*'),
             ])>
                 <i class="fa-solid fa-tags icon"></i>
                 <span>الصفحة الرئيسية</span>
@@ -15,10 +15,11 @@
             </a>
             <ul class="list-submenu toggle-submenu">
                 <li class="item">
-                    <a href="{{ route('layout.homepage.carousel') }}">السليدر</a>
+                    <a href="{{ route('carousel.index') }}">السليدر</a>
                 </li>
                 <li class="item">
-                    <a href="{{ route('categories.create') }}">اضافة قسم</a>
+                    {{-- <a href="{{ route('layout.homepage.topcateogires') }}">الاقسام --}}
+                    المتميزة</a>
                 </li>
             </ul>
         </li>
@@ -26,7 +27,10 @@
             <a href="#" class="title">الادارة</a>
         </li>
         <li class="item">
-            <a class="button-toggle" data-toggle="toggle-submenu">
+            <a @class([
+                'button-toggle',
+                'submenu-visible' => Request::is('admin/users*'),
+            ]) data-toggle="toggle-submenu">
                 <i class="fa fa-user icon"></i>
                 <span>المستخدمين</span>
                 <i class="fa-solid fa-chevron-down chevron icon"></i>
@@ -49,7 +53,7 @@
         <li class="item">
             <a @class([
                 'button-toggle',
-                'submenu-visible' => Request::segment(2) === 'categories',
+                'submenu-visible' => Request::is('admin/categories*'),
             ])>
                 <i class="fa-solid fa-tags icon"></i>
                 <span>الاقسام</span>
@@ -68,7 +72,7 @@
 
             <a @class([
                 'button-toggle',
-                'submenu-visible' => $urlSegment === 'products',
+                'submenu-visible' => Request::is('admin/products*'),
             ])>
                 <i class="fa-solid fa-shop icon"></i>
                 <span>المنتجات</span>
@@ -91,9 +95,9 @@
             <a @class([
                 'button-toggle',
                 'submenu-visible' =>
-                    $urlSegment === 'colors' ||
-                    $urlSegment === 'sizes' ||
-                    $urlSegment === 'brands',
+                    Request::is('admin/color*') ||
+                    Request::is('admin/sizes*') ||
+                    Request::is('admin/brands*'),
             ])>
                 <i class="fa-solid fa-box icon"></i>
                 <span>خيارات المنتجات</span>
@@ -113,10 +117,7 @@
         </li>
         <li class="item">
 
-            <a @class([
-                'button-toggle',
-                'submenu-visible' => Request::segment(2) === 'orders',
-            ])>
+            <a @class(['button-toggle', 'submenu-visible' => Request::is('orders*')])>
                 <i class="fa-solid fa-cart-shopping icon"></i>
                 <span>الاوردرات</span>
                 <i class="fa-solid fa-chevron-down chevron icon"></i>

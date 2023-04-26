@@ -1,5 +1,6 @@
 // bootstrap
 @use 'bootstrap/dist/css/bootstrap.rtl.min.css';
+
 @use 'bootstrap-icons/font/bootstrap-icons.css';
 
 //summernote editor
@@ -16,6 +17,7 @@
 
 //color picker
 @use '@simonwep/pickr/dist/themes/classic.min.css';
+
 
 // app style
 // basic
@@ -39,6 +41,6 @@
 @use './components/orderstatus';
 @use './components/productvariants';
 @use './components/colorpicker';
-
+@use './components/summernotestyle';
 //pages
 @use './pages/orderdetails';

@@ -60,7 +60,7 @@ class FileUploadView {
 
             } else {
 
-                imageWrapper.classList.add('image-wrapper-multiple');
+                imageWrapperContainer.classList.add('image-wrapper-multiple');
                 files.forEach(file => {
                     const imageContent = this.createElement('div', 'image-content', imageWrapperContainer);
                     const image = this.createElement('img', 'img-fluid', imageContent);

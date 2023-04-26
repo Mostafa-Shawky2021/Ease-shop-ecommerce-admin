@@ -15,10 +15,9 @@
         </ul>
     @endif
     <form class='mainform-app px-3 py-3' style="margin-top:1rem;"
-        enctype='multipart/form-data' method="post"
-        action="{{ route('layout.homepage.carousel.store') }}">
+        enctype='multipart/form-data' method="post" action="{{ route('carousel.store') }}">
         @csrf
-        @include('layoutfront.homepagecarousel.form', [
+        @include('layoutfront.homepage.carousel.form', [
             'carousel' => null,
         ])
         <div class="mt-4 text-end">

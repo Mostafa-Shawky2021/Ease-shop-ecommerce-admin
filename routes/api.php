@@ -1,8 +1,10 @@
 <?php
 
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\api\LayoutController;
 use App\Http\Controllers\api\CategoryController;
 use App\Http\Controllers\api\ProductController;
 use App\Http\Controllers\api\AuthController;
@@ -27,12 +29,16 @@ use App\Http\Controllers\api\ProductVariantController;
 // });
 
 
+// Layout Resource
+Route::controller(LayoutController::class)->group(function () {
 
-// Product Variants
+	Route::get('/layout', 'index');
+});
+
+// Product Variants Resource
 Route::controller(ProductVariantController::class)->group(function () {
 
 	Route::get('/productvariants', 'index');
-
 });
 
 // Products Resource
@@ -64,7 +70,6 @@ Route::controller(AuthController::class)->group(function () {
 
 	Route::post('/login', 'authenticate');
 	Route::post('/register', 'store');
-
 });
 
 //Cart Resource

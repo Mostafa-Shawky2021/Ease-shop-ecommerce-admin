@@ -27,6 +27,7 @@ class ProductController extends Controller
     }
     public function create()
     {
+
         $categories = Category::all();
         $colors = Color::all();
         $sizes = Size::all();

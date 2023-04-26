@@ -58,6 +58,7 @@ class Product extends Model
         ];
     }
 
+
     public function deleteProductVariant()
     {
         $this->sizes()->detach();
@@ -65,4 +66,5 @@ class Product extends Model
 
         return true;
     }
+
 }

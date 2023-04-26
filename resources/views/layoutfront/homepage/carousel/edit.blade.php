@@ -16,10 +16,10 @@
     @endif
     <form class='mainform-app px-3 py-3' style="margin-top:1rem;"
         enctype='multipart/form-data' method="post"
-        action="{{ route('layoutfront.homepage.carousel.update', ['carousel' => $carousel->id]) }}">
+        action="{{ route('carousel.update', ['carousel' => $carousel->id]) }}">
         @csrf
         @method('PUT')
-        @include('layoutfront.homepagecarousel.form', [
+        @include('layoutfront.homepage.carousel.form', [
             'carousel' => $carousel,
         ])
         <div class="mt-4 text-end">
@@ -30,16 +30,3 @@
         </div>
     </form>
 @endsection
-
-
-@push('scripts')
-    <script type="module">
-
-    $('#editor').summernote({
-        placeholder: 'Hello Bootstrap 5',
-        tabsize: 2,
-        height: 160,
-      });
-
-    </script>
-@endpush

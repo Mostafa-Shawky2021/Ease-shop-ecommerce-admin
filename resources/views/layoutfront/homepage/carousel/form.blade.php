@@ -25,3 +25,28 @@
         <input type='file' name='images[]' id='sliderImages' multiple />
     </div>
 </div>
+
+
+@push('scripts')
+    <script type="module">
+
+    $('#editor').summernote({
+        placeholder: 'Write Here!',
+        lineHeights:['0.2', '0.3', '0.4', '0.5', '0.6', '0.8', '1.0', '1.2', '1.4', '1.5', '2.0', '3.0'],
+        fontSizes:['15','17','20','23','27','33','35','38','42','45','48','50'],
+        tabsize: 2,
+        height: 200,
+        toolbar: [
+          ['style', ['italic', 'underline','clear']],
+          ['fontsize', ['fontsize']],
+          ['font', ['bold', 'underline', 'clear']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph','height','style']],
+          ['insert', ['link', 'picture', 'video','hr']],
+          ['view', ['fullscreen', 'help','undo','redo']]
+        ]
+      });
+
+
+    </script>
+@endpush
