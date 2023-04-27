@@ -29,13 +29,18 @@ class CategoryController extends Controller
     }
     public function store(StoreCategoryForm $request)
     {
-
         $validatedInput = $request->validated();
 
         if ($request->has('image')) {
 
             $filePath = $request->file('image')->store('storage/categories');
             $validatedInput['image'] = $filePath;
+        }
+
+        if ($request->has('image_thumbnail')) {
+
+            $filePath = $request->file('image_thumbnail')->store('storage/categories');
+            $validatedInput['image_thumbnail'] = $filePath;
         }
 
         if ($request->has('image_topcategory')) {
@@ -45,12 +50,6 @@ class CategoryController extends Controller
 
         $category = Category::create($validatedInput);
 
-        if ($request->has('image_thumbnail')) {
-
-            $filePath = $request->file('image_thumbnail')->store('storage/categories');
-            $imageThumbnail = new Image(['url' => $filePath]);
-            $category->imageThumbnail()->save($imageThumbnail);
-        }
         if ($request->ajax()) {
             return response([
                 'message' => 'Category created successfully',
@@ -75,35 +74,63 @@ class CategoryController extends Controller
 
         $validatedInput = $request->validated();
 
+        // store uploaded image
         if ($request->has('image')) {
-
             $filePath = $request->file('image')->store('storage/categories');
             $validatedInput['image'] = $filePath;
-            if ($category->image)
-                Storage::exists($category->image) ? Storage::delete($category->image) : null;
+        }
+
+        // in case oldimage field is empty meaning that user delete the image or it was firt uploaded image
+        if (!$request->input('old_image') || $request->has('image')) {
+
+            if ($category->image) {
+                Storage::exists($category->image)
+                    ? Storage::delete($category->image)
+                    : null;
+                $category->image = null;
+            }
+
+        }
+
+        if ($request->has('image_thumbnail')) {
+
+            $imageThumbnailPath = $request->file('image_thumbnail')->store('storage/categories');
+            $validatedInput['image_thumbnail'] = $imageThumbnailPath;
+        }
+
+        // Check if request payload contain image thumbnail or contain empty old images string
+        // empty old images meaning the user deleted the prev thubmnail 
+        if ($request->has('image_thumbnail') || !$request->input('old_image_thumbnail')) {
+
+            if ($category->image_thumbnail) {
+
+                Storage::exists($category->image_thumbnail)
+                    ? Storage::delete($category->image_thumbnail)
+                    : null;
+                $category->image_thumbnail = null;
+            }
+        }
+
+        // store top category image
+        if ($request->has('image_topcategory')) {
+
+            $filePath = $request->file('image_topcategory')->store('storage/categories');
+            $validatedInput['image_topcategory'] = $filePath;
+        }
+
+        // in case oldimage field is empty meaning that user delete the image or it was firt uploaded image
+        if ($request->input('image_topcategory') || !$request->input('old_image_topcategory')) {
+
+            if ($category->image_topcategory) {
+                Storage::exists($category->image_topcategory)
+                    ? Storage::delete($category->image_topcategory)
+                    : null;
+            }
         }
 
         $category->update($validatedInput);
 
-        // Check if request payload contain images thumbnails or contain empty old images string
-        // empty old images meaning the user deleted the prev thubmnail 
-        if ($request->has('image_thumbnail') || !$request->input('old_image_thumbnail')) {
 
-            if ($category->imageThumbnail()->exists()) {
-
-                $imagePath = $category->imageThumbnail->url;
-                Storage::exists($imagePath) ? Storage::delete($imagePath) : null;
-                $category->imageThumbnail()->delete();
-            }
-
-            if ($request->has('image_thumbnail')) {
-
-                $imageThumbnailPath = $request->file('image_thumbnail')->store('storage/categories');
-                $imageThumbnail = new Image(['url' => $imageThumbnailPath]);
-                $category->imageThumbnail()->save($imageThumbnail);
-            }
-
-        }
         return redirect()
             ->route('categories.index')
             ->with([
@@ -124,12 +151,18 @@ class CategoryController extends Controller
         if ($category->image) {
             Storage::exists($category->image) ? Storage::delete($category->image) : null;
         }
-        if ($category->imageThumbnail()->exists()) {
 
-            $thumbnailPath = $category->imageThumbnail->url;
-            Storage::exists($thumbnailPath) ? Storage::delete($thumbnailPath) : null;
-            $category->imageThumbnail()->delete();
+        if ($category->image_topcategory) {
+            Storage::exists($category->image_topcategory)
+                ? Storage::delete($category->image_topcategory)
+                : null;
         }
+        if ($category->image_thumbnail) {
+            Storage::exists($category->image_thumbnail)
+                ? Storage::delete($category->image_thumbnail)
+                : null;
+        }
+
         $category->products()->delete();
 
         $category->delete();
@@ -142,7 +175,6 @@ class CategoryController extends Controller
     {
 
         if ($request->ajax()) {
-
 
             $deletedCount = Category::whereIn('id', $request->input('id'))->delete();
 
