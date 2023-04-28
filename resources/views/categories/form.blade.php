@@ -26,8 +26,9 @@
     <label class='label-control'>صورة القسم</label>
     <div class='col-6 mt-2'>
         <div class="file-wrapper form-control">
-            <input name="old_image" id="oldImage"
-                value="{{ $category->image ?? '' }}" hidden />
+            <input name="old_image" id="oldImage"s
+                value="{{ $category && $category->image ? assset('storage/' . $category->image) : '' }}"
+                hidden />
             <input type='file' name='image' id='categoryImage' />
         </div>
     </div>
@@ -37,7 +38,8 @@
     <div class='col-6 mt-2'>
         <div class="file-wrapper form-control">
             <input name="old_image_thumbnail" id="oldImage"
-                value="{{ $category->image_thumbnail ?? '' }}" hidden />
+                value="{{ $category && $category->image_thumbnail ? asset('storage/' . $category->image_thumbnail) : '' }}"
+                hidden />
             <input type='file' name='image_thumbnail'
                 id='thumbnailCategoryImage' />
         </div>
@@ -58,7 +60,8 @@
     <div class='col-6 mt-2'>
         <div class="file-wrapper form-control">
             <input name="old_image_topcategory" id="oldImage"
-                value="{{ $category->image_topcategory ?? '' }}" hidden />
+                value="{{ $category && $category->image_topcategory ? asset('storage/' . $category->image_topcategory) : '' }}"
+                hidden />
             <input type='file' name='image_topcategory'
                 id='topCategoryImageFile' />
         </div>

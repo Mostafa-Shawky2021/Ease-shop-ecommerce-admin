@@ -55,7 +55,7 @@ class FileUploadView {
             if (typeof files === 'string') {
                 const image = this.createElement('img', 'img-fluid', imageWrapperContainer);
                 imageWrapperContainer.classList.add("image-wrapper-single");
-                image.src = `/${files}`;
+                image.src = `${files}`;
                 image.alt = "file image";
 
             } else {
@@ -64,7 +64,7 @@ class FileUploadView {
                 files.forEach(file => {
                     const imageContent = this.createElement('div', 'image-content', imageWrapperContainer);
                     const image = this.createElement('img', 'img-fluid', imageContent);
-                    image.src = `/${file}`;
+                    image.src = `${file}`;
                     image.alt = "file image";
                 });
             }

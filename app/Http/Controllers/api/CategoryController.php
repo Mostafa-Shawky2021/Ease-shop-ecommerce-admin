@@ -17,10 +17,8 @@ class CategoryController extends Controller
 
     public function index()
     {
-
         $categories = Category::with([
-            'subCategories.imageThumbnail',
-            'imageThumbnail'
+            'subCategories',
         ])->withCount('products')->get();
 
         if ($categories->isEmpty()) {

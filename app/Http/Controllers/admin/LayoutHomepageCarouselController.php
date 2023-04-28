@@ -78,7 +78,7 @@ class LayoutHomepageCarouselController extends Controller
 
             static::storeImages(
                 $request->file('images'),
-                'storage/layout/homepage/carousel',
+                'layout/homepage/carousel',
                 $carousel
             );
         }

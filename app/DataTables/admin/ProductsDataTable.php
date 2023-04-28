@@ -27,7 +27,7 @@ class ProductsDataTable extends DataTable
             ->editColumn('image', function (Product $product) {
 
                 return $product->image
-                    ? "<img alt='product-image' src='/$product->image' width='30' height='30'/>"
+                    ? "<img alt='product-image' src='" . asset('storage/' . $product->image) . "' width='30' height='30'/>"
                     : 'لا توجد صورة';
             })->editColumn(
                 'category',

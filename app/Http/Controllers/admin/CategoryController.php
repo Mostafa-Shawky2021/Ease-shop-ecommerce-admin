@@ -8,13 +8,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\DataTables\admin\CategoriesDataTable;
 use App\Models\Category;
-use App\Models\Image;
+
+use ImageIntervention;
 
 class CategoryController extends Controller
 {
     //
     public function index(CategoriesDataTable $dataTable)
     {
+
 
         return $dataTable->render('categories.index');
 
@@ -33,18 +35,18 @@ class CategoryController extends Controller
 
         if ($request->has('image')) {
 
-            $filePath = $request->file('image')->store('storage/categories');
+            $filePath = $request->file('image')->store('categories', 'public');
             $validatedInput['image'] = $filePath;
         }
 
         if ($request->has('image_thumbnail')) {
 
-            $filePath = $request->file('image_thumbnail')->store('storage/categories');
+            $filePath = $request->file('image_thumbnail')->store('categories', 'public');
             $validatedInput['image_thumbnail'] = $filePath;
         }
 
         if ($request->has('image_topcategory')) {
-            $filePath = $request->file('image_topcategory')->store('storage/categories');
+            $filePath = $request->file('image_topcategory')->store('categories', 'public');
             $validatedInput['image_topcategory'] = $filePath;
         }
 
@@ -76,7 +78,7 @@ class CategoryController extends Controller
 
         // store uploaded image
         if ($request->has('image')) {
-            $filePath = $request->file('image')->store('storage/categories');
+            $filePath = $request->file('image')->store('categories', 'public');
             $validatedInput['image'] = $filePath;
         }
 
@@ -94,7 +96,7 @@ class CategoryController extends Controller
 
         if ($request->has('image_thumbnail')) {
 
-            $imageThumbnailPath = $request->file('image_thumbnail')->store('storage/categories');
+            $imageThumbnailPath = $request->file('image_thumbnail')->store('categories', 'public');
             $validatedInput['image_thumbnail'] = $imageThumbnailPath;
         }
 
@@ -114,7 +116,7 @@ class CategoryController extends Controller
         // store top category image
         if ($request->has('image_topcategory')) {
 
-            $filePath = $request->file('image_topcategory')->store('storage/categories');
+            $filePath = $request->file('image_topcategory')->store('categories', 'public');
             $validatedInput['image_topcategory'] = $filePath;
         }
 

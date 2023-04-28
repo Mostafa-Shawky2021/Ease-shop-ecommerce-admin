@@ -42,7 +42,7 @@ class ProductController extends Controller
         $brandImagePath = null;
 
         $brandImagePath = $request->has('image')
-            ? $request->file('image')->store('storage/products')
+            ? $request->file('image')->store('products')
             : null;
 
         $productinputFields = $request->safe()
@@ -72,7 +72,7 @@ class ProductController extends Controller
         if ($request->has('productImageThumbnails')) {
 
             $imageThumbnails = $request->file('productImageThumbnails');
-            self::storeImages($imageThumbnails, 'storage/products', $product);
+            self::storeImages($imageThumbnails, 'products', $product);
         }
 
         return redirect()
@@ -108,15 +108,14 @@ class ProductController extends Controller
             ->except([
                 'color_id',
                 'size_id',
-                'old_image',
-                'old_images'
+                'productImageThumbnails'
             ]);
 
         $brandImagePath = null;
 
         if ($request->has('image')) {
 
-            $brandImagePath = $request->file('image')->store('storage/products');
+            $brandImagePath = $request->file('image')->store('products');
             $validatedInputs['image'] = $brandImagePath;
 
             if ($product->image) {
@@ -140,7 +139,7 @@ class ProductController extends Controller
             $imageThumbnails = $request->file('productImageThumbnails');
 
             $request->has('productImageThumbnails')
-                ? self::storeImages($imageThumbnails, 'storage/products', $product)
+                ? self::storeImages($imageThumbnails, 'products', $product)
                 : null;
 
         }

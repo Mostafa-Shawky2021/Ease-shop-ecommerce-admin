@@ -37,13 +37,13 @@ class StoreProductForm extends FormRequest
             'price' => 'required|numeric',
             'price_discount' => 'nullable|numeric|lt:price',
             'image' => 'required_if:old_image,null|image',
-            'productImageThumbnails.*' => 'sometimes|image',
             'short_description' => 'required',
             'category_id' => 'nullable|numeric',
             'long_description' => 'sometimes',
             'color_id' => 'sometimes',
-            'old_image' => 'sometimes',
-            'old_images' => 'sometimes',
+            'productImageThumbnails.*' => 'sometimes|image',
+            // 'old_image' => 'sometimes',
+            // 'old_images' => 'sometimes',
             'size_id' => 'sometimes'
         ];
     }
