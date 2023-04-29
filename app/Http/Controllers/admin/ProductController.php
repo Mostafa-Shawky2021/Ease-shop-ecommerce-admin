@@ -15,7 +15,7 @@ use App\Models\Size;
 use App\Http\Requests\admin\StoreProductForm;
 use App\Models\Image;
 use App\Traits\ImageStorage;
-
+use ImageIntervention;
 
 class ProductController extends Controller
 {
@@ -27,7 +27,6 @@ class ProductController extends Controller
     }
     public function create()
     {
-
         $categories = Category::all();
         $colors = Color::all();
         $sizes = Size::all();
@@ -39,11 +38,12 @@ class ProductController extends Controller
     public function store(StoreProductForm $request)
     {
 
-        $brandImagePath = null;
+        $brandImageProductPath = null;
+        $productCardImagePath = null;
 
-        $brandImagePath = $request->has('image')
-            ? $request->file('image')->store('products')
-            : null;
+        if ($request->has('image')) {
+
+        }
 
         $productinputFields = $request->safe()
             ->except([
