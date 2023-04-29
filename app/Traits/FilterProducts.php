@@ -6,14 +6,14 @@ namespace App\Traits;
 
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
-
+use Illuminate\Database\Query\Builder as QueryBuilder;
 
 trait FilterProducts
 {
     private $productModelFilter = null;
     private $limitFilter = null;
 
-    private function filterProducts(Request $request, Builder $query)
+    private function filterProducts(Request $request, Builder|QueryBuilder $query)
     {
 
         $this->productModelFilter = $query;
@@ -39,7 +39,7 @@ trait FilterProducts
         }
 
         if ($request->has('brands')) {
-            $queryBrands = $request->query('brands');
+            $queryBrands = urldecode($request->query('brands'));
             $this->filterProductByBrands($queryBrands);
         }
 

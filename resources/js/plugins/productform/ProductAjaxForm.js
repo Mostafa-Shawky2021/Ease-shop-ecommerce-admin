@@ -19,7 +19,7 @@ class ProductAjaxForm {
     handleOnCloseModal(event) {
 
         this._variantInputNode.value = '';
-        this._errorMsg.innerHTML = '';
+        this._errorBox.innerHTML = '';
     }
 
     async sendProductVariantValue(variantValue) {

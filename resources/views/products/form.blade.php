@@ -105,7 +105,7 @@
     <div class='col-6 mt-2'>
         <div class="file-wrapper form-control">
             <input name="old_image" id="oldImage"
-                value="{{ $product && $product->image ? asset('storage/' . $product->image) : '' }}"
+                value="{{ $product && $product->image ? $product->image : '' }}"
                 hidden />
             <input type='file' name='image' id='productImage' />
         </div>
@@ -118,7 +118,7 @@
             @php
                 $thumbnailsImages = null;
                 if ($product && $product->images->isNotEmpty()) {
-                    $thumbnailsImages = $product->images->map(fn($image) => asset('storage/' . $image->url))->implode('|');
+                    $thumbnailsImages = $product->images->map(fn($image) => $image->url)->implode('|');
                 }
                 
             @endphp

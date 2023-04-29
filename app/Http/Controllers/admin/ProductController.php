@@ -82,7 +82,6 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
-        $product = $product->load('images', 'sizes', 'colors', 'brand');
 
         $categories = Category::all();
         $colors = Color::all();

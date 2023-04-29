@@ -32,7 +32,8 @@
                         <td>{{ $carouselHomePage->carousel_time }}</td>
                         <td>
                             @forelse($carouselHomePage->images as $image)
-                                <img src="{{ $image }}" width="50" height="50"
+                                <img src="{{ $image->url }}"
+                                    style="margin:0px 4px"width="50" height="50"
                                     alt="carousel-image" />
                             @empty
                                 لا يوجد

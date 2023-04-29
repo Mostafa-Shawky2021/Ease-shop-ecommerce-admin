@@ -20,8 +20,8 @@
         @include('products.form', ['product' => null])
         <div class="mt-4 text-end">
             <button class="btn-add">
-                <i class="icon fa fa-plus"></i>
                 اضافة المنتج
+                <i class="icon fa fa-plus"></i>
             </button>
         </div>
     </form>

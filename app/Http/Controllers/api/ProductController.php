@@ -80,13 +80,13 @@ class ProductController extends Controller
             return response($products);
         }
         return response(['Message' => 'Sorry no product exist',], 200);
-
     }
 
-    public function show($productSlug)
+    public function show(Request $request, Product $product)
     {
-        $product = Product::with(['category', 'images', 'colors', 'sizes', 'brand'])
-            ->firstWhere('product_slug', $productSlug);
+
+        $product->load('category', 'images', 'colors', 'sizes', 'brand');
+
         if ($product) {
             return response($product, 200);
         }

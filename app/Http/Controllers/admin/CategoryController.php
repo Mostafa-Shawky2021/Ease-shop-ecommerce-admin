@@ -35,18 +35,18 @@ class CategoryController extends Controller
 
         if ($request->has('image')) {
 
-            $filePath = $request->file('image')->store('categories', 'public');
+            $filePath = $request->file('image')->store('categories');
             $validatedInput['image'] = $filePath;
         }
 
         if ($request->has('image_thumbnail')) {
 
-            $filePath = $request->file('image_thumbnail')->store('categories', 'public');
+            $filePath = $request->file('image_thumbnail')->store('categories');
             $validatedInput['image_thumbnail'] = $filePath;
         }
 
         if ($request->has('image_topcategory')) {
-            $filePath = $request->file('image_topcategory')->store('categories', 'public');
+            $filePath = $request->file('image_topcategory')->store('categories');
             $validatedInput['image_topcategory'] = $filePath;
         }
 
@@ -78,7 +78,7 @@ class CategoryController extends Controller
 
         // store uploaded image
         if ($request->has('image')) {
-            $filePath = $request->file('image')->store('categories', 'public');
+            $filePath = $request->file('image')->store('categories');
             $validatedInput['image'] = $filePath;
         }
 
@@ -96,7 +96,7 @@ class CategoryController extends Controller
 
         if ($request->has('image_thumbnail')) {
 
-            $imageThumbnailPath = $request->file('image_thumbnail')->store('categories', 'public');
+            $imageThumbnailPath = $request->file('image_thumbnail')->store('categories');
             $validatedInput['image_thumbnail'] = $imageThumbnailPath;
         }
 
@@ -116,7 +116,7 @@ class CategoryController extends Controller
         // store top category image
         if ($request->has('image_topcategory')) {
 
-            $filePath = $request->file('image_topcategory')->store('categories', 'public');
+            $filePath = $request->file('image_topcategory')->store('categories');
             $validatedInput['image_topcategory'] = $filePath;
         }
 

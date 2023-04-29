@@ -19,7 +19,9 @@ class CategoryController extends Controller
     {
         $categories = Category::with([
             'subCategories',
-        ])->withCount('products')->get();
+        ])->withCount('products')
+            ->orderByDesc('id')
+            ->get();
 
         if ($categories->isEmpty()) {
             return response(['Message' => 'Sorry no categories in database'], 404);

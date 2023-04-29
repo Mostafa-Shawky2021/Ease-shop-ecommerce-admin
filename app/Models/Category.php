@@ -5,12 +5,27 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
-use Illuminate\Support\Facades\Route;
+use App\Traits\HasImageUrl;
+
 
 class Category extends Model
 {
-    use HasFactory, Sluggable;
+    use HasFactory, Sluggable, HasImageUrl;
     protected $guarded = [];
+
+    public static function boot()
+    {
+        parent::boot();
+        static::retrieved(function ($category) {
+
+            if (!static::isContainUrlSchema($category->image) && $category->image) {
+                $category->image = request()->
+                    schemeAndHttpHost() . '/storage/' . $category->image;
+            }
+
+        });
+
+    }
 
     public function sluggable(): array
     {

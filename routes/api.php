@@ -46,7 +46,7 @@ Route::controller(ProductController::class)->group(function () {
 
 	Route::get('/products', 'index');
 	Route::get('/products/latestproducts', 'latestProduct');
-	Route::get('/products/productslug/{slug}', 'show');
+	Route::get('/products/productslug/{product:product_slug}', 'show');
 	Route::get('/products/productslug/{slug}/related', 'relatedProduct');
 	Route::get('/search', 'searchProduct');
 	Route::post('/products/recentview', 'recentView');

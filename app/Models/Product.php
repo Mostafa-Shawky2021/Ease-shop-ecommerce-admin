@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasImageUrl;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,10 +12,25 @@ use Cviebrock\EloquentSluggable\Sluggable;
 class Product extends Model
 {
     use HasFactory;
-    use Sluggable;
     use SoftDeletes;
+    use Sluggable;
+    use HasImageUrl;
     protected $guarded = [];
 
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::retrieved(function ($product) {
+            if (!static::isContainUrlSchema($product->image) && $product->image) {
+                $product->image = request()->
+                    schemeAndHttpHost() . '/storage/' . $product->image;
+            }
+
+        });
+
+    }
     public function orders()
     {
         return $this->belongsToMany(Order::class)
