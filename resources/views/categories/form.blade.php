@@ -27,7 +27,7 @@
     <div class='col-6 mt-2'>
         <div class="file-wrapper form-control">
             <input name="old_image" id="oldImage"s
-                value="{{ $category && $category->image ? assset('storage/' . $category->image) : '' }}"
+                value="{{ $category && $category->image ? asset('storage/' . $category->image) : '' }}"
                 hidden />
             <input type='file' name='image' id='categoryImage' />
         </div>

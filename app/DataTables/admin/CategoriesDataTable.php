@@ -28,7 +28,7 @@ class CategoriesDataTable extends DataTable
             ->addColumn('action-muliple-wrapper', fn($category) => "<input value='" . $category->id . "'type='checkbox' class='action-multiple-box'/>")
             ->editColumn('image', function (Category $category) {
                 return $category->image
-                    ? "<img alt='category-image' src='" . asset('storage/' . $category->image . '') . "' width='50' height='50'/>"
+                    ? "<img alt='category-image' src='$category->image' width='30' height='30'/>"
                     : 'لا توجد صورة';
 
             })->editColumn('parent_category', function (Category $category) {

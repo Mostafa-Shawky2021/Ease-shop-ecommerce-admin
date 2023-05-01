@@ -38,12 +38,12 @@ class CategoryController extends Controller
 
         if ($request->has('image_thumbnail')) {
 
-            $imagePath = self::storeImage($request->file('image'), 'categories');
+            $imagePath = self::storeImage($request->file('image_thumbnail'), 'categories');
             $validatedInput['image_thumbnail'] = $imagePath;
         }
 
         if ($request->has('image_topcategory')) {
-            $imagePath = self::storeImage($request->file('image'), 'categories');
+            $imagePath = self::storeImage($request->file('image_topcategory'), 'categories');
             $validatedInput['image_topcategory'] = $imagePath;
         }
 
@@ -63,7 +63,6 @@ class CategoryController extends Controller
     }
     public function edit(Category $category)
     {
-
         $categories = Category::where('parent_id', null)
             ->whereNot('id', $category->id)
             ->get();
@@ -76,8 +75,8 @@ class CategoryController extends Controller
 
         // store uploaded image
         if ($request->has('image')) {
-            $filePath = $request->file('image')->store('categories');
-            $validatedInput['image'] = $filePath;
+            $imagePath = self::storeImage($request->file('image'), 'categories');
+            $validatedInput['image'] = $imagePath;
         }
 
         // in case oldimage field is empty meaning that user delete the image or it was firt uploaded image
@@ -93,9 +92,8 @@ class CategoryController extends Controller
         }
 
         if ($request->has('image_thumbnail')) {
-
-            $imageThumbnailPath = $request->file('image_thumbnail')->store('categories');
-            $validatedInput['image_thumbnail'] = $imageThumbnailPath;
+            $imagePath = self::storeImage($request->file('image_thumbnail'), 'categories');
+            $validatedInput['image_thumbnail'] = $imagePath;
         }
 
         // Check if request payload contain image thumbnail or contain empty old images string
@@ -113,23 +111,21 @@ class CategoryController extends Controller
 
         // store top category image
         if ($request->has('image_topcategory')) {
-
-            $filePath = $request->file('image_topcategory')->store('categories');
-            $validatedInput['image_topcategory'] = $filePath;
+            $imagePath = self::storeImage($request->file('image_topcategory'), 'categories');
+            $validatedInput['image_topcategory'] = $imagePath;
         }
 
         // in case oldimage field is empty meaning that user delete the image or it was firt uploaded image
-        if ($request->input('image_topcategory') || !$request->input('old_image_topcategory')) {
-
+        if ($request->has('image_topcategory') || !$request->input('old_image_topcategory')) {
             if ($category->image_topcategory) {
                 Storage::exists($category->image_topcategory)
                     ? Storage::delete($category->image_topcategory)
                     : null;
+                $category->image_topcategory = null;
             }
         }
 
         $category->update($validatedInput);
-
 
         return redirect()
             ->route('categories.index')
@@ -149,7 +145,9 @@ class CategoryController extends Controller
         });
 
         if ($category->image) {
-            Storage::exists($category->image) ? Storage::delete($category->image) : null;
+            Storage::exists($category->image)
+                ? Storage::delete($category->image)
+                : null;
         }
 
         if ($category->image_topcategory) {
