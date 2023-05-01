@@ -27,6 +27,7 @@ class ProductController extends Controller
     }
     public function create()
     {
+
         $categories = Category::all();
         $colors = Color::all();
         $sizes = Size::all();
@@ -38,25 +39,22 @@ class ProductController extends Controller
     public function store(StoreProductForm $request)
     {
 
-        $brandImageProductPath = null;
-        $productCardImagePath = null;
-
-        if ($request->has('image')) {
-
-        }
-
-        $productinputFields = $request->safe()
+        $productInputFields = $request->safe()
             ->except([
                 'size_id',
                 'color_id',
-                'old_image',
-                'old_images',
                 'productImageThumbnails'
             ]);
 
-        $productinputFields['image'] = $brandImagePath;
+        // product Image Uploaded
+        if ($request->has('image')) {
 
-        $product = Product::create($productinputFields);
+            $uploadedFile = $request->file('image');
+            $imagePath = self::storeImage($uploadedFile, 'products');
+            $productInputFields['image'] = $imagePath;
+        }
+
+        $product = Product::create($productInputFields);
 
         if ($request->filled('color_id')) {
             $product->colors()
@@ -68,11 +66,10 @@ class ProductController extends Controller
                 ->attach(explode('|', $request->input('size_id')));
         }
 
-
+        // product have thumbnails uploaded
         if ($request->has('productImageThumbnails')) {
-
-            $imageThumbnails = $request->file('productImageThumbnails');
-            self::storeImages($imageThumbnails, 'products', $product);
+            $uploadedImageThumbnails = $request->file('productImageThumbnails');
+            self::storeImage($uploadedImageThumbnails, 'products', $product);
         }
 
         return redirect()
@@ -110,15 +107,16 @@ class ProductController extends Controller
                 'productImageThumbnails'
             ]);
 
-        $brandImagePath = null;
-
         if ($request->has('image')) {
 
-            $brandImagePath = $request->file('image')->store('products');
-            $validatedInputs['image'] = $brandImagePath;
+            $productImagePath = self::storeImage($request->file('image'), 'products');
+            $validatedInputs['image'] = $productImagePath;
 
+            // delete old image 
             if ($product->image) {
-                Storage::exists($product->image) ? Storage::delete($product->image) : null;
+                Storage::exists($product->image)
+                    ? Storage::delete($product->image)
+                    : null;
             }
 
         }
@@ -129,8 +127,11 @@ class ProductController extends Controller
 
             if ($product->images()->exists()) {
 
-                $product->images->each(fn(Image $image) =>
-                    Storage::exists($image->url) ? Storage::delete($image->url) : '');
+                $product->images->each(
+                    fn(Image $image) => Storage::exists($image->url)
+                    ? Storage::delete($image->url)
+                    : ''
+                );
 
                 $product->images()->delete();
             }
@@ -138,7 +139,7 @@ class ProductController extends Controller
             $imageThumbnails = $request->file('productImageThumbnails');
 
             $request->has('productImageThumbnails')
-                ? self::storeImages($imageThumbnails, 'products', $product)
+                ? self::storeImage($imageThumbnails, 'products', $product)
                 : null;
 
         }
@@ -169,6 +170,7 @@ class ProductController extends Controller
 
     public function destroy(Request $request, Product $product)
     {
+
         $productStatus = $request->query('status');
 
         if ($productStatus === 'trashed') {
@@ -176,17 +178,21 @@ class ProductController extends Controller
             $product->deleteProductVariant();
             $product->orders()->detach();
 
-            if ($product->image)
-                Storage::exists($product->image) ? Storage::delete($product->image)
+            if ($product->image) {
+                Storage::exists($product->image)
+                    ? Storage::delete($product->image)
                     : null;
 
+            }
+
             $product->images->each(fn(Image $image) =>
-                Storage::exists($image->url) ? Storage::delete($image->url) : null);
+                Storage::exists($image->url)
+                ? Storage::delete($image->url)
+                : null);
             $product->images()->delete();
             $product->forceDelete();
         } else
             $product->delete();
-
 
         return redirect()
             ->back()

@@ -22,13 +22,18 @@ class Product extends Model
     {
         parent::boot();
 
-        static::retrieved(function ($product) {
-            if (!static::isContainUrlSchema($product->image) && $product->image) {
-                $product->image = request()->
-                    schemeAndHttpHost() . '/storage/' . $product->image;
-            }
+        // inject the url schema to image path in case XMLHttpRequest is used
+        if (request()->ajax()) {
+            static::retrieved(function ($product) {
+                if (!static::isContainUrlSchema($product->image) && $product->image) {
 
-        });
+                    $product->image = request()->
+                        schemeAndHttpHost() . '/storage/' . $product->image;
+                }
+
+            });
+        }
+
 
     }
     public function orders()

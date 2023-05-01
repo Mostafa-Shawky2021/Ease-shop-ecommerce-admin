@@ -2,28 +2,43 @@
 
 namespace App\Traits;
 
-use App\Models\Image;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\UploadedFile;
+use App\Models\Image;
+use ImageIntervention;
 
 trait ImageStorage
 {
-    private static function storeImages(array $images, string $path, Model $model = null)
+
+    // store image in file system and return the stored path
+    private static function storeImage(array|UploadedFile $uploadedImage, string $path, Model $model = null)
     {
 
-        $imagesPath = null;
+        if (is_array($uploadedImage)) {
 
-        if (is_array($images)) {
+            $imagesPath = collect($uploadedImage)->map(
+                function ($uploadedImage) use ($path, $model) {
+                    $imageName = $uploadedImage->hashName();
+                    $imagePath = storage_path("app/public/$path/" . $imageName);
+                    ImageIntervention::make($uploadedImage)
+                        ->resize(1000, null, fn($constraint) => $constraint->aspectRatio())
+                        ->save($imagePath);
 
-            $imagesPath = collect($images)->map(function ($img) use ($path, $model) {
-                $imagePath = $img->store($path);
-                $image = new Image(['url' => $imagePath]);
-                $model ? $model->images()->save($image) : null;
-
-                return $imagePath;
-            });
-
+                    $image = new Image(['url' => "$path/$imageName"]);
+                    $model ? $model->images()->save($image) : null;
+                    return "$path/$imageName";
+                }
+            );
+            return $imagesPath;
+        } else {
+            $imageName = $uploadedImage->hashName();
+            $imagePath = storage_path("app/public/$path/" . $imageName);
+            ImageIntervention::make($uploadedImage)
+                ->resize(1000, null, fn($constraint) => $constraint->aspectRatio())
+                ->save($imagePath);
+            return "$path/$imageName";
         }
 
-        return $imagesPath;
+        return false;
     }
 }

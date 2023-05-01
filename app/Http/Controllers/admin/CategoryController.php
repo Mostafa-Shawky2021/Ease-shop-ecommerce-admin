@@ -8,16 +8,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\DataTables\admin\CategoriesDataTable;
 use App\Models\Category;
-
-use ImageIntervention;
+use App\Traits\ImageStorage;
 
 class CategoryController extends Controller
 {
     //
+    use ImageStorage;
     public function index(CategoriesDataTable $dataTable)
     {
-
-
         return $dataTable->render('categories.index');
 
     }
@@ -34,20 +32,19 @@ class CategoryController extends Controller
         $validatedInput = $request->validated();
 
         if ($request->has('image')) {
-
-            $filePath = $request->file('image')->store('categories');
-            $validatedInput['image'] = $filePath;
+            $imagePath = self::storeImage($request->file('image'), 'categories');
+            $validatedInput['image'] = $imagePath;
         }
 
         if ($request->has('image_thumbnail')) {
 
-            $filePath = $request->file('image_thumbnail')->store('categories');
-            $validatedInput['image_thumbnail'] = $filePath;
+            $imagePath = self::storeImage($request->file('image'), 'categories');
+            $validatedInput['image_thumbnail'] = $imagePath;
         }
 
         if ($request->has('image_topcategory')) {
-            $filePath = $request->file('image_topcategory')->store('categories');
-            $validatedInput['image_topcategory'] = $filePath;
+            $imagePath = self::storeImage($request->file('image'), 'categories');
+            $validatedInput['image_topcategory'] = $imagePath;
         }
 
         $category = Category::create($validatedInput);
@@ -58,7 +55,8 @@ class CategoryController extends Controller
                 'data' => $category
             ], 201);
         }
-        return redirect()->route('categories.index')
+        return redirect()
+            ->route('categories.index')
             ->with([
                 'message' => ['تم اضافة القسم بنجاح', 'success']
             ]);

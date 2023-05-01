@@ -105,7 +105,7 @@
     <div class='col-6 mt-2'>
         <div class="file-wrapper form-control">
             <input name="old_image" id="oldImage"
-                value="{{ $product && $product->image ? $product->image : '' }}"
+                value="{{ $product && $product->image ? asset('storage/' . $product->image) : '' }}"
                 hidden />
             <input type='file' name='image' id='productImage' />
         </div>
@@ -118,7 +118,7 @@
             @php
                 $thumbnailsImages = null;
                 if ($product && $product->images->isNotEmpty()) {
-                    $thumbnailsImages = $product->images->map(fn($image) => $image->url)->implode('|');
+                    $thumbnailsImages = $product->images->map(fn($image) => asset('storage/' . $image->url))->implode('|');
                 }
                 
             @endphp
@@ -163,10 +163,21 @@
 @push('scripts')
     <script type="module">
 
-    $('#editor').summernote({
-        placeholder: 'Hello Bootstrap 5',
+$('#editor').summernote({
+        placeholder: 'Write Here!',
+        lineHeights:['0.2', '0.3', '0.4', '0.5', '0.6', '0.8', '1.0', '1.2', '1.4', '1.5', '2.0', '3.0'],
+        fontSizes:['15','17','20','23','27','33','35','38','42','45','48','50'],
         tabsize: 2,
-        height: 160,
+        height: 200,
+        toolbar: [
+          ['style', ['italic', 'underline','clear']],
+          ['fontsize', ['fontsize']],
+          ['font', ['bold', 'underline', 'clear']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph','height','style']],
+          ['insert', ['link', 'picture', 'video','hr']],
+          ['view', ['fullscreen', 'help','undo','redo']]
+        ]
       });
 
     </script>

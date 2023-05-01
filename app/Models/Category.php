@@ -16,14 +16,16 @@ class Category extends Model
     public static function boot()
     {
         parent::boot();
-        static::retrieved(function ($category) {
 
-            if (!static::isContainUrlSchema($category->image) && $category->image) {
-                $category->image = request()->
-                    schemeAndHttpHost() . '/storage/' . $category->image;
-            }
+        if (request()->ajax()) {
+            static::retrieved(function ($category) {
+                if (!static::isContainUrlSchema($category->image) && $category->image) {
+                    $category->image = request()->
+                        schemeAndHttpHost() . '/storage/' . $category->image;
+                }
 
-        });
+            });
+        }
 
     }
 

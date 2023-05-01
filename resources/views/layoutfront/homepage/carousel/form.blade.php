@@ -46,7 +46,5 @@
           ['view', ['fullscreen', 'help','undo','redo']]
         ]
       });
-
-
     </script>
 @endpush

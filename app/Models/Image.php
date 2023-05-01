@@ -15,14 +15,16 @@ class Image extends Model
     public static function boot()
     {
         parent::boot();
+        if (request()->ajax()) {
+            static::retrieved(function ($image) {
+                if (!static::isContainUrlSchema($image->url) && $image->url) {
+                    $image->url = request()->
+                        schemeAndHttpHost() . '/storage/' . $image->url;
+                }
 
-        static::retrieved(function ($image) {
-            if (!static::isContainUrlSchema($image->url) && $image->url) {
-                $image->url = request()->
-                    schemeAndHttpHost() . '/storage/' . $image->url;
-            }
+            });
+        }
 
-        });
 
     }
     public function imageable()
