@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
-use App\Traits\HasImageUrl;
+use App\Traits\ResourceStatus;
 
 
 class Category extends Model
 {
-    use HasFactory, Sluggable, HasImageUrl;
+    use HasFactory, Sluggable, ResourceStatus;
     protected $guarded = [];
 
     public static function boot()
@@ -19,7 +19,9 @@ class Category extends Model
 
         if (request()->ajax()) {
             static::retrieved(function ($category) {
-                if (!static::isContainUrlSchema($category->image) && $category->image) {
+                $isResoruceInternal = static::isResoruceInternal($category->image);
+                $excludeRouteName = !request()->routeIs('categories.deleteMultiple');
+                if ($isResoruceInternal && $category->image && $excludeRouteName) {
                     $category->image = request()->
                         schemeAndHttpHost() . '/storage/' . $category->image;
                 }

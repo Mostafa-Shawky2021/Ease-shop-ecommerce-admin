@@ -1,46 +1,46 @@
 // bootstrap
-@use 'bootstrap/dist/css/bootstrap.rtl.min.css';
+@use "bootstrap/dist/css/bootstrap.rtl.min.css";
 
-@use 'bootstrap-icons/font/bootstrap-icons.css';
+@use "bootstrap-icons/font/bootstrap-icons.css";
 
 //summernote editor
-@use 'summernote/dist/summernote-bs5.min.css';
-@use 'summernote/dist/summernote-lite.css';
+@use "summernote/dist/summernote-bs5.min.css";
+@use "summernote/dist/summernote-lite.css";
 
 // font awesome
-@use '@fortawesome/fontawesome-free/css/all.min.css';
+@use "@fortawesome/fontawesome-free/css/all.min.css";
 
 // datatable
 @use "datatables.net-bs5/css/dataTables.bootstrap5.min.css" as *;
 @use "datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css" as *;
-@use 'datatables.net-select-bs5/css/select.bootstrap5.css' as *;
+@use "datatables.net-select-bs5/css/select.bootstrap5.css" as *;
 
 //color picker
-@use '@simonwep/pickr/dist/themes/classic.min.css';
-
+@use "@simonwep/pickr/dist/themes/classic.min.css";
 
 // app style
 // basic
-@use './fonts';
-@use './typo';
-@use './reset';
-@use './layout';
+@use "./fonts";
+@use "./typo";
+@use "./reset";
+@use "./layout";
 
 // template
-@use './template/editor';
-@use './template/header';
-@use './template/sidebar';
+@use "./template/editor";
+@use "./template/header";
+@use "./template/sidebar";
 
 // components
-@use './components/buttons';
-@use './components/tables';
-@use './components/images';
-@use './components/forms';
-@use './components/uploadfile';
-@use './components/modal';
-@use './components/orderstatus';
-@use './components/productvariants';
-@use './components/colorpicker';
-@use './components/summernotestyle';
+@use "./components/buttons";
+@use "./components/tables";
+@use "./components/images";
+@use "./components/forms";
+@use "./components/uploadfile";
+@use "./components/modal";
+@use "./components/orderstatus";
+@use "./components/productvariants";
+@use "./components/colorpicker";
+@use "./components/summernotestyle";
+@use "./components/notifications";
 //pages
-@use './pages/orderdetails';
+@use "./pages/orderdetails";

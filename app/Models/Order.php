@@ -9,17 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'invoice_number',
-        'username',
-        'phone',
-        'governorate',
-        'street',
-        'email',
-        'order_notes',
-        'user_id',
-        'total_price'
-    ];
+    protected $guarded = [];
     public function products()
     {
         return $this

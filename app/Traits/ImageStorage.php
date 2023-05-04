@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
 use App\Models\Image;
 use ImageIntervention;
@@ -32,7 +33,9 @@ trait ImageStorage
             return $imagesPath;
         } else {
             $imageName = $uploadedImage->hashName();
+            Storage::exists($path) ?: Storage::makeDirectory($path);
             $imagePath = storage_path("app/public/$path/" . $imageName);
+
             ImageIntervention::make($uploadedImage)
                 ->resize(1000, null, fn($constraint) => $constraint->aspectRatio())
                 ->save($imagePath);

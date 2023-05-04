@@ -29,7 +29,8 @@ class StoreOrderRequest extends FormRequest
             'phone' => 'required|size:11',
             'governorate' => 'required|min:3',
             'street' => 'required|min:3',
-            'email' => 'nullable|email'
+            'email' => 'nullable|email',
+            'order_notes' => '',
         ];
     }
 }

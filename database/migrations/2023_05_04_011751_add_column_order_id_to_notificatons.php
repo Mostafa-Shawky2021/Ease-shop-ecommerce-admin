@@ -12,9 +12,9 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::table('carousels', function (Blueprint $table) {
+        Schema::table('notifications', function (Blueprint $table) {
             //
-            $table->text('content')->nullable()->change();
+            $table->foreignId('order_id')->constrained();
         });
     }
 
@@ -25,8 +25,10 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::table('carousels', function (Blueprint $table) {
+        Schema::table('notifications', function (Blueprint $table) {
             //
+            $table->dropForeign('notifications_order_id_foreign');
+            $table->dropColumn('order_id'); 
         });
     }
 };

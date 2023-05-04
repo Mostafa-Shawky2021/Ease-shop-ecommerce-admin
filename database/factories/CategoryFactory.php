@@ -18,9 +18,9 @@ class CategoryFactory extends Factory
     public function definition()
     {
         return [
-            'cat_name' => Str::random(8),
-            'description' => Str::random(20),
-            'image' => "https://www.freepnglogos.com/uploads/laptop-png/laptop-transparent-png-pictures-icons-and-png-40.png",
+            'cat_name' => fake()->word(),
+            'description' =>fake()->text(),
+            'image' => fake()->imageUrl()
         ];
     }
 }

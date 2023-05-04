@@ -2,19 +2,18 @@
 
 namespace App\Models;
 
-use App\Traits\HasImageUrl;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Cviebrock\EloquentSluggable\Sluggable;
+use App\Traits\ResourceStatus;
 
 class Product extends Model
 {
     use HasFactory;
     use SoftDeletes;
     use Sluggable;
-    use HasImageUrl;
+    use ResourceStatus;
     protected $guarded = [];
 
 
@@ -24,8 +23,12 @@ class Product extends Model
 
         // inject the url schema to image path in case XMLHttpRequest is used
         if (request()->ajax()) {
+
             static::retrieved(function ($product) {
-                if (!static::isContainUrlSchema($product->image) && $product->image) {
+
+                $isResoruceInternal = static::isResoruceInternal($product->image);
+                $excludeRouteName = !request()->routeIs('products.deleteMultiple');
+                if ($isResoruceInternal && $product->image && $excludeRouteName) {
 
                     $product->image = request()->
                         schemeAndHttpHost() . '/storage/' . $product->image;

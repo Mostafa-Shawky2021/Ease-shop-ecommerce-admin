@@ -1,4 +1,4 @@
-@use '../helper/var';
+@use "../helper/var";
 
 .sidebar {
     background-color: var.$maincolor;
@@ -9,14 +9,14 @@
     position: fixed;
     right: 0px;
     top: 70px;
-
+    overflow: auto;
     .brand {
         color: #ececec;
         font-size: 21px;
         letter-spacing: 1px;
     }
 
-    .list>.item>a {
+    .list > .item > a {
         color: #c0bcbc;
         padding: 0.5rem 1.5rem;
         text-decoration: none;
@@ -34,7 +34,6 @@
             margin-left: 0.7rem;
             font-size: 18px;
             color: #dddee1;
-
         }
 
         .icon:last-child {
@@ -43,7 +42,7 @@
         }
     }
 
-    .list>.item .title {
+    .list > .item .title {
         color: #838383;
         margin-right: 0.3rem;
     }
@@ -78,5 +77,4 @@
             }
         }
     }
-
 }

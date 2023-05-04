@@ -82,17 +82,16 @@ trait FilterProducts
     private function filterProductByName($productName)
     {
 
-        $this->productModelFilter =
-            $this->productModelFilter
-                ->select('products.*')
-                ->join('categories', 'products.category_id', '=', 'categories.id')
-                ->where(
-                    function (Builder $query) use ($productName) {
-                        return $query->where('products.product_name', 'LIKE', "%$productName%")
-                            ->orWhere('categories.cat_name', 'LIKE', "%$productName%");
+        $this->productModelFilter = $this->productModelFilter
+            ->select('products.*')
+            ->join('categories', 'products.category_id', '=', 'categories.id')
+            ->where(
+                function (Builder $query) use ($productName) {
+                    return $query->where('products.product_name', 'LIKE', "%$productName%")
+                        ->orWhere('categories.cat_name', 'LIKE', "%$productName%");
 
-                    }
-                );
+                }
+            );
     }
 
     private function productWithOffers()

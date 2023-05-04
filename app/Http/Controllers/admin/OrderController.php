@@ -32,7 +32,8 @@ class OrderController extends Controller
         $order->order_status = $request->input('status');
 
         if ($order->save()) {
-            return redirect()->route('orders.index');
+            return redirect()->route('orders.index')
+                ->with(['message' => ['success', 'تم تعديل حالة الاوردر بنجاح']]);
         }
 
     }

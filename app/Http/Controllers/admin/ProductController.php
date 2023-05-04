@@ -15,7 +15,6 @@ use App\Models\Size;
 use App\Http\Requests\admin\StoreProductForm;
 use App\Models\Image;
 use App\Traits\ImageStorage;
-use ImageIntervention;
 
 class ProductController extends Controller
 {
@@ -52,6 +51,7 @@ class ProductController extends Controller
             $uploadedFile = $request->file('image');
             $imagePath = self::storeImage($uploadedFile, 'products');
             $productInputFields['image'] = $imagePath;
+
         }
 
         $product = Product::create($productInputFields);

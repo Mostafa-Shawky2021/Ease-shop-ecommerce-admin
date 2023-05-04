@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Requests\api\StoreOrderRequest;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -47,11 +48,17 @@ class OrderController extends Controller
             'invoice_number' => self::generateInvoice(),
             'user_id' => $user->id,
             'total_price' => $totalCartsPrice
-        ])->toArray();
+        ])->except('guest_id');
 
         $order = Order::create($validatedInputs);
 
         if ($order) {
+            
+            Notification::create([
+                'message' => 'تم عمل اوردر جديد باسم ' . $request->input('username'),
+                'status' => 0,
+                'order_id' => $order->id
+            ]);
             $guestUserCarts->map(
                 function ($cart) use ($order) {
                     $order->products()->attach($cart->product_id, ['quantity' => $cart->quantity]);
@@ -67,8 +74,12 @@ class OrderController extends Controller
         return response(['message' => 'Error with creating order'], 422);
     }
 
-    public function storeFastOrder(Request $request)
+    public function storeFastOrder(StoreOrderRequest $request)
     {
+
+        $validatedInput = $request->safe()->merge([
+            'total_price' => $request->input('total_price'),
+        ])->except('guest_id');
 
         $guestId = $request->input('guest_id');
 
@@ -80,24 +91,20 @@ class OrderController extends Controller
             ]);
 
         }
-
-        $order = Order::create([
-            'invoice_number' => self::generateInvoice(),
-            'username' => $request->input('username'),
-            'phone' => $request->input('phone'),
-            'governorate' => $request->input('governorate'),
-            'street' => $request->input('street'),
-            'email' => $request->input('email'),
-            'order_notes' => $request->input('order_notes'),
-            'user_id' => $user->id,
-            'total_price' => $request->input('total_price'),
-        ]);
+        $order = Order::create($validatedInput);
 
         if ($order) {
+            Notification::create([
+                'message' => 'تم عمل اوردر جديد باسم ' . $request->input('username'),
+                'status' => 0,
+            ]);
             $productId = $request->input('product_id');
             $quantity = $request->input('quantity');
             $order->products()->attach($productId, ['quantity' => $quantity]);
-            return response(['Message' => 'order created successfully'], 201);
+            return response([
+                'Message' => 'order created successfully',
+                'data' => $order,
+            ], 201);
         }
         return response(['Message' => 'Error with creating order'], 422);
 

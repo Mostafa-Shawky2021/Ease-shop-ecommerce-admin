@@ -1,4 +1,4 @@
-@use '../helper/var' as var;
+@use "../helper/var" as var;
 
 .header {
     height: 70px;
@@ -26,17 +26,19 @@
         padding-right: 2rem;
         padding-left: 2rem;
         flex-grow: 1;
-        border-bottom: 1px solid #dedede7a
+        border-bottom: 1px solid #dedede7a;
     }
 
-    .notification-wrapper .order-notification {
+    .notification-wrapper .order-notification-btn {
         font-size: 1.1rem;
         color: #555b6d;
         position: relative;
-        cursor: pointer;
+        background-color: transparent;
+        border: 0px;
+        padding: 0px;
     }
 
-    .order-notification .count {
+    .order-notification-btn .count {
         background-color: var(--bs-danger);
         color: #fff;
         position: absolute;
@@ -47,8 +49,6 @@
         border-radius: 50%;
         text-align: center;
         font-size: 0.75rem;
-
-
     }
 
     .user .avatar {

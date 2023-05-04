@@ -1,38 +1,43 @@
 class Collapse {
     constructor(collapseWrapperNode, checkRoute) {
-
         this.collapseWrapperNode = collapseWrapperNode;
-        this.buttoneElementNode = collapseWrapperNode.querySelectorAll('.button-toggle');
+        this.buttoneElementNode =
+            collapseWrapperNode.querySelectorAll(".button-toggle");
 
-        this.buttoneElementNode.forEach(button => button.addEventListener('click', this.handleTogglesubMenu));
+        this.buttoneElementNode.forEach((button) =>
+            button.addEventListener("click", this.handleTogglesubMenu)
+        );
         if (checkRoute) this.checkActiveMenu();
     }
 
     handleTogglesubMenu() {
-
-        const classStatus = this.classList.toggle('submenu-visible');
+        const classStatus = this.classList.toggle("submenu-visible");
         const subMenu = this.nextElementSibling;
+        subMenu.addEventListener("transitionend", function () {
+            if (classStatus) {
+                this.style.overflow = "auto";
+            } else {
+                this.style.overflow = "hidden";
+            }
+        });
         const subMenuHeight = this.nextElementSibling.scrollHeight;
 
         if (classStatus) {
-            subMenu.style.height = subMenuHeight + 'px';
+            subMenu.style.height = subMenuHeight + "px";
         } else {
-            subMenu.style.height = '0px';
+            subMenu.style.height = "0px";
         }
     }
 
     checkActiveMenu() {
-
-        this.buttoneElementNode.forEach(button => {
-            if (button.classList.contains('submenu-visible')) {
+        this.buttoneElementNode.forEach((button) => {
+            if (button.classList.contains("submenu-visible")) {
                 const subMenu = button.nextElementSibling;
                 const subMenuHeight = subMenu.scrollHeight;
-                subMenu.style.height = subMenuHeight + 'px';
+                subMenu.style.height = subMenuHeight + "px";
             }
-        })
-
+        });
     }
 }
-
 
 export default Collapse;

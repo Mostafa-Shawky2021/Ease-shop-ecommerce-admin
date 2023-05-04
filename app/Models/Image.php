@@ -2,22 +2,26 @@
 
 namespace App\Models;
 
-use App\Traits\HasImageUrl;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\ResourceStatus;
 
 class Image extends Model
 {
     use HasFactory;
-    use HasImageUrl;
+    use ResourceStatus;
     protected $fillable = ['url'];
 
     public static function boot()
     {
         parent::boot();
+
         if (request()->ajax()) {
+
             static::retrieved(function ($image) {
-                if (!static::isContainUrlSchema($image->url) && $image->url) {
+                $excludeRouteName = !request()->routeIs('*.deleteMultiple');
+                $isResoruceInternal = static::isResoruceInternal($image->url);
+                if ($isResoruceInternal && $excludeRouteName) {
                     $image->url = request()->
                         schemeAndHttpHost() . '/storage/' . $image->url;
                 }
