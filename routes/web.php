@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\LayoutHomepageTopcategoriesController;
+use App\Http\Controllers\admin\NotificationController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\admin\LayoutHomepageCarouselController;
@@ -32,7 +33,8 @@ Route::get('/', function (Request $request) {
 Route::prefix('admin')->group(function () {
 
     //Layout Resources
-    Route::resource('layout/homepage/carousel', LayoutHomepageCarouselController::class)->except(['show']);
+    Route::resource('layout/homepage/carousel', LayoutHomepageCarouselController::class)
+        ->except(['show']);
 
     // User Resource
     Route::controller(UserController::class)->group(
@@ -68,7 +70,8 @@ Route::prefix('admin')->group(function () {
             Route::put('/products/{product}', 'update')->name('products.update')->withTrashed();
 
             // if contain ?status=trashed will delete product permanently
-            Route::delete("/products/{product}", 'destroy')->name('products.destroy')->withTrashed();
+            Route::delete("/products/{product}", 'destroy')->name('products.destroy')
+                ->withTrashed();
             Route::post('/products/{product}/restore', 'restoreProduct')->name('products.restore')->withTrashed();
             Route::post('/products/restore', 'restoreMultipleProducts')->name('products.restoreMultiple')->withTrashed();
             Route::post('/products/delete', 'deleteMultipleProducts')->name('products.deleteMultiple');
@@ -82,7 +85,7 @@ Route::prefix('admin')->group(function () {
             Route::get('/orders/create', 'create')->name('orders.create');
             Route::get('/orders/{order}', 'show')->name('orders.show');
             Route::put('/orders/{order}', 'update')->name('orders.update');
-            Route::delete('/orders/{order}', 'destory')->name('orders.destroy');
+            Route::delete('/orders/{order}', 'destroy')->name('orders.destroy');
             Route::post('/orders/delete', 'deleteMultipleOrder')->name('orders.deleteMultiple');
         }
     );
@@ -128,4 +131,12 @@ Route::prefix('admin')->group(function () {
         }
     );
 
+    Route::controller(NotificationController::class)->group(
+        function () {
+            Route::get('/notifications', 'index')->name('notifications.index');
+            Route::delete('/notifications/{notification}', 'destroy')->name('notifications.destroy');
+            Route::put('/notifications/{notification}', 'update')->name('notifications.update');
+
+        }
+    );
 });

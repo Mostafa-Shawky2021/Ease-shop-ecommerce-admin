@@ -29,10 +29,10 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         $activeNotificationsCount = Notification::where('status', 1)->count();
-        $notifications = Notification::orderBy('id', 'desc')
-            ->orderBy('status', 'desc')
+        $notifications = Notification::orderBy('status', 'desc')
+            ->orderBy('id', 'desc')
             ->get();
-        View::composer('template.header', function ($view) use ($notifications, $activeNotificationsCount) {
+        View::composer(['template.header'], function ($view) use ($notifications, $activeNotificationsCount) {
             $view->with('activeNotificationsCount', $activeNotificationsCount)
                 ->with('notifications', $notifications);
         });

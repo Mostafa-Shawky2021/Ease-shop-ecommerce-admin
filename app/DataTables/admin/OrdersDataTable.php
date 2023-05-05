@@ -61,11 +61,12 @@ class OrdersDataTable extends DataTable
                         <a href="' . route('orders.show', $orderRoute) . '" class="text-primary">
                             <i class="fa fa-eye"></i>
                         </a>
-                        <form method="POST">
-                            ' . method_field("DELETE") . '
-                            <a href="' . route('orders.destroy', $orderRoute) . '" class="text-danger">
-                                <i class="fa fa-trash"></i>
-                            </a> 
+                        <form method="POST" action=' . route('orders.destroy', $orderRoute) . '>
+                        ' . csrf_field() . '   
+                        ' . method_field("DELETE") . '
+                            <button class="btn-action" onclick="return confirm(\'هل انت متاكد؟!\')">
+                                <i class="fa fa-trash icon icon-delete"></i>
+                            </button> 
                         </form>
                     </div>';
                     return $btns;

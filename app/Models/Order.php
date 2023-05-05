@@ -21,4 +21,8 @@ class Order extends Model
             ]);
     }
 
+    public function notification(){
+        return $this->hasOne(Notification::class);
+    }
+
 }

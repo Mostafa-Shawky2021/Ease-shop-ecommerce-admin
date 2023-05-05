@@ -46,11 +46,27 @@ class OrderController extends Controller
 
     }
 
+    public function destroy(Order $order)
+    {
+        $order->products()->detach();
+        $order->notification()->delete();
+        if ($order->delete()) {
+            return redirect()->route('orders.index')
+                ->with(['message' => ['success', 'success', 'تم حذف الاوردر بنجاح']]);
+        }
+    }
     public function deleteMultipleOrder(Request $request)
     {
 
         if ($request->ajax()) {
 
+            collect($request->input('id'))->each(function ($orderId) {
+                $order = Order::find($orderId);
+                if ($order) {
+                    $order->products()->detach();
+                    $order->notification()->delete();
+                }
+            });
             $deletedCount = Order::whereIn('id', $request->input('id'))->delete();
 
             if ($deletedCount > 0) {

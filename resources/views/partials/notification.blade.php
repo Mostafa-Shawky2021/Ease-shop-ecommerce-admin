@@ -5,7 +5,9 @@
             <i class="fa fa-bell" style="color:#2a3042;margin:0px 5px"></i>
         </span>
         <span>
-            <a href="#" class="view-more">...عرض المزيد</a>
+            @if($notifications->isNotEmpty())
+                <a href="{{route('notifications.index')}}" class="view-more">...عرض المزيد</a>
+            @endif
         </span>
     </h6>
     <div class="notification-list">
@@ -26,9 +28,6 @@
             </div>
             <div class="info">
                 <p style="margin:0px">لا يوجد اشعارات</p>
-            </div>
-            <div class="icon-circle">
-                <i class="fa fa-circle icon"></i>
             </div>
         </div>
         @endforelse

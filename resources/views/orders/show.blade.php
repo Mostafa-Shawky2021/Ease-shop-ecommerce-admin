@@ -86,6 +86,11 @@ $orderStatusClass = 'processing';
             <span>{{$order->username}}</span>
         </li>
         <li class="item">
+            <i class="fa fa-file icon"></i>
+            <span>رقم الفاتورة</span>:
+            <span>{{$order->invoice_number}}</span>
+        </li>
+        <li class="item">
             <i class="fa fa-phone icon"></i>
             <span>رقم التلفون</span>
             <span>:{{$order->phone}}</span>
