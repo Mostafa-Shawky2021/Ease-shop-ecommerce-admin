@@ -16,6 +16,7 @@ class CategoryController extends Controller
     use ImageStorage;
     public function index(CategoriesDataTable $dataTable)
     {
+
         return $dataTable->render('categories.index');
 
     }
@@ -24,7 +25,6 @@ class CategoryController extends Controller
 
         $categories = Category::where('parent_id', null)
             ->get();
-
         return view('categories.create', compact('categories'));
     }
     public function store(StoreCategoryForm $request)

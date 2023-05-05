@@ -5,8 +5,9 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Models\Order;
 use App\DataTables\admin\OrdersDataTable;
+use App\Models\Order;
+use APp\Models\Notification;
 
 class OrderController extends Controller
 {
@@ -19,8 +20,15 @@ class OrderController extends Controller
     {
 
     }
-    public function show(Order $order)
+    public function show(Request $request, Order $order)
     {
+
+        if ($request->query('notification-status')) {
+            Notification::where('order_id', $order->id)->update([
+                'status' => 0
+            ]);
+            return redirect()->route('orders.show', ['order' => $order->id]);
+        }
         return view('orders.show', compact('order'));
     }
     public function update(Request $request, Order $order)

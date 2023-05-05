@@ -1,32 +1,50 @@
 class Collapse {
-    constructor(collapseWrapperNode, checkRoute) {
+    constructor(
+        collapseWrapperNode,
+        checkRoute,
+        closeOnMouseClick,
+        closeOnKeyDown
+    ) {
+        // initialization properties
         this.collapseWrapperNode = collapseWrapperNode;
         this.buttoneElementNode =
             collapseWrapperNode.querySelectorAll(".button-toggle");
 
-        this.buttoneElementNode.forEach((button) =>
-            button.addEventListener("click", this.handleTogglesubMenu)
-        );
+        this.registerToggleMenuEvent();
+
         if (checkRoute) this.checkActiveMenu();
+
+        if (closeOnMouseClick) this.registerCloseMenuOnMouseClick();
     }
 
-    handleTogglesubMenu() {
+    registerToggleMenuEvent() {
+        this.buttoneElementNode.forEach((button) => {
+            button.addEventListener("click", this.toggleMenu);
+        });
+    }
+
+    registerCloseMenuOnMouseClick() {
+        document.body.addEventListener("click", (event) => {
+            // in case user clicks on the menu prevent close menu
+            if (this.collapseWrapperNode.contains(event.target)) return false;
+
+            const buttonsToggle = Array.from(this.buttoneElementNode);
+
+            buttonsToggle.forEach((button) => {
+                button.nextElementSibling.style.height = "0px";
+                button.classList.remove("submenu-visible");
+            });
+        });
+    }
+
+    toggleMenu() {
         const classStatus = this.classList.toggle("submenu-visible");
         const subMenu = this.nextElementSibling;
-        subMenu.addEventListener("transitionend", function () {
-            if (classStatus) {
-                this.style.overflow = "auto";
-            } else {
-                this.style.overflow = "hidden";
-            }
-        });
+
         const subMenuHeight = this.nextElementSibling.scrollHeight;
 
-        if (classStatus) {
-            subMenu.style.height = subMenuHeight + "px";
-        } else {
-            subMenu.style.height = "0px";
-        }
+        if (classStatus) subMenu.style.height = subMenuHeight + "px";
+        else subMenu.style.height = "0px";
     }
 
     checkActiveMenu() {

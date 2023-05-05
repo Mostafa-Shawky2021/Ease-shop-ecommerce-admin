@@ -53,10 +53,10 @@ class OrderController extends Controller
         $order = Order::create($validatedInputs);
 
         if ($order) {
-            
+
             Notification::create([
                 'message' => 'تم عمل اوردر جديد باسم ' . $request->input('username'),
-                'status' => 0,
+                'status' => 1,
                 'order_id' => $order->id
             ]);
             $guestUserCarts->map(
