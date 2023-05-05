@@ -76,14 +76,10 @@ class OrderController extends Controller
 
     public function storeFastOrder(StoreOrderRequest $request)
     {
-
-        $validatedInput = $request->safe()->merge([
-            'total_price' => $request->input('total_price'),
-        ])->except('guest_id');
-
         $guestId = $request->input('guest_id');
 
         $user = User::where('guest_id', $guestId)->first();
+
 
         if (!$user) {
             $user = User::create([
@@ -91,12 +87,23 @@ class OrderController extends Controller
             ]);
 
         }
+
+        $validatedInput = $request->safe()->merge([
+            'invoice_number' => self::generateInvoice(),
+            'total_price' => $request->input('total_price'),
+            'user_id' => $user->id,
+
+        ])->except('guest_id');
+
+
+
         $order = Order::create($validatedInput);
 
         if ($order) {
             Notification::create([
                 'message' => 'تم عمل اوردر جديد باسم ' . $request->input('username'),
-                'status' => 0,
+                'status' => 1,
+                'order_id' => $order->id
             ]);
             $productId = $request->input('product_id');
             $quantity = $request->input('quantity');

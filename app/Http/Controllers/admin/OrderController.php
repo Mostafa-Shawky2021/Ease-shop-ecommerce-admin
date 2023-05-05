@@ -27,6 +27,7 @@ class OrderController extends Controller
             Notification::where('order_id', $order->id)->update([
                 'status' => 0
             ]);
+
             return redirect()->route('orders.show', ['order' => $order->id]);
         }
         return view('orders.show', compact('order'));
