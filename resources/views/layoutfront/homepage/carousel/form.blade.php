@@ -16,12 +16,11 @@
             $carouselImages = null;
             // convert image pathes into string with | sperator so image upload plugin  can handle images
             if ($carousel && $carousel->images->isNotEmpty()) {
-                $carouselImages = $carousel->images->map(fn($image) => $image->url)->implode('|');
+                $carouselImages = $carousel->images->map(fn($image) => asset("storage/$image->url"))->implode('|');
             }
             
         @endphp
-        <input name="old_image" id="oldImage" hidden
-            value="{{ $carouselImages }}" />
+        <input name="old_image" id="oldImage" hidden value="{{ $carouselImages }}" />
         <input type='file' name='images[]' id='sliderImages' multiple />
     </div>
 </div>

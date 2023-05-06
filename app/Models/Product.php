@@ -21,12 +21,17 @@ class Product extends Model
     {
         parent::boot();
 
-        // inject the url schema to image path in case XMLHttpRequest is used
+         /*
+         * inject application url to images in case its stored in our application
+         * products/img.png will be injected with  http://example.com/storage/producs/img1.png
+         */
         if (request()->ajax()) {
 
             static::retrieved(function ($product) {
 
                 $isResoruceInternal = static::isResoruceInternal($product->image);
+                // this is because datatable is ajax requests so we need escape inject
+                // the path of the resoruce so laravel storage api can handle its pathes
                 $excludeRouteName = !request()->routeIs('products.deleteMultiple');
                 if ($isResoruceInternal && $product->image && $excludeRouteName) {
 

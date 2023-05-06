@@ -27,6 +27,7 @@ class StoreCarouselRequest extends FormRequest
         return [
             'images.*' => 'sometimes|image',
             'carousel_time' => 'required|integer',
+            'content' => ''
         ];
     }
 }

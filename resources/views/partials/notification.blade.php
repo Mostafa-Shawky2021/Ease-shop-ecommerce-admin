@@ -17,8 +17,10 @@
                 <i class="fa fa-shopping-cart"></i>
             </div>
             <div class="info">
-                <a @class([ 'content' , 'active'=> $notification->status ==1])
-                    href="{{route('orders.show',['order'=>$notification->order_id,'notification-status'=>'active'])}}">{{$notification->message}}</a>
+                <a 
+                    @class([ 'content' , 'active'=> $notification->status ==1])
+                     href="{{route('orders.show',['order'=>$notification->order_id,'notification-status'=>'active'])}}">{{$notification->message}}
+                </a>
             </div>
         </div>
         @empty

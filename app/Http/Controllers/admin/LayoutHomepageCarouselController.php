@@ -30,17 +30,19 @@ class LayoutHomepageCarouselController extends Controller
     public function store(StoreCarouselRequest $request)
     {
         $validatedInputs = $request->safe()->except('images');
+           // we only allow one record in database
         Carousel::query()->delete();
-        $carousel = Carousel::create($validatedInputs);
-
+       $carousel = Carousel::create($validatedInputs);
         if ($request->has('images')) {
-            static::storeImages(
+            static::storeImage(
                 $request->file('images'),
-                'storage/layout/homepage/carousel',
-                $carousel
+                'layout/homepage/carousel',
+                $carousel,
+                1600
             );
+           
         }
-
+ 
         return redirect()
             ->route('carousel.index')
             ->with([
@@ -76,7 +78,7 @@ class LayoutHomepageCarouselController extends Controller
 
         if ($request->has('images')) {
 
-            static::storeImages(
+            static::storeImage(
                 $request->file('images'),
                 'layout/homepage/carousel',
                 $carousel

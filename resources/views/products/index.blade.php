@@ -11,16 +11,12 @@
 @section('content')
     @php
         $productQuery = Request::query('status');
-        $dataTableId = $productQuery === 'trashed' 
-        ? 'trashedProductsWrapper'
-         : 'productsWrapper';
+        $dataTableId = $productQuery === 'trashed' ? 'trashedProductsWrapper' : 'productsWrapper';
     @endphp
     <div class="datatable-wrapper" id="{{ $dataTableId }}">
         @php
             $datatableHeaderOptions = ['withSearch' => true];
-            $datatableHeaderOptions = $productQuery === 'trashed'
-             ? array_merge($datatableHeaderOptions, ['withRestoreBtn' => true]) 
-             : $datatableHeaderOptions;
+            $datatableHeaderOptions = $productQuery === 'trashed' ? array_merge($datatableHeaderOptions, ['withRestoreBtn' => true]) : $datatableHeaderOptions;
             
         @endphp
         @include('partials.datatableheader', $datatableHeaderOptions)
