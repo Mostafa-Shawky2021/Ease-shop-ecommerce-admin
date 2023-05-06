@@ -2,28 +2,6 @@
 <aside class="sidebar" id="collapseSidebar">
     <ul class="list list-unstyled">
         <li class="item">
-            <a href="#" class="title">العرض</a>
-        </li>
-        <li class="item">
-            <a @class([
-                'button-toggle',
-                'submenu-visible' => Request::is('admin/layout*'),
-            ])>
-                <i class="fa-solid fa-tags icon"></i>
-                <span>الصفحة الرئيسية</span>
-                <i class="fa-solid fa-chevron-down chevron icon"></i>
-            </a>
-            <ul class="list-submenu toggle-submenu">
-                <li class="item">
-                    <a href="{{ route('carousel.index') }}">السليدر</a>
-                </li>
-                <li class="item">
-                    {{-- <a href="{{ route('layout.homepage.topcateogires') }}">الاقسام --}}
-                    المتميزة</a>
-                </li>
-            </ul>
-        </li>
-        <li class="item">
             <a href="#" class="title">الادارة</a>
         </li>
         <li class="item">
@@ -69,7 +47,6 @@
             </ul>
         </li>
         <li class="item">
-
             <a @class([
                 'button-toggle',
                 'submenu-visible' => Request::is('admin/products*'),
@@ -116,7 +93,9 @@
             </ul>
         </li>
         <li class="item">
-
+            <a href="#" class="title">الطلبات</a>
+        </li>
+        <li class="item">
             <a @class(['button-toggle', 'submenu-visible' => Request::is('orders*')])>
                 <i class="fa-solid fa-cart-shopping icon"></i>
                 <span>الاوردرات</span>
@@ -130,9 +109,26 @@
                     <a href="{{ route('orders.create') }}">اضافة اوردر</a>
                 </li>
                 <li class="item">
-                    <a
-                        href="{{ route('orders.index', ['status' => 'completed']) }}">الاوردرات
+                    <a href="{{ route('orders.index', ['status' => 'completed']) }}">الاوردرات
                         المكتملة</a>
+                </li>
+            </ul>
+        </li>
+        <li class="item">
+            <a href="#" class="title">العرض</a>
+        </li>
+        <li class="item">
+            <a @class([
+                'button-toggle',
+                'submenu-visible' => Request::is('admin/layout*'),
+            ])>
+                <i class="fa-solid fa-home icon"></i>
+                <span>الصفحة الرئيسية</span>
+                <i class="fa-solid fa-chevron-down chevron icon"></i>
+            </a>
+            <ul class="list-submenu toggle-submenu">
+                <li class="item">
+                    <a href="{{ route('carousel.index') }}">السليدر</a>
                 </li>
             </ul>
         </li>
