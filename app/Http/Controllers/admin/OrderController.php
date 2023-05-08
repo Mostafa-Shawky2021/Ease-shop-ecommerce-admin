@@ -23,10 +23,9 @@ class OrderController extends Controller
     public function show(Request $request, Order $order)
     {
 
-        if ($request->query('notification-status')) {
-            Notification::where('order_id', $order->id)->update([
-                'status' => 0
-            ]);
+        if ($request->boolean('is_seen')) {
+            
+            $order->notification()->update(['is_seen'=>1]);
 
             return redirect()->route('orders.show', ['order' => $order->id]);
         }

@@ -12,7 +12,7 @@ use App\Http\Controllers\admin\OrderController;
 use App\Http\Controllers\admin\ColorController;
 use App\Http\Controllers\admin\SizeController;
 use App\Http\Controllers\admin\BrandController;
-
+use App\Http\Controllers\admin\MessageController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -130,7 +130,7 @@ Route::prefix('admin')->group(function () {
 
         }
     );
-
+    // Notification Resource
     Route::controller(NotificationController::class)->group(
         function () {
             Route::get('/notifications', 'index')->name('notifications.index');
@@ -139,4 +139,7 @@ Route::prefix('admin')->group(function () {
 
         }
     );
+
+    // Message Resource
+    Route::apiResource('messages',MessageController::class)->except(['update','store']);
 });

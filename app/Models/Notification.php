@@ -10,8 +10,8 @@ class Notification extends Model
     use HasFactory;
     protected $guarded = [];
 
-    public function order()
+    public function notifiable()
     {
-        return $this->belongsTo(Order::class);
+        return $this->morphTo();
     }
 }

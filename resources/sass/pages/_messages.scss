@@ -1,0 +1,31 @@
+.contacts {
+    background-color: #fff;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    padding: 1rem 0.5rem;
+    max-width: 700px;
+    .list-contacts {
+        padding: 1rem;
+        position: relative;
+        &:not(:last-child) {
+            border-bottom: 1px solid #dedede;
+        }
+    }
+    .list-contacts .item {
+        margin-bottom: 1rem;
+        display: flex;
+        color: #4c4c4c;
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+    .item .info {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .info p {
+        margin: 0px 5px 0px 0px;
+    }
+    .action .btn {
+        font-size: 0.85rem;
+    }
+}

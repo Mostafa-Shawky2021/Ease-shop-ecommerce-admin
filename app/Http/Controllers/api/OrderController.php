@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Requests\api\StoreOrderRequest;
-use App\Models\Notification;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Models\Order;
 use App\Traits\Invoice;
-use App\Models\User;
 use App\Models\Cart;
+use App\Models\User;
+use App\Models\Notification;
 
 class OrderController extends Controller
 {
@@ -53,12 +53,11 @@ class OrderController extends Controller
         $order = Order::create($validatedInputs);
 
         if ($order) {
-
-            Notification::create([
-                'message' => 'تم عمل اوردر جديد باسم ' . $request->input('username'),
-                'status' => 1,
-                'order_id' => $order->id
-            ]);
+            // create new notification
+            $notification = new Notification();
+            $notification->message =  'تم عمل اوردر جديد باسم ' . $request->input('username');
+            $order->notification()->save($notification);
+            
             $guestUserCarts->map(
                 function ($cart) use ($order) {
                     $order->products()->attach($cart->product_id, ['quantity' => $cart->quantity]);

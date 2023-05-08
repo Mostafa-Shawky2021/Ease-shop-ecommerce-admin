@@ -115,6 +115,15 @@
             </ul>
         </li>
         <li class="item">
+            <a href="#" class="title">االتطبيقات</a>
+        </li>
+        <li class="item">
+       <a>
+                <i class="fa-solid fa-message icon"></i>
+                <span>الرسائل</span>
+            </a>
+        </li>
+        <li class="item">
             <a href="#" class="title">العرض</a>
         </li>
         <li class="item">

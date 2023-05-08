@@ -11,6 +11,7 @@ use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\CartController;
 use App\Http\Controllers\api\OrderController;
 use App\Http\Controllers\api\ProductVariantController;
+use App\Http\Controllers\api\MessageController;
 
 
 /*
@@ -89,3 +90,6 @@ Route::controller(OrderController::class)->group(function () {
 	Route::post('/orders/checkout', 'store');
 	Route::post('/orders/checkout/fastorder', 'storeFastOrder');
 });
+
+// Contactus Resource
+Route::post('/messages',[MessageController::class,'store']);

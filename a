@@ -1,0 +1,37 @@
+[90m= [39m[34;4mIlluminate\Database\Eloquent\Collection[39;24m {#4794
+    [34mall[39m: [
+      [34;4mApp\Models\Image[39;24m {#4798
+        [34mid[39m: [35m5[39m,
+        [34murl[39m: "[32mlayout/homepage/carousel/fqbekwNceyQ8lDp4345c324GZWj42b9ZBIeRHuwl.jpg[39m",
+        [34mimageable_id[39m: "[32m6[39m",
+        [34mimageable_type[39m: "[32mApp\Models\Carousel[39m",
+        [34mcreated_at[39m: "[32m2023-05-06 12:08:29[39m",
+        [34mupdated_at[39m: "[32m2023-05-06 12:08:29[39m",
+      },
+      [34;4mApp\Models\Image[39;24m {#4792
+        [34mid[39m: [35m10[39m,
+        [34murl[39m: "[32mlayout/homepage/carousel/caIlNYkclKYbu7Y3eQmlExcb9z0y8qItNIz44GNv.jpg[39m",
+        [34mimageable_id[39m: "[32m7[39m",
+        [34mimageable_type[39m: "[32mApp\Models\Carousel[39m",
+        [34mcreated_at[39m: "[32m2023-05-06 12:15:19[39m",
+        [34mupdated_at[39m: "[32m2023-05-06 12:15:19[39m",
+      },
+      [34;4mApp\Models\Image[39;24m {#4806
+        [34mid[39m: [35m11[39m,
+        [34murl[39m: "[32mlayout/homepage/carousel/TBhe8Gsva0zhQsWIQvl7RB62L0vSeyPFlIKqTetr.jpg[39m",
+        [34mimageable_id[39m: "[32m8[39m",
+        [34mimageable_type[39m: "[32mApp\Models\Carousel[39m",
+        [34mcreated_at[39m: "[32m2023-05-06 12:18:16[39m",
+        [34mupdated_at[39m: "[32m2023-05-06 12:18:16[39m",
+      },
+      [34;4mApp\Models\Image[39;24m {#4785
+        [34mid[39m: [35m12[39m,
+        [34murl[39m: "[32mproducts/U5uB3pq2qHQABdpofejMi10IHQnb8FGrtDIH2Non.jpg[39m",
+        [34mimageable_id[39m: "[32m3[39m",
+        [34mimageable_type[39m: "[32mApp\Models\Product[39m",
+        [34mcreated_at[39m: "[32m2023-05-07 08:02:38[39m",
+        [34mupdated_at[39m: "[32m2023-05-07 08:02:38[39m",
+      },
+    ],
+  }
+

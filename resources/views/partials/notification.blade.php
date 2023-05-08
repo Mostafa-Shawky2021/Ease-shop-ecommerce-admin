@@ -1,4 +1,4 @@
-<div class="notification-list-wrapper"  id="collapseList">
+<div class="notification-list-wrapper" id="collapseList">
     <h6 class="title">
         <span>
             الاشعارات
@@ -6,7 +6,7 @@
         </span>
         <span>
             @if($notifications->isNotEmpty())
-                <a href="{{route('notifications.index')}}" class="view-more">...عرض المزيد</a>
+            <a href="{{route('notifications.index')}}" class="view-more">...عرض المزيد</a>
             @endif
         </span>
     </h6>
@@ -17,9 +17,21 @@
                 <i class="fa fa-shopping-cart"></i>
             </div>
             <div class="info">
-                <a 
-                    @class([ 'content' , 'active'=> $notification->status ==1])
-                     href="{{route('orders.show',['order'=>$notification->order_id,'notification-status'=>'active'])}}">{{$notification->message}}
+                @php
+                $routeName = "";
+                $routeParams = [];
+                if($notification->notifiable instanceof \App\Models\Order ) {
+                $routeName = 'orders.show';
+                $routeParams = ['order'=>$notification->notifiable->id];
+                }
+                else {
+                $routeName = 'messages.show';
+                $routeParams = ['message'=>$notification->notifiable->id];
+                }
+                if($notification->is_seen === 0 ) $routeParams['is_seen'] = true;
+                @endphp
+                <a @class([ 'content' , 'active'=> $notification->is_seen ==0])
+                    href="{{route($routeName,$routeParams)}}">{{$notification->message}}
                 </a>
             </div>
         </div>

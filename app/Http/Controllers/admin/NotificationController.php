@@ -11,17 +11,16 @@ class NotificationController extends Controller
     //
     public function index()
     {
-        $notifications = Notification::orderBy('status', 'desc')
+        $notifications = Notification::orderBy('is_seen', 'asc')
             ->orderBy('id', 'desc')
             ->paginate();
         return view('notifications.index', compact('notifications'));
     }
     public function update(Notification $notification)
     {
-        $notification = $notification->update([
-            'status' => 0
-        ]);
-        if ($notification) {
+        $notification->is_seen=1;
+        
+        if ($notification->save()) {
             return redirect()->route('notifications.index')->with(['message' => ['success', 'تم التحديث بنجاح']]);
         }
         return redirect()->route('notifications.index')->with(['message' => ['error', 'حدثت مشكلة اثناء التحديث حاول مرة اخري']]);
