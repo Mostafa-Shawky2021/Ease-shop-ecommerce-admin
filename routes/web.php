@@ -13,6 +13,7 @@ use App\Http\Controllers\admin\ColorController;
 use App\Http\Controllers\admin\SizeController;
 use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\MessageController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -136,10 +137,12 @@ Route::prefix('admin')->group(function () {
             Route::get('/notifications', 'index')->name('notifications.index');
             Route::delete('/notifications/{notification}', 'destroy')->name('notifications.destroy');
             Route::put('/notifications/{notification}', 'update')->name('notifications.update');
+            Route::post('/notifications/delete', 'deleteMultipleNotifications')->name('notifications.deleteMultiple');
 
         }
     );
 
     // Message Resource
-    Route::apiResource('messages',MessageController::class)->except(['update','store']);
+    Route::apiResource('messages', MessageController::class)->except(['update', 'store']);
+    Route::post('/messages/delete', [MessageController::class, 'deleteMultipleMessages'])->name('messages.deleteMultiple');
 });

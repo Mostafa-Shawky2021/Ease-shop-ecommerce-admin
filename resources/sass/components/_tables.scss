@@ -1,13 +1,12 @@
-@use '../helper/var';
+@use "../helper/var";
 
 .datatable-wrapper {
-
     .search {
         width: 212px;
         font-size: 0.8rem;
         padding: 7px 26px 7px 13px;
         border-radius: 14px;
-        border: 1px solid #dedede
+        border: 1px solid #dedede;
     }
 
     .icon-search {
@@ -27,7 +26,6 @@
         &:hover,
         &:focus {
             background-color: transparent;
-
         }
     }
 
@@ -53,12 +51,11 @@
         }
 
         .icon {
-            width: 14px
+            width: 14px;
         }
 
         span {
             margin-right: 3px;
-
         }
     }
 
@@ -74,24 +71,22 @@
         }
 
         .sorting_disabled {
-            padding-right: 16px !important
+            padding-right: 0.9rem !important;
         }
 
         .sorting_disabled::after {
             content: "" !important;
-
         }
 
         .sorting_disabled::before {
             content: "" !important;
-
         }
 
         .image {
             width: 76px !important;
         }
 
-        &>:not(caption)>*>* {
+        & > :not(caption) > * > * {
             background-color: #fff !important;
             box-shadow: none !important;
             border-width: 0px;
@@ -102,8 +97,6 @@
             background-color: #eff2f7 !important;
             font-weight: 600;
             color: #333333;
-
-
         }
 
         tbody tr td {
@@ -114,7 +107,7 @@
             border-bottom: 1px solid #dedede !important;
         }
 
-        tbody>tr:hover>* {
+        tbody > tr:hover > * {
             background-color: var.$bodycolor !important;
         }
 
@@ -141,13 +134,12 @@
         .multiple-action {
             width: 15px;
             height: 15px;
-            border: 1px solid #dedede
+            border: 1px solid #dedede;
         }
 
         tbody td.image {
             padding: 0px;
         }
-
 
         .action-wrapper {
             display: flex;
@@ -170,7 +162,7 @@
         }
 
         .action-wrapper .icon-restore {
-            color: var(--bs-primary)
+            color: var(--bs-primary);
         }
     }
 }

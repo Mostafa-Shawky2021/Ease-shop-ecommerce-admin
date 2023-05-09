@@ -25,7 +25,7 @@ class CategoriesDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addIndexColumn()
-            ->addColumn('action-muliple-wrapper', fn($category) => "<input value='" . $category->id . "'type='checkbox' class='action-multiple-box'/>")
+            ->addColumn('action-muliple-wrapper', fn($category) => "<input value='" . $category->id . "'type='checkbox' class='action-checkbox'/>")
             ->editColumn('image', function (Category $category) {
                 return $category->image
                     ? "<img alt='category-image' src='$category->image' width='30' height='30'/>"
@@ -92,7 +92,7 @@ class CategoriesDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('action-muliple-wrapper')->addClass('action-multiple-wrapper')->title('#')->name('id'),
+            Column::make('action-muliple-wrapper')->addClass('action-multiple-wrapper')->title('<input type="checkbox" id="multipleSelector" />')->orderable(false),
             Column::make('image')->title('صورة المنتج')->orderable(false)->className('image'),
             Column::make('cat_name')->title('اسم القسم'),
             Column::make('parent_category')->title('القسم الرئيسي')->name('id'),

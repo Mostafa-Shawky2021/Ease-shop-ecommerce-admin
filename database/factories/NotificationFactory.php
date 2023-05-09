@@ -19,8 +19,9 @@ class NotificationFactory extends Factory
     {
         return [
             'message' => 'user ' . fake()->name . ' has make order',
-            'status' => '1',
-            'order_id' => Order::factory()
+            'notifiable_id' => Order::factory(),
+            'notifiable_type' => Order::class
+
         ];
     }
 }

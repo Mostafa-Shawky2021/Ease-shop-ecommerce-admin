@@ -14,7 +14,7 @@ class CartController extends Controller
     public function index(Request $request, $userId)
     {
 
-        $carts = Cart::with('product')
+        $carts = Cart::with(['product' => fn($queryBuilder) => $queryBuilder->withTrashed()])
             ->where('user_id', $userId)
             ->get();
 

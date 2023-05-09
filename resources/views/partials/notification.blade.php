@@ -14,7 +14,11 @@
         @forelse($notifications as $notification)
         <div class="notification-item">
             <div class="icon-cart">
+                @if($notification->notifiable instanceof \App\Models\Order )
                 <i class="fa fa-shopping-cart"></i>
+                @else
+                <i class="fa fa-message"></i>
+                @endif
             </div>
             <div class="info">
                 @php
@@ -38,7 +42,7 @@
         @empty
         <div class="notification-item">
             <div class="icon-cart">
-                <i class="fa fa-shopping-cart"></i>
+
             </div>
             <div class="info">
                 <p style="margin:0px">لا يوجد اشعارات</p>

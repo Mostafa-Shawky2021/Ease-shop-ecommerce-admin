@@ -190,6 +190,9 @@ class ProductController extends Controller
                 ? Storage::delete($image->url)
                 : null);
             $product->images()->delete();
+            //TODO::confirm user before delete 
+            $product->carts()->delete();
+            $product->orders()->detach();
             $product->forceDelete();
         } else
             $product->delete();
@@ -212,7 +215,12 @@ class ProductController extends Controller
 
                 $products->withTrashed()->each(function ($product) {
 
+                    // delete the size,color relation ship record ss
                     $product->deleteProductVariant();
+
+                    //TODO::confirm user before delete 
+                    $product->carts()->delete();
+                    $product->orders()->detach();
 
                     if ($product->image) {
 
@@ -220,7 +228,6 @@ class ProductController extends Controller
                             ? Storage::delete($product->image)
                             : null;
                     }
-
                 });
 
                 $deletedCount = $products->forceDelete();

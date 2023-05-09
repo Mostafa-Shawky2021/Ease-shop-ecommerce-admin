@@ -22,7 +22,7 @@ class OrdersDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->setRowId('id')
-            ->addColumn('action-muliple-wrapper', fn($order) => "<input value='" . $order->id . "'type='checkbox' class='action-multiple-box'/>")
+            ->addColumn('action-muliple-wrapper', fn($order) => "<input value='" . $order->id . "'type='checkbox' class='action-checkbox'/>")
             ->editColumn('invoice_number', function ($order) {
                 $orderRoute = ['order' => $order->id];
                 return "<a href='" . route('orders.show', $orderRoute) . "'>$order->invoice_number</a>";
@@ -119,7 +119,7 @@ class OrdersDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('action-muliple-wrapper')->addClass('action-multiple-wrapper')->title('#')->name('id'),
+            Column::make('action-muliple-wrapper')->addClass('action-multiple-wrapper')->title('<input type="checkbox" id="multipleSelector" />')->orderable(false),
             Column::make('invoice_number')->title('رقم الفاتورة')->orderable(false),
             Column::make('governorate')->title('المحافظة'),
             Column::make('street')->title('عنوان الشارع'),

@@ -1,14 +1,12 @@
-@php  $urlSegment = Request::segment(2); @endphp
+@php $urlSegment = Request::segment(2); @endphp
 <aside class="sidebar" id="collapseSidebar">
     <ul class="list list-unstyled">
         <li class="item">
             <a href="#" class="title">الادارة</a>
         </li>
         <li class="item">
-            <a @class([
-                'button-toggle',
-                'submenu-visible' => Request::is('admin/users*'),
-            ]) data-toggle="toggle-submenu">
+            <a @class([ 'button-toggle' , 'submenu-visible'=> Request::is('admin/users*'),
+                ]) data-toggle="toggle-submenu">
                 <i class="fa fa-user icon"></i>
                 <span>المستخدمين</span>
                 <i class="fa-solid fa-chevron-down chevron icon"></i>
@@ -29,10 +27,9 @@
             <a href="#" class="title">المتجر</a>
         </li>
         <li class="item">
-            <a @class([
-                'button-toggle',
-                'submenu-visible' => Request::is('admin/categories*'),
-            ])>
+            <a @class([ 'button-toggle' , 'submenu-visible'=>
+                Request::is('admin/categories*'),
+                ])>
                 <i class="fa-solid fa-tags icon"></i>
                 <span>الاقسام</span>
                 <i class="fa-solid fa-chevron-down chevron icon"></i>
@@ -47,10 +44,9 @@
             </ul>
         </li>
         <li class="item">
-            <a @class([
-                'button-toggle',
-                'submenu-visible' => Request::is('admin/products*'),
-            ])>
+            <a @class([ 'button-toggle' , 'submenu-visible'=>
+                Request::is('admin/products*'),
+                ])>
                 <i class="fa-solid fa-shop icon"></i>
                 <span>المنتجات</span>
                 <i class="fa-solid fa-chevron-down chevron icon"></i>
@@ -69,13 +65,11 @@
             </ul>
         </li>
         <li class="item">
-            <a @class([
-                'button-toggle',
-                'submenu-visible' =>
-                    Request::is('admin/color*') ||
-                    Request::is('admin/sizes*') ||
-                    Request::is('admin/brands*'),
-            ])>
+            <a @class([ 'button-toggle' , 'submenu-visible'=>
+                Request::is('admin/color*') ||
+                Request::is('admin/sizes*') ||
+                Request::is('admin/brands*'),
+                ])>
                 <i class="fa-solid fa-box icon"></i>
                 <span>خيارات المنتجات</span>
                 <i class="fa-solid fa-chevron-down chevron icon"></i>
@@ -96,7 +90,7 @@
             <a href="#" class="title">الطلبات</a>
         </li>
         <li class="item">
-            <a @class(['button-toggle', 'submenu-visible' => Request::is('orders*')])>
+            <a @class(['button-toggle', 'submenu-visible'=> Request::is('orders*')])>
                 <i class="fa-solid fa-cart-shopping icon"></i>
                 <span>الاوردرات</span>
                 <i class="fa-solid fa-chevron-down chevron icon"></i>
@@ -118,7 +112,7 @@
             <a href="#" class="title">االتطبيقات</a>
         </li>
         <li class="item">
-       <a>
+            <a href="{{route('messages.index')}}">
                 <i class="fa-solid fa-message icon"></i>
                 <span>الرسائل</span>
             </a>
@@ -127,10 +121,9 @@
             <a href="#" class="title">العرض</a>
         </li>
         <li class="item">
-            <a @class([
-                'button-toggle',
-                'submenu-visible' => Request::is('admin/layout*'),
-            ])>
+            <a @class([ 'button-toggle' , 'submenu-visible'=>
+                Request::is('admin/layout*'),
+                ])>
                 <i class="fa-solid fa-home icon"></i>
                 <span>الصفحة الرئيسية</span>
                 <i class="fa-solid fa-chevron-down chevron icon"></i>

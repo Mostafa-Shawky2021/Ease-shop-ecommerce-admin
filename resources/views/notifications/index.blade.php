@@ -7,12 +7,17 @@
 
 @section('content')
 
-<div class="datatable-wrapper">
-    @include('partials.datatableheader')
+<div class="datatable-wrapper" id="notificationsWrapper">
+    <div class="d-flex justify-content-end">
+        @include('partials.datatableheader')
+    </div>
     <div class="table-responsive">
         <table class="table table-data-layout">
             <thead>
                 <tr>
+                    <th>
+                        <input type="checkbox" id="multipleSelector">
+                    </th>
                     <th>الاسم</th>
                     <th>اجراء</th>
                 </tr>
@@ -34,6 +39,10 @@
                 true;
                 @endphp
                 <tr>
+                    <td>
+                        <input value="{{ $notification->id }}" type='checkbox'
+                            class='action-checkbox' />
+                    </td>
                     <td>
                         @php
                         $notificationStyle = $notification->is_seen === 0

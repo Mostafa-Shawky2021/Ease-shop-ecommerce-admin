@@ -18,8 +18,8 @@ class NotificationController extends Controller
     }
     public function update(Notification $notification)
     {
-        $notification->is_seen=1;
-        
+        $notification->is_seen = 1;
+
         if ($notification->save()) {
             return redirect()->route('notifications.index')->with(['message' => ['success', 'تم التحديث بنجاح']]);
         }
@@ -35,6 +35,26 @@ class NotificationController extends Controller
             ->with(['message' => ['error', 'حدثت مشكله اثناء الحذف حاول مرة اخري']]);
     }
 
+    public function deleteMultipleNotifications(Request $request)
+    {
+
+        if ($request->ajax()) {
+
+
+            $deletedCount = Notification::whereIn('id', $request->input('id'))->delete();
+
+            if ($deletedCount > 0) {
+
+                return response([
+                    'message' => 'notifications deleted successfully'
+                ], 200);
+
+            }
+            return response([
+                'message' => 'no notifications found'
+            ], 404);
+        }
+    }
 
 
 }
