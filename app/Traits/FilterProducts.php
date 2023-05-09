@@ -84,7 +84,7 @@ trait FilterProducts
 
         $this->productModelFilter = $this->productModelFilter
             ->select('products.*')
-            ->join('categories', 'products.category_id', '=', 'categories.id')
+            ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
             ->where(
                 function (Builder $query) use ($productName) {
                     return $query->where('products.product_name', 'LIKE', "%$productName%")

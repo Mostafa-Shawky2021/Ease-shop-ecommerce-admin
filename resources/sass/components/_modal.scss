@@ -1,7 +1,11 @@
 .model-show-image {
     max-width: 85%;
     overflow: hidden;
-
+    .modal-title {
+        font-size: 1rem !important;
+        color: #222;
+        font-weight: 500;
+    }
     .image-wrapper-single {
         width: 50%;
         height: calc(100vh - 300px);
@@ -31,5 +35,9 @@
         height: 200px;
         object-fit: contain;
     }
-
+    .modal-footer button {
+        padding: 0.3rem 1.3rem;
+        border-radius: 3px;
+        font-weight: 500;
+    }
 }
