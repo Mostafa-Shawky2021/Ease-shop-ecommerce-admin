@@ -132,6 +132,9 @@
                 <li class="item">
                     <a href="{{ route('carousel.index') }}">السليدر</a>
                 </li>
+                <li class="item">
+                    <a href="{{ route('footer.index') }}">الفوتر</a>
+                </li>
             </ul>
         </li>
     </ul>

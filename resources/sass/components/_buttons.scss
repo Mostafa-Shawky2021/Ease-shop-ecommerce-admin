@@ -1,4 +1,4 @@
-@use '../helper/var';
+@use "../helper/var";
 
 .btn-add {
     background-color: var.$primarycolor;
@@ -25,4 +25,8 @@
         font-size: 15px;
         margin-right: 8px;
     }
+}
+.btn-delete {
+    @extend .btn-add;
+    background-color: var(--bs-danger);
 }

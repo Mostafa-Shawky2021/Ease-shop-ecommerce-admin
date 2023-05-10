@@ -34,7 +34,10 @@ use App\Http\Controllers\api\MessageController;
 Route::controller(LayoutController::class)->group(function () {
 
 	Route::get('/layout', 'index');
+
 });
+
+
 
 // Product Variants Resource
 Route::controller(ProductVariantController::class)->group(function () {
@@ -92,4 +95,4 @@ Route::controller(OrderController::class)->group(function () {
 });
 
 // Contactus Resource
-Route::post('/messages',[MessageController::class,'store']);
+Route::post('/messages', [MessageController::class, 'store']);

@@ -1,10 +1,10 @@
 <?php
-
-use App\Http\Controllers\admin\LayoutHomepageTopcategoriesController;
 use App\Http\Controllers\admin\NotificationController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\admin\LayoutHomepageCarouselController;
+use App\Http\Controllers\admin\LayoutHomepageFooterController;
+
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\ProductController;
@@ -35,6 +35,9 @@ Route::prefix('admin')->group(function () {
 
     //Layout Resources
     Route::resource('layout/homepage/carousel', LayoutHomepageCarouselController::class)
+        ->except(['show']);
+
+    Route::resource('layout/homepage/footer', LayoutHomepageFooterController::class)
         ->except(['show']);
 
     // User Resource

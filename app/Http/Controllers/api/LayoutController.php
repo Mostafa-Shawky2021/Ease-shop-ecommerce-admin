@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Carousel;
+use App\Models\Footer;
 
 
 class LayoutController extends Controller
@@ -13,8 +14,14 @@ class LayoutController extends Controller
     {
 
         $carouselHomepage = Carousel::with('images')->first();
+        $footerData = Footer::first();
+
         return response([
-            'data' => ['carousel_content' => $carouselHomepage]
+            'data' => [
+                'carousel_content' => $carouselHomepage,
+                'footer_data' => $footerData
+            ]
         ], 200);
     }
+
 }

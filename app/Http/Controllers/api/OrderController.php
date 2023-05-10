@@ -55,9 +55,9 @@ class OrderController extends Controller
         if ($order) {
             // create new notification
             $notification = new Notification();
-            $notification->message =  'تم عمل اوردر جديد باسم ' . $request->input('username');
+            $notification->message = 'تم عمل اوردر جديد باسم ' . $request->input('username');
             $order->notification()->save($notification);
-            
+
             $guestUserCarts->map(
                 function ($cart) use ($order) {
                     $order->products()->attach($cart->product_id, ['quantity' => $cart->quantity]);
@@ -99,11 +99,10 @@ class OrderController extends Controller
         $order = Order::create($validatedInput);
 
         if ($order) {
-            Notification::create([
-                'message' => 'تم عمل اوردر جديد باسم ' . $request->input('username'),
-                'status' => 1,
-                'order_id' => $order->id
-            ]);
+            $notification = new Notification();
+            $notification->message = 'تم عمل اوردر جديد باسم ' . $request->input('username');
+            $order->notification()->save($notification);
+
             $productId = $request->input('product_id');
             $quantity = $request->input('quantity');
             $order->products()->attach($productId, ['quantity' => $quantity]);

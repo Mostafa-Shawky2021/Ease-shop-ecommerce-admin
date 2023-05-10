@@ -30,9 +30,9 @@ class LayoutHomepageCarouselController extends Controller
     public function store(StoreCarouselRequest $request)
     {
         $validatedInputs = $request->safe()->except('images');
-           // we only allow one record in database
+        // we only allow one record in database
         Carousel::query()->delete();
-       $carousel = Carousel::create($validatedInputs);
+        $carousel = Carousel::create($validatedInputs);
         if ($request->has('images')) {
             static::storeImage(
                 $request->file('images'),
@@ -40,13 +40,13 @@ class LayoutHomepageCarouselController extends Controller
                 $carousel,
                 1600
             );
-           
+
         }
- 
+
         return redirect()
             ->route('carousel.index')
             ->with([
-                'message' => ['تم اضافة المنتج بنجاح', 'success']
+                'message' => ['تم اضافة المحتوي بنجاح', 'success']
             ]);
     }
 
