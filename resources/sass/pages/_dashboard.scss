@@ -1,0 +1,60 @@
+.fast-analysis {
+    color: #fff;
+    .box {
+        border-radius: 5px;
+    }
+    .total-products {
+        background: linear-gradient(-20deg, #2b5876 0%, #4e4376 100%);
+    }
+    .pending-orders {
+        background: linear-gradient(to top, #0ba360 0%, #3cba92 100%);
+    }
+    .completed-orders {
+        background-color: #2a3042;
+    }
+    .total-categories {
+        background: linear-gradient(to top, #ff0844 0%, #ffb199 100%);
+    }
+    .count {
+        font-size: 2rem;
+        font-weight: bold;
+        margin: 0px;
+    }
+    a {
+        color: inherit;
+    }
+    .data {
+        color: #d5d5d5;
+        font-weight: 500;
+    }
+    .icon {
+        font-size: 30px;
+        align-self: center;
+    }
+    .lastest-orders {
+        margin-top: 3rem;
+        background-color: #fff;
+        padding: 0px 1rem;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    }
+    .lastest-orders th {
+        font-weight: 600;
+    }
+    .lastest-orders th,
+    .lastest-orders td {
+        font-size: 0.8rem;
+        padding: 1rem 0px;
+    }
+    .lastest-orders table tbody tr > * {
+        border-bottom-width: 0px !important;
+    }
+    .lastest-orders table tr:not(:last-child) {
+        border-bottom: 1px solid #dedede !important;
+    }
+    .lastest-orders table a {
+        transition: all 0.3s;
+    }
+    .lastest-orders table a:hover {
+        color: var(--bs-primary) !important;
+    }
+}

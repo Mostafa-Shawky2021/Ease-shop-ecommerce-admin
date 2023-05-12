@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\admin\LayoutHomepageCarouselController;
 use App\Http\Controllers\admin\LayoutHomepageFooterController;
-
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\ProductController;
@@ -13,6 +12,10 @@ use App\Http\Controllers\admin\ColorController;
 use App\Http\Controllers\admin\SizeController;
 use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\MessageController;
+
+use App\Models\Product;
+use App\Models\Order;
+use App\Models\Category;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,13 +28,28 @@ use App\Http\Controllers\admin\MessageController;
 |
 */
 
-Route::get('/', function (Request $request) {
-
-    return view("dashboard.index");
-
-});
 
 Route::prefix('admin')->group(function () {
+
+    // Dashboard
+
+    Route::get('/', function (Request $request) {
+        $productsCount = Product::count();
+        $pendingOrders = Order::where('order_status', 0)->count();
+        $completedOrders = Order::where('order_status', 1)->count();
+        $categoriesCount = Category::count();
+        $latestOrders = Order::where('order_status', 0)->get();
+        return view("dashboard.index", compact(
+            'productsCount',
+            'pendingOrders',
+            'completedOrders',
+            'categoriesCount',
+            'latestOrders'
+        )
+        );
+
+    });
+
 
     //Layout Resources
     Route::resource('layout/homepage/carousel', LayoutHomepageCarouselController::class)
