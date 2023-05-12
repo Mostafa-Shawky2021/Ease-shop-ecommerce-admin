@@ -143,7 +143,7 @@ class ProductController extends Controller
                 : null;
 
         }
-
+        $product->product_slug = null;
         $product->update($validatedInputs);
 
         // null meaning that user deleted the the old color in case it were exist in last time

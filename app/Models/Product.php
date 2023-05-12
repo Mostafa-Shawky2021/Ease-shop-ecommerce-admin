@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Cviebrock\EloquentSluggable\Sluggable;
 use App\Traits\ResourceStatus;
+use Illuminate\Database\Eloquent\Builder;
 
 class Product extends Model
 {
@@ -16,12 +17,11 @@ class Product extends Model
     use ResourceStatus;
     protected $guarded = [];
 
-
     public static function boot()
     {
         parent::boot();
 
-         /*
+        /*
          * inject application url to images in case its stored in our application
          * products/img.png will be injected with  http://example.com/storage/producs/img1.png
          */
@@ -44,7 +44,8 @@ class Product extends Model
 
 
     }
-    public function carts(){
+    public function carts()
+    {
         return $this->hasMany(Cart::class);
     }
     public function orders()

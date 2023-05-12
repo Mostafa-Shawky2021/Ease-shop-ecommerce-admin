@@ -17,7 +17,7 @@
     action="{{ route('footer.store') }}">
     @csrf
     @include('layoutfront.homepage.footer.form', [
-    'carousel' => null,
+    'footer' => null,
     ])
     <div class="mt-4 text-end">
         <button class="btn-add">

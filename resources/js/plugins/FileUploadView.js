@@ -31,16 +31,33 @@ class FileUploadView {
         this.renderBtnShow();
         this.renderRemoveBtn();
         this.renderImageWrapper(oldImagePath);
+        this.renderImagesLength(oldImagePath);
     }
 
     handleFileUploaded(event) {
+        if (!event.target.files.length) return false; // user dosen;t choose image
         this.renderBtnShow(event.target.files);
 
         this.renderRemoveBtn();
 
+        this.renderImagesLength(event.target.files);
+
         this.renderImageWrapper(event.target.files);
     }
 
+    renderImagesLength(files) {
+        const imageCount = typeof files === "string" ? 1 : files.length;
+        let createdElement =
+            this.parentFileElement.querySelector(".images-count");
+        if (!createdElement) {
+            createdElement = this.createElement(
+                "span",
+                "images-count",
+                this.parentFileElement
+            );
+        }
+        createdElement.innerText = `تم اضافة عدد ${imageCount} صور`;
+    }
     renderImageWrapper(files) {
         let imageWrapperContainer = this.createElement("div");
 
@@ -152,7 +169,7 @@ class FileUploadView {
         if (!btnShowNode) {
             btnShowNode = this.createElement(
                 "button",
-                ["view-btn", "btn-action"],
+                ["btn", "btn-primary", "view-btn", "btn-action"],
                 this.parentFileElement
             );
 
@@ -176,7 +193,7 @@ class FileUploadView {
         if (!btnShowNode) {
             btnShowNode = this.createElement(
                 "button",
-                ["delete-btn", "btn-action"],
+                ["btn-danger", "btn-action", "btn", "delete-btn"],
                 this.parentFileElement
             );
 
@@ -191,6 +208,7 @@ class FileUploadView {
         this.parentFileElement.querySelector(".delete-btn")?.remove();
         this.parentFileElement.querySelector(".view-btn")?.remove();
         this.parentFileElement.querySelector(".modalWrapper")?.remove();
+        this.parentFileElement.querySelector(".images-count").innerText = "";
         this.inputFileNode.value = "";
 
         // reset old image so server can detected that the user delete old image

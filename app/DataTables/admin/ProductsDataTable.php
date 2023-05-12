@@ -23,7 +23,9 @@ class ProductsDataTable extends DataTable
 
         return (new EloquentDataTable($query))
             ->addIndexColumn()
-            ->addColumn('action-muliple-wrapper', fn($product) => "<input value='" . $product->id . "'type='checkbox' class='action-checkbox'/>"
+            ->addColumn(
+                'action-muliple-wrapper',
+                fn($product) => "<input value='" . $product->id . "'type='checkbox' class='action-checkbox'/>"
             )->editColumn('image', function (Product $product) {
                 return $product->image
                     ? "<img alt='product-image' src='$product->image' width='30' height='30'/>"
@@ -111,7 +113,7 @@ class ProductsDataTable extends DataTable
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->parameters([
-                'order' => [0, 'desc']
+                'order' => [1, 'desc']
             ])->dom('rtip');
     }
 
@@ -124,8 +126,8 @@ class ProductsDataTable extends DataTable
     {
 
         return [
-                Column::make('action-muliple-wrapper')->addClass('action-multiple-wrapper')->title('<input type="checkbox" id="multipleSelector">')->orderable(false),
-            Column::make('image')->title('صورة المنتج')->orderable(false)->className('image'),
+            Column::make('action-muliple-wrapper')->addClass('action-multiple-wrapper')->title('<input type="checkbox" id="multipleSelector">')->orderable(false),
+            Column::make('image')->title('صورة المنتج')->orderable(true)->name('id')->className('image'),
             Column::make('product_name')->title('اسم المنتج'),
             Column::make('category')->name('category.cat_name')->title('القسم'),
             Column::make('price')->title('السعر'),
