@@ -25,17 +25,18 @@
                 $routeName = "";
                 $routeParams = [];
                 if($notification->notifiable instanceof \App\Models\Order ) {
+
                 $routeName = 'orders.show';
                 $routeParams = ['order'=>$notification->notifiable->id];
                 }
-                else {
+                elseif($notification->notifiable instanceof \App\Models\Message) {
                 $routeName = 'messages.show';
                 $routeParams = ['message'=>$notification->notifiable->id];
                 }
                 if($notification->is_seen === 0 ) $routeParams['is_seen'] = true;
                 @endphp
                 <a @class([ 'content' , 'active'=> $notification->is_seen ==0])
-                    href="{{route($routeName,$routeParams)}}">{{$notification->message}}
+                    href="{{!empty($routeParams) ? route($routeName,$routeParams):"#"}}">{{$notification->message}}
                 </a>
             </div>
         </div>

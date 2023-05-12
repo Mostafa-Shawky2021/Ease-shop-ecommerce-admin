@@ -23,6 +23,19 @@ class SizeController extends Controller
     public function store(Request $request)
     {
 
+        // in case use want to store new size from add product page 
+        if ($request->ajax()) {
+            $validatedInput = $request->validate([
+                'size_name' => 'required|unique:sizes',
+            ]);
+            $size = Size::create($validatedInput);
+            return response([
+                'message' => 'size created successfully',
+                'data' => $size
+            ], 201);
+        }
+
+        // regular request
         $validated = $request->validate([
             'sizes_name' => 'required'
         ]);

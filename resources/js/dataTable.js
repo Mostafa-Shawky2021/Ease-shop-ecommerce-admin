@@ -5,6 +5,7 @@ const categoriesWrapper = document.getElementById("categoriesWrapper");
 const productsWrapper = document.getElementById("productsWrapper");
 const brandsWrapper = document.getElementById("brandsWrapper");
 const colorsWrapper = document.getElementById("colorsWrapper");
+const sizesWrapper = document.getElementById("sizesWrapper");
 const trashedProductsWrapper = document.getElementById(
     "trashedProductsWrapper"
 );
@@ -34,6 +35,7 @@ trashedProductsWrapper &&
 
 colorsWrapper && new Datatable(colorsWrapper, null, dataTableUri.DELETE_COLORS);
 brandsWrapper && new Datatable(brandsWrapper, null, dataTableUri.DELETE_BRANDS);
+sizesWrapper && new Datatable(sizesWrapper, null, dataTableUri.DELETE_SIZES);
 ordersWrapper &&
     new Datatable(ordersWrapper, "orders-table", dataTableUri.DELETE_ORDERS);
 notificationsWrapper &&

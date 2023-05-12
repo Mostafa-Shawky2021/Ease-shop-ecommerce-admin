@@ -1,51 +1,48 @@
 import axios from "axios";
 import ProductAjaxForm from "./ProductAjaxForm";
+
 import { productFormVariantUri } from "./data";
 
-class BrandAjaxForm extends ProductAjaxForm {
+class ColorAjaxForm extends ProductAjaxForm {
     constructor(productVariantModal) {
         super(productVariantModal);
 
-        this._brandSelectBox = productVariantModal.nextElementSibling;
-        // bootstrap instance so we can control modal behavior
+        this._sizeWrapperBox = productVariantModal.nextElementSibling;
+
         this._modalBootstrap = new bootstrap.Modal(
-            document.getElementById("productBrandModal")
+            document.getElementById("productSizeModal")
         );
     }
 
     handleSaveProductVariantValue(event) {
         event.preventDefault();
-        const brandVariantValue = this._variantInputNode.value;
-
-        if (!this.checkProductVariantValue(brandVariantValue)) return false;
-
-        this.sendProductVariantAjax({ brand_name: brandVariantValue });
+        const sizeVariantValue = this._variantInputNode.value;
+        if (!this.checkProductVariantValue(sizeVariantValue)) return false;
+        this.sendProductVariantAjax({ size_name: sizeVariantValue });
     }
-    // brand value which will be send via ajax request
+
+    // category value which will be send via ajax request
     async sendProductVariantAjax(valueData) {
         super.sendProductVariantAjax(valueData);
+
         try {
             const res = await axios.post(
-                productFormVariantUri.ADD_BRAND,
+                productFormVariantUri.ADD_SIZE,
                 valueData
             );
 
             if (res.status === 201) {
-                const lastOption = this._brandSelectBox.length - 1;
-                const isDisableOptionExist =
-                    this._brandSelectBox[lastOption].disabled;
-
-                if (isDisableOptionExist)
-                    this._brandSelectBox[lastOption].remove();
+                const isColorBoxWrapperIsEmpty =
+                    this._sizeWrapperBox.children[0].getAttribute("disabled");
+                if (isColorBoxWrapperIsEmpty) {
+                    this._sizeWrapperBox.children[0].remove();
+                }
 
                 const { data } = res.data;
-                const option = new Option(
-                    data.brand_name,
-                    data.id,
-                    false,
-                    true
-                );
-                this._brandSelectBox[lastOption] = option;
+
+                this._sizeWrapperBox.innerHTML += `<div class='product-variant' value='${data.id}'>
+                    ${data.size_name}
+                 </div>`;
 
                 this._saveBtnNode.querySelector(".icon").style.display =
                     "block";
@@ -58,12 +55,12 @@ class BrandAjaxForm extends ProductAjaxForm {
         } catch (error) {
             this._saveBtnNode.querySelector(".icon").style.display = "block";
             this._saveBtnNode.querySelector(".spinner").style.display = "none";
-
             // error validation rules
             if (error?.response?.status === 422) {
                 this._errorMsg = error.response.data.message;
-                this._errorBox.innerHTML = `<div class='alert alert-danger'>
+                this._errorBox.innerHTML = `<div class='alert alert-danger alert-dismissible fade show' role='start'>
                     ${this._errorMsg}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>`;
             } else {
                 console.log(error);
@@ -72,4 +69,4 @@ class BrandAjaxForm extends ProductAjaxForm {
     }
 }
 
-export default BrandAjaxForm;
+export default ColorAjaxForm;

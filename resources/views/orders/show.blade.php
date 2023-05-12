@@ -49,9 +49,8 @@ $orderStatusClass = 'processing';
                     @endphp
                     <tr>
                         <td class="image">
-                            <img width="30" height="30" src="{{ asset("
-                                storage/$product->image") }}"
-                            alt="{{ $product->product_name }}" />
+                            <img width="30" height="30" src="{{ asset('storage/'.$product->image.'' )}}" alt="{{
+                            $product->product_name }}" />
                         </td>
                         <td>{{ $product->product_name }}</td>
                         <td>{{ $product->pivot->color ?? '--' }}</td>

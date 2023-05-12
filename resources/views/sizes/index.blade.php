@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-<div class="datatable-wrapper" id="colorsWrapper">
+<div class="datatable-wrapper" id="sizesWrapper">
     <div class="d-flex justify-content-end">
         @include('partials.datatableheader')
     </div>
@@ -29,18 +29,15 @@
                 @php $routeParamter = ['size' => $size->id] ;@endphp
                 <tr>
                     <td>
-                        <input value="{{ $size->id }}" type='checkbox'
-                            class="action-checkbox" />
+                        <input value="{{ $size->id }}" type='checkbox' class="action-checkbox" />
                     </td>
                     <td>{{ $size->size_name }}</td>
                     <td>
                         <div class="action-wrapper">
-                            <a class="btn-action"
-                                href="{{ route('sizes.edit', $routeParamter) }}">
+                            <a class="btn-action" href="{{ route('sizes.edit', $routeParamter) }}">
                                 <i class="fa fa-edit icon icon-edit"></i>
                             </a>
-                            <form method="POST"
-                                action="{{ route('sizes.destroy', $routeParamter) }}">
+                            <form method="POST" action="{{ route('sizes.destroy', $routeParamter) }}">
                                 @method('DELETE')
                                 <button class="btn-action">
                                     <i class="fa fa-trash icon icon-delete"></i>

@@ -12,16 +12,21 @@
                 <div>
                     <label class="label-control" style="font-size:0.8rem; color:#555">{{ $labelName }}</label>
                     <input class="form-control mt-2" id="variantInput" />
-
-                    <button id="btnSave" class="btn-add mt-3 d-flex align-items-center"
-                        style="font-size:0.9rem;border-radius:8px">
-                        حفظ
-                        <i class="fa fa-plus icon" style="margin-top:2px; margin-right:3px;"></i>
-                        <div class="spinner">
-                            <i class="fa fa-spinner fa-spin icon"></i>
-                        </div>
-                    </button>
                 </div>
+                @isset($color_picker)
+                <div class="mt-3 color-picker-wrapper">
+                    <label class="label-control" style="font-size:0.8rem; color:#555">قيمة اللون</label>
+                    <input type="text" class="color-picker form-control mt-2" />
+                </div>
+                @endisset
+                <button id="btnSave" class="btn-add mt-3 d-flex align-items-center" style="font-size:0.9rem;border-radius:8px">
+                    حفظ
+                    <i class="fa fa-plus icon" style="margin-top:2px; margin-right:3px;"></i>
+                    <div class="spinner">
+                        <i class="fa fa-spinner fa-spin icon"></i>
+                    </div>
+                </button>
+
             </div>
 
         </div>

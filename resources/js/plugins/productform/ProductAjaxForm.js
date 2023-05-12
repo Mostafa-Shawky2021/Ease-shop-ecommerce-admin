@@ -29,8 +29,8 @@ class ProductAjaxForm {
     }
     // validate product variant input
     checkProductVariantValue(value) {
-        if (value.trim().length < 4) {
-            const errMsg = "يجب ان يكون عدد الحروف اكبر من 4";
+        if (!value.trim()) {
+            const errMsg = "من فضلك ادخل قيمة";
             this._errorBox.innerHTML = `
             <div class='alert alert-danger alert-dismissible fade show' role="alert">
                 ${errMsg}

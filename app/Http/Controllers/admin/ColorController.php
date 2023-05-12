@@ -21,12 +21,23 @@ class ColorController extends Controller
     }
     public function store(Request $request)
     {
+        // in case use want to store new color from add product page 
+        if ($request->ajax()) {
+            $validatedInput = $request->validate([
+                'color_name' => 'required|unique:colors',
+                'color_value' => '',
+            ]);
+            $color = Color::create($validatedInput);
+            return response([
+                'message' => 'color created successfully',
+                'data' => $color
+            ], 201);
+        }
 
+        // regular request
         $validated = $request->validate([
-
             'colors_name' => 'required'
         ]);
-
 
         $colorsValueArray = collect(explode('|', $validated['colors_name']));
 
@@ -43,7 +54,10 @@ class ColorController extends Controller
                 ]);
         });
 
-        return redirect()->route('colors.index');
+        return redirect()
+            ->route('colors.index')
+            ->with(['message' => ['تم اضافة اللون بنجاح', 'success']]);
+
     }
 
     public function edit(Color $color)
@@ -65,12 +79,10 @@ class ColorController extends Controller
             ->where('id', '!=', $color->id)
             ->exists();
 
-
         if ($colorExist) {
-            return redirect()->back()
-                ->with([
-                    'message' => 'اسم اللون موجود مسبقاً'
-                ]);
+            return redirect()
+                ->back()
+                ->with(['message' => ['اسم اللون موجود بالفعل', 'error']]);
         }
 
         $color->update([
@@ -80,7 +92,7 @@ class ColorController extends Controller
 
         return redirect()
             ->route('colors.index')
-            ->with(['message' => ['تم تحديث الون بنجاح', 'success']]);
+            ->with(['message' => ['تم تحديث اللون بنجاح', 'success']]);
 
     }
 

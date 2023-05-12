@@ -120,7 +120,6 @@ $sizesId = old('size_id', $sizesArrToString);
             $thumbnailsImages = $product->images->map(fn($image) => asset('storage/' .
             $image->url))->implode('|');
             }
-
             @endphp
             <input name="old_images" id="oldImage" value="{{ $thumbnailsImages }}" hidden />
             <input type='file' name='productImageThumbnails[]' id='productImages' multiple />
@@ -128,31 +127,65 @@ $sizesId = old('size_id', $sizesArrToString);
     </div>
 </div>
 
-<h5 class="options" style="margin-top:1.5rem;padding-top:1rem; border-top: 1px solid #dedede">
+<h5 class="options" style="margin-top:1.5rem;padding-top:1rem; border-top: 1px solid #e0e0e0; font-size: 1rem;">
     الخيارات
 </h5>
-<div class="mt-4">
-    <label class='label-control'>الالوان</label>
-    <div id="selectColorsOtionsWrapper" class="d-flex gap-3 mt-2">
-        <input name="color_id" id="variantHiddenInput" hidden value="{{ $colorsId }}" />
-        @foreach ($colors as $color)
-        <div class="product-variant" value="{{ $color->id }}">
-            {{ $color->color_name }}
+<div class="mt-4 row">
+    <div class="col-6">
+        <div class="d-flex justify-content-between">
+            <label class='label-control'>الالوان</label>
+            <a class="btn btn-add-fast" data-bs-toggle="modal" data-bs-target="#productColorModal">اضافة لون</a>
         </div>
-        @endforeach
-    </div>
-    <div class='mt-4'>
-        <label class='label-control'>المقاسات</label>
-        <div id="selectSizesOptionWrapper" class="d-flex gap-3 mt-2">
-            <input name="size_id" id="variantHiddenInput" value="{{ $sizesId }}" hidden />
-            @foreach ($sizes as $size)
-            <div class="product-variant" value="{{ $size->id }}">
-                {{ $size->size_name }}
+        <div id="selectColorsOtionsWrapper" class="d-flex gap-3 mt-2">
+            {{-- will used by javascript to inject colors value --}}
+            <input name="color_id" id="variantHiddenInput" hidden value="{{ $colorsId }}" />
+            {{-- color modal for send brand value with ajax --}}
+            @include('products.variantmodal', [
+            'id' => 'productColorModal',
+            'title' => 'اضافه لون',
+            'labelName' => 'اسم اللون',
+            'color_picker' => true
+            ])
+            <div class="d-flex align-items-center gap-3 flex-wrap" id="boxWrapper">
+                @forelse ($colors as $color)
+                <div class="product-variant" value="{{ $color->id }}">
+                    {{ $color->color_name }}
+                </div>
+                @empty
+                <div class="m-0" disabled="true">لا يوجد</div>
+                @endforelse
             </div>
-            @endforeach
         </div>
     </div>
 </div>
+<div class='mt-4 row'>
+    <div class="col-6">
+        <div class="d-flex justify-content-between">
+            <label class='label-control'>المقاسات</label>
+            <a class="btn btn-add-fast" data-bs-toggle="modal" data-bs-target="#productSizeModal">اضافة مقاس</a>
+        </div>
+        <div id="selectSizesOptionWrapper" class="d-flex gap-3 mt-2">
+            {{-- will used by javascript to inject sizes value --}}
+            <input name="size_id" id="variantHiddenInput" value="{{ $sizesId }}" hidden />
+            {{-- size modal for send brand value with ajax --}}
+            @include('products.variantmodal', [
+            'id' => 'productSizeModal',
+            'title' => 'اضافه مقاس',
+            'labelName' => 'اسم المقاس',
+            ])
+            <div class="d-flex align-items-center gap-3 flex-wrap" id="boxWrapper">
+                @forelse ($sizes as $size)
+                <div class="product-variant" value="{{ $color->id }}">
+                    {{ $size->size_name }}
+                </div>
+                @empty
+                <div class="m-0" disabled="true">لا يوجد</div>
+                @endforelse
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 @push('scripts')

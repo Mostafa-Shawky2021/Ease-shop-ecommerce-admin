@@ -43,7 +43,7 @@ class MessageController extends Controller
 
     public function destroy(Message $message)
     {
-
+        $message->notification()->delete();
         if ($message->delete()) {
             return redirect()
                 ->route('messages.index')

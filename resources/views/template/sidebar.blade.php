@@ -100,9 +100,6 @@
                     <a href="{{ route('orders.index') }}">جميع الاوردرات</a>
                 </li>
                 <li class="item">
-                    <a href="{{ route('orders.create') }}">اضافة اوردر</a>
-                </li>
-                <li class="item">
                     <a href="{{ route('orders.index', ['status' => 'completed']) }}">الاوردرات
                         المكتملة</a>
                 </li>
