@@ -19,7 +19,7 @@ use App\Traits\ImageStorage;
 class ProductController extends Controller
 {
     use ImageStorage;
-    public function index(ProductsDataTable $dataTable)
+    public function index(Request $request, ProductsDataTable $dataTable)
     {
 
         return $dataTable->render('products.index');

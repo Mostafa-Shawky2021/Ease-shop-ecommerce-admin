@@ -5,20 +5,18 @@
     </div>
 
     <div class="header-content d-flex align-items-center">
-        <div class="notification-wrapper" style="position:relative"
-            id="collapseNotification">
-            <button class="order-notification-btn button-toggle"> 
+        <div class="notification-wrapper" style="position:relative" id="collapseNotification">
+            <button class="order-notification-btn button-toggle">
                 <i class="fa fa-bell"></i>
                 @if($activeNotificationsCount > 0)
-                    <span class="count">{{$activeNotificationsCount}}</span>
+                <span class="count">{{$activeNotificationsCount}}</span>
                 @endif
             </button>
             @include('partials.notification',compact('notifications'))
         </div>
         <div class="user ms-auto">
-            <img class="avatar" src="{{ asset('images/user.jpg') }}" alt="user-image"
-                width="80" height="80" />
-            <span class="hero-name">Mostafa</span>
+            <img class="avatar" src="{{ asset('images/user.jpg') }}" alt="user-image" width="80" height="80" />
+            <span class="hero-name">{{auth()->user()->email}}</span>
         </div>
     </div>
 

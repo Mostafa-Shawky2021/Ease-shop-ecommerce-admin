@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
+
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
 
@@ -16,6 +16,8 @@
 
 <body>
 
+    @yield('login')
+    @auth
     @include('template.header')
 
     <div class="d-flex">
@@ -32,6 +34,7 @@
 
         </div>
     </div>
+    @endauth
 
     @stack('scripts')
     <script type='module'>

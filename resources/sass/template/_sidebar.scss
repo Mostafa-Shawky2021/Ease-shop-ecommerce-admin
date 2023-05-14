@@ -37,7 +37,7 @@
         cursor: pointer;
         transition: all 0.3s;
 
-        &:hover {
+        &:not(.title):hover {
             color: #fff;
         }
 
@@ -56,8 +56,8 @@
     .list > .item .title {
         color: #838383;
         margin-right: 0.3rem;
+        cursor: default;
     }
-
     .chevron {
         transition: all 0.3s;
     }

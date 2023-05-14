@@ -1,8 +1,16 @@
 @php $urlSegment = Request::segment(2); @endphp
 <aside class="sidebar" id="collapseSidebar">
     <ul class="list list-unstyled">
+
         <li class="item">
-            <a href="#" class="title">الادارة</a>
+            <a href="{{route('dashboard')}}">
+                <i class="fa fa-dashboard icon"></i>
+                <span> لوحة التحكم</span>
+            </a>
+
+        </li>
+        <li class="item">
+            <a class="title">الادارة</a>
         </li>
         <li class="item">
             <a @class([ 'button-toggle' , 'submenu-visible'=> Request::is('admin/users*'),
