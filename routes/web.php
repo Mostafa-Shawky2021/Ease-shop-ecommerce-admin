@@ -65,6 +65,7 @@ Route::prefix('admin')->group(function () {
 
         Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
         Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
         //Layout Resources
         Route::resource('layout/homepage/carousel', LayoutHomepageCarouselController::class)
