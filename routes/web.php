@@ -37,9 +37,12 @@ Route::prefix('admin')->group(function () {
 
     // Dashboard
 
-    Route::get('/login', [LoginController::class, 'create'])->name('login')->middleware('guest');
-    Route::post('/login', [LoginController::class, 'auth'])->name('login.auth');
+    Route::middleware('guest')->group(function () {
+        Route::get('/login', [LoginController::class, 'create'])->name('login');
+        Route::post('/login', [LoginController::class, 'auth'])->name('login.auth');
+    });
 
+    Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::middleware('auth')->group(function () {
 

@@ -4,10 +4,12 @@ namespace App\Http\Controllers\admin\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
     //
+
     public function create()
     {
 
@@ -27,5 +29,13 @@ class LoginController extends Controller
         }
 
         return back()->withErrors('message', 'invalid email or password');
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        session()->invalidate();
+        session()->regenerateToken();
+        return redirect()->route('login.auth');
     }
 }
