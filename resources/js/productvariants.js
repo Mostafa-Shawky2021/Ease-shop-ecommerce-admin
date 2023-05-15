@@ -32,6 +32,7 @@ sizesForm && new SizeVariantForm(sizesForm);
 colorsForm && new ColorVariantForm(colorsForm);
 brandsForm && new BrandVariantForm(brandsForm);
 
+// add product varaiant with ajax request
 productBrandModal && new BrandAjaxForm(productBrandModal);
 productCategoryModal && new CategoryAjaxForm(productCategoryModal);
 productColorModal && new ColorAjaxForm(productColorModal);

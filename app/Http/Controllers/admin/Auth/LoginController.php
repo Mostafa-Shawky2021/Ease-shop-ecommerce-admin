@@ -23,7 +23,7 @@ class LoginController extends Controller
 
         if (auth()->attempt($userCredential)) {
             $request->session()->regenerate();
-            return redirect()->intended('dashboard');
+            return redirect()->intended('admin');
         }
 
         return back()->withErrors('message', 'invalid email or password');

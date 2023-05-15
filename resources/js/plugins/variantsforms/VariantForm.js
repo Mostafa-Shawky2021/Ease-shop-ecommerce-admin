@@ -1,80 +1,97 @@
-class Variant {
-
+class VariantForm {
     constructor(variantFormNode) {
+        this._variantFormNode = variantFormNode;
 
-        this.variantFormNode = variantFormNode;
+        // the displayed user input field which user will type the product variant value
+        this._inputVariantNode = variantFormNode.querySelector("#variantInput");
 
-        this.inputVariantNode = variantFormNode.querySelector('#variantInput');
+        // will be used to deal with the product variant and will be send via default form request
+        // will be used also to get the old data in case user want to update
+        this._hiddenInputNode = variantFormNode.querySelector(
+            "#variantHiddenInput"
+        );
 
-        this.hiddenInputNode = variantFormNode.querySelector('#variantHiddenInput')
+        this._saveButtonNode = variantFormNode.querySelector("#saveBtn");
 
-        this.saveButtonNode = variantFormNode.querySelector('#saveBtn');
+        this._addButtonNode =
+            variantFormNode.querySelector("#addProductVariant");
 
-        this.addButtonNode = variantFormNode.querySelector('#addProductVariant');
+        // bindings
+        this.onAddProductVariant = this.onAddProductVariant.bind(this);
 
-        this.editButtonNode = variantFormNode.querySelector('#editProductVariant');
+        this.onSaveProductVariant = this.onSaveProductVariant.bind(this);
 
-        this.handleAddProductVariant = this.handleAddProductVariant.bind(this);
-
-        this.saveProductVariant = this.saveProductVariant.bind(this);
-
-        this.handleDeleteVariant = this.handleDeleteVariant.bind(this);
+        this.onDeleteProductVariant = this.onDeleteProductVariant.bind(this);
 
         this.registerDeleteEvent = this.registerDeleteEvent.bind(this);
 
-        this.addButtonNode?.addEventListener('click', this.handleAddProductVariant);
-
-        this.saveButtonNode?.addEventListener('click', this.saveProductVariant);
-
+        // event listeners
+        this._addButtonNode?.addEventListener(
+            "click",
+            this.onAddProductVariant
+        );
+        this._saveButtonNode?.addEventListener(
+            "click",
+            this.onSaveProductVariant
+        );
     }
 
     createElement(elementNode, classesName, parentNode) {
-
         const variantContainer = document.createElement(elementNode);
-        variantContainer.classList.add(...(Array.isArray(classesName) ? classesName : [classesName]));
+        variantContainer.classList.add(
+            ...(Array.isArray(classesName) ? classesName : [classesName])
+        );
         parentNode.appendChild(variantContainer);
         return variantContainer;
     }
 
     registerDeleteEvent() {
-
-        this.variantFormNode.querySelectorAll('.delete-btn').forEach(deletebtn => {
-            deletebtn.addEventListener('click', this.handleDeleteVariant)
-        });
+        this._variantFormNode
+            .querySelectorAll(".delete-btn")
+            .forEach((deletebtn) => {
+                deletebtn.addEventListener(
+                    "click",
+                    this.onDeleteProductVariant
+                );
+            });
     }
 
-    handleDeleteVariant(event) {
-
+    onDeleteProductVariant(event) {
         event.preventDefault();
         event.currentTarget.parentElement.remove();
     }
-
-    saveProductVariant(event) {
-
+    // submit product variant value
+    onSaveProductVariant(event) {
         event.preventDefault();
 
-        const variantValuesArray = Array.from(this.variantFormNode.querySelectorAll('.variant-default'));
-
-        let variantValueString = '';
+        const variantValuesArray = Array.from(
+            this._variantFormNode.querySelectorAll(".variant-default")
+        );
 
         if (variantValuesArray.length === 0) {
-            alert('قم باضافة قيمة علي الاقل');
+            alert("قم باضافة قيمة علي الاقل");
             return false;
         }
 
-        variantValuesArray.forEach(variant =>
-            variantValueString += variant.getAttribute('value') + '|');
+        let variantValueString = "";
 
-        const trimmedVariantValueString = variantValueString.slice(0, variantValueString.length - 1);
+        // iterate throught each variant button and get data attribute value from it
+        variantValuesArray.forEach(
+            (variant) =>
+                (variantValueString += variant.getAttribute("value") + "|")
+        );
 
-        this.hiddenInputNode.value = trimmedVariantValueString;
+        const trimmedVariantValueString = variantValueString.slice(
+            0,
+            variantValueString.length - 1
+        );
 
-        this.variantFormNode.submit();
+        this._hiddenInputNode.value = trimmedVariantValueString;
+
+        this._variantFormNode.submit();
     }
 
-    handleAddProductVariant(event) { }
-
-
+    onAddProductVariant(event) {}
 }
 
-export default Variant;
+export default VariantForm;

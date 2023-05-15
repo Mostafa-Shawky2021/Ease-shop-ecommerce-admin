@@ -51,16 +51,22 @@
         font-size: 0.75rem;
     }
 
-    .user .avatar {
+    .avatar {
         border-radius: 50%;
         width: 30px;
         height: 30px;
     }
-
-    .user .hero-name {
-        color: #555b6d;
-        font-weight: 600;
-        font-size: 1.1rem;
-        margin-right: 0.5rem;
+    .dropdown .btn {
+        border: 1px solid #dedede;
+        background-color: #fff;
+    }
+    .dropdown .btn:hover {
+        background-color: transparent !important;
+    }
+    .dropdown-item {
+        font-size: 0.8rem;
+        display: flex;
+        align-items: center;
+        gap: 3px;
     }
 }

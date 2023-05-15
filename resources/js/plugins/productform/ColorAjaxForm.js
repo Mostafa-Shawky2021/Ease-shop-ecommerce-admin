@@ -65,6 +65,7 @@ class ColorAjaxForm extends ProductAjaxForm {
             );
 
             if (res.status === 201) {
+                // in case no color exist there are element by default contain disabled attribut
                 const isColorBoxWrapperIsEmpty =
                     this._colorWrapperBox.children[0].getAttribute("disabled");
                 if (isColorBoxWrapperIsEmpty) {

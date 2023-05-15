@@ -42,11 +42,6 @@ class CategoryController extends Controller
             $validatedInput['image_thumbnail'] = $imagePath;
         }
 
-        if ($request->has('image_topcategory')) {
-            $imagePath = self::storeImage($request->file('image_topcategory'), 'categories');
-            $validatedInput['image_topcategory'] = $imagePath;
-        }
-
         $category = Category::create($validatedInput);
 
         if ($request->ajax()) {
@@ -106,22 +101,6 @@ class CategoryController extends Controller
                     ? Storage::delete($category->image_thumbnail)
                     : null;
                 $category->image_thumbnail = null;
-            }
-        }
-
-        // store top category image
-        if ($request->has('image_topcategory')) {
-            $imagePath = self::storeImage($request->file('image_topcategory'), 'categories');
-            $validatedInput['image_topcategory'] = $imagePath;
-        }
-
-        // in case oldimage field is empty meaning that user delete the image or it was firt uploaded image
-        if ($request->has('image_topcategory') || !$request->input('old_image_topcategory')) {
-            if ($category->image_topcategory) {
-                Storage::exists($category->image_topcategory)
-                    ? Storage::delete($category->image_topcategory)
-                    : null;
-                $category->image_topcategory = null;
             }
         }
 

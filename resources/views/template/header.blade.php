@@ -15,8 +15,28 @@
             @include('partials.notification',compact('notifications'))
         </div>
         <div class="user ms-auto">
-            <img class="avatar" src="{{ asset('images/user.jpg') }}" alt="user-image" width="80" height="80" />
-            <span class="hero-name">{{auth()->user()->email}}</span>
+            <div class="dropdown">
+                <button class="btn btn-light btn-sm dropdown-toggle d-flex align-items-center justify-content-between gap-2"
+                    type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img class="avatar" src="{{ asset('images/user.jpg') }}" alt="user-image" width="80" height="80" />
+                    <span class="hero-name">{{auth()->user()->name}}</span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li>
+                        <a class="dropdown-item" href="{{route('profile.show')}}">
+                            <i class="fa fa-user"></i>
+                            الصفحة الشخصية
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="route('profile.index')">
+                            <i class="fa fa-sign-out"></i>
+                            تسجيل الخروج
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
         </div>
     </div>
 

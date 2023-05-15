@@ -4,6 +4,7 @@ namespace App\Traits;
 
 
 
+use App\Models\OrderProduct;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
@@ -27,7 +28,9 @@ trait FilterProducts
             $limitNumber = $request->query('limit');
             $this->limitFilter = intval($limitNumber);
         }
-
+        if ($request->has('best-seller')) {
+            $this->bestSellerProducts();
+        }
         if ($request->has('offers')) {
             $this->productWithOffers();
         }
@@ -93,7 +96,21 @@ trait FilterProducts
                 }
             );
     }
+    private function bestSellerProducts()
+    {
+        // the best seller will be retrieved according to the quanaity for products within  
+        // order product relationship
+        $bestSellerProductId = OrderProduct::selectRaw('product_id,sum(quantity) as total_product_seller')
+            ->groupBy('product_id')
+            ->orderBy('total_product_seller', 'desc')
+            ->pluck('product_id')
+            ->toArray();
 
+        $this->productModelFilter = $this->productModelFilter
+            ->whereIn('id', $bestSellerProductId)
+            ->orderByRaw('field(id,' . implode(',', $bestSellerProductId) . ')');
+
+    }
     private function productWithOffers()
     {
         $this->productModelFilter = $this->productModelFilter->whereNotNull('price_discount');

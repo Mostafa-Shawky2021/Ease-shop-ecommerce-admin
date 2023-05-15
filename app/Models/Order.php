@@ -18,11 +18,13 @@ class Order extends Model
                 'size',
                 'color',
                 'quantity'
-            ]);
+            ])->using(OrderProduct::class);
+
     }
 
-    public function notification(){
-        return $this->morphOne(Notification::class,'notifiable');
+    public function notification()
+    {
+        return $this->morphOne(Notification::class, 'notifiable');
     }
 
 }

@@ -35,8 +35,6 @@ class StoreCategoryForm extends FormRequest
             'parent_id' => 'nullable|integer',
             'image' => 'image',
             'image_thumbnail' => 'image',
-            'is_special' => 'sometimes',
-            'image_topcategory' => 'image',
         ];
     }
 }

@@ -13,6 +13,7 @@ use App\Http\Controllers\admin\ColorController;
 use App\Http\Controllers\admin\SizeController;
 use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\MessageController;
+use App\Http\Controllers\admin\ProfileController;
 
 use App\Models\Product;
 use App\Models\Order;
@@ -41,10 +42,8 @@ Route::prefix('admin')->group(function () {
 
 
     Route::middleware('auth')->group(function () {
+
         Route::get('/', function (Request $request) {
-            $inputs = ['name' => ''];
-
-
             $productsCount = Product::count();
             $pendingOrders = Order::where('order_status', 0)->count();
             $completedOrders = Order::where('order_status', 1)->count();
@@ -62,6 +61,10 @@ Route::prefix('admin')->group(function () {
             );
 
         })->name('dashboard');
+        //profile
+
+        Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+        Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
 
         //Layout Resources
         Route::resource('layout/homepage/carousel', LayoutHomepageCarouselController::class)

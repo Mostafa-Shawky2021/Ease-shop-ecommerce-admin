@@ -89,7 +89,7 @@ class ColorController extends Controller
             'color_name' => $colorValueToArr[0],
             'color_value' => $colorValueToArr[1]
         ]);
-
+        // dd($colorValueToArr[0]);
         return redirect()
             ->route('colors.index')
             ->with(['message' => ['تم تحديث اللون بنجاح', 'success']]);

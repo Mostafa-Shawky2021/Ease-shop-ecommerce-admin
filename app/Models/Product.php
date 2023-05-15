@@ -55,7 +55,7 @@ class Product extends Model
                 'size',
                 'color',
                 'quantity'
-            ]);
+            ])->using(OrderProduct::class);
 
     }
     public function category()
