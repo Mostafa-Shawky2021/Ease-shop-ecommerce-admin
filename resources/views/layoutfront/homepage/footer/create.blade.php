@@ -3,18 +3,10 @@
 @section('header-content')
 اضافة محتوي الفوتر
 @endsection
+
 @section('content')
-@if (!empty($errors->all()))
-<ul class='list-unstyled'>
-    @foreach ($errors->all() as $error)
-    <li class='alert alert-warning'>
-        {{ $error }}
-    </li>
-    @endforeach
-</ul>
-@endif
-<form class='mainform-app px-3 py-3' style="margin-top:1rem;" method="post"
-    action="{{ route('footer.store') }}">
+
+<form class='mainform-app px-3 py-3' style="margin-top:1rem;" method="post" action="{{ route('footer.store') }}">
     @csrf
     @include('layoutfront.homepage.footer.form', [
     'footer' => null,

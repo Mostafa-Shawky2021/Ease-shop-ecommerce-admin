@@ -1,12 +1,11 @@
+@include('partials.validationerrors')
 <div class="col-8">
     <label for="aboutus" class='label-control'>من نحن</label>
-    <textarea name="aboutus" class="form-control mt-2" style="min-height:120px"
-        id="aboutus">
+    <textarea name="aboutus" class="form-control mt-2" style="min-height:120px" id="aboutus">
         {{ old('aboutus', $footer->aboutus ?? '') }}
     </textarea>
 </div>
-<p
-    style="font-size:0.8rem; color:#828282; font-weight:600 border-top:1px solid #dedede; margin-top:2rem; padding-top:10px">
+<p style="font-size:0.8rem; color:#828282; font-weight:600 border-top:1px solid #dedede; margin-top:2rem; padding-top:10px">
     سوشيال</p>
 <div class="col-8 mt-3">
     <label for="address" class='label-control'>العنوان</label>
@@ -15,8 +14,7 @@
 </div>
 <div class="col-8 mt-3">
     <label for="phone" class='label-control'>رقم التلفون</label>
-    <input type="text" id="phone" class="form-control mt-2" name="phone"
-        value="{{ old('phone', $footer->phone ?? '') }}" />
+    <input type="text" id="phone" class="form-control mt-2" name="phone" value="{{ old('phone', $footer->phone ?? '') }}" />
 </div>
 <div class="col-8 mt-3">
     <label for="phone" class='label-control'>رقم الواتس</label>

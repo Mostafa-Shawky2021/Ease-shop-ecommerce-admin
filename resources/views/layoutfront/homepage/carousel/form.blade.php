@@ -1,3 +1,4 @@
+@include('partials.validationerrors')
 <div class="col-8">
     <label for="editor" class='label-control'>المحتوي</label>
     <textarea id='editor' name='content' class='form-control mt-2'>
@@ -13,22 +14,21 @@
     <label for="price" class='label-control '>اضافة صور</label>
     <div class="file-wrapper form-control mt-2">
         @php
-            $carouselImages = null;
-            // convert image pathes into string with | sperator so image upload plugin  can handle images
-            if ($carousel && $carousel->images->isNotEmpty()) {
-                $carouselImages = $carousel->images->map(fn($image) => asset("storage/$image->url"))->implode('|');
-            }
-            
+        $carouselImages = null;
+        // convert image pathes into string with | sperator so image upload plugin can handle images
+        if ($carousel && $carousel->images->isNotEmpty()) {
+        $carouselImages = $carousel->images->map(fn($image) => asset("storage/$image->url"))->implode('|');
+        }
+
         @endphp
         <input name="old_image" id="oldImage" hidden value="{{ $carouselImages }}" />
-        <input type='file' name='images[]' id='sliderImages' multiple />
+        <input type='file' name='images[]' id='sliderImages' accept="image/*" multiple />
     </div>
 </div>
 
 
 @push('scripts')
-    <script type="module">
-
+<script type="module">
     $('#editor').summernote({
         placeholder: 'Write Here!',
         lineHeights:['0.2', '0.3', '0.4', '0.5', '0.6', '0.8', '1.0', '1.2', '1.4', '1.5', '2.0', '3.0'],
@@ -45,5 +45,5 @@
           ['view', ['fullscreen', 'help','undo','redo']]
         ]
       });
-    </script>
+</script>
 @endpush

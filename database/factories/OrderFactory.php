@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Notification;
+use App\Models\Order;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\User;
@@ -11,11 +13,27 @@ use App\Models\User;
  */
 class OrderFactory extends Factory
 {
+
+
+    public function configure(): static
+    {
+        return $this->afterMaking(function (Order $order) {
+            // ...
+        })->afterCreating(function (Order $order) {
+            // ...
+            $notification = new Notification();
+            $notification->message = 'تم عمل اوردر جديد باسم ' . $order->username;
+            $order->notification()->save($notification);
+        });
+    }
     /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
      */
+
+
+
     public function definition()
     {
         return [

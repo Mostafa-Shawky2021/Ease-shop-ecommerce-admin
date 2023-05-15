@@ -96,6 +96,11 @@
                         <td colspan="4">لا توجد اوردرات بعد</td>
                     </tr>
                     @endforelse
+                    @if($latestOrders->isNotEmpty())
+                    <td rowspan="4">
+                        <a class="show-more" href="{{route('orders.index')}}" class="btn btn-primary btn-sm">عرض المزيد</a>
+                    </td>
+                    @endif
                 </tbody>
             </table>
         </div>

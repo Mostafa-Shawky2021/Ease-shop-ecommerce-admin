@@ -20,14 +20,12 @@
                 <i class="fa-solid fa-chevron-down chevron icon"></i>
             </a>
             <ul class="list-submenu toggle-submenu">
+
                 <li class="item">
-                    <a href="{{ route('users.index') }}">جميع المستخدمين</a>
+                    <a href="#">اضافة مستخدم جديد</a>
                 </li>
                 <li class="item">
-                    <a href="{{ route('users.create') }}">اضافة مستخدم جديد</a>
-                </li>
-                <li class="item">
-                    <a href="#">الملف الشخصي</a>
+                    <a href="{{route('profile.show')}}">الملف الشخصي</a>
                 </li>
             </ul>
         </li>

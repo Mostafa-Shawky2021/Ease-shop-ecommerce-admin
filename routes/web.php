@@ -49,7 +49,9 @@ Route::prefix('admin')->group(function () {
             $pendingOrders = Order::where('order_status', 0)->count();
             $completedOrders = Order::where('order_status', 1)->count();
             $categoriesCount = Category::count();
-            $latestOrders = Order::where('order_status', 0)->get();
+            $latestOrders = Order::where('order_status', 0)
+                ->limit(15)
+                ->get();
             return view(
                 "dashboard.index",
                 compact(

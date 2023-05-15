@@ -54,7 +54,7 @@
     .lastest-orders table a {
         transition: all 0.3s;
     }
-    .lastest-orders table a:hover {
+    .lastest-orders table a:not(.btn):hover {
         color: var(--bs-primary) !important;
     }
 }

@@ -30,4 +30,13 @@ class StoreCarouselRequest extends FormRequest
             'content' => ''
         ];
     }
+    public function messages()
+    {
+        return [
+            'images.*' => 'الصورة يجب ان تكون بصيغة jpg,jpeg,png,bmp,gif,svg,webp',
+            'carousel_time.required' => 'من فضلك ادخل قيمة مدة السليدر',
+            'carousel_time.integer' => 'مدة السليدر يجب ان تكون رقمية',
+
+        ];
+    }
 }

@@ -1,32 +1,34 @@
 @extends('layout.app')
 
 @section('header-content')
+
 <h5>محتوي الفوتر</h5>
+
 @if(!$footer)
 <a class="btn-add" href="{{route('footer.create')}}">
     اضافة
     <i class="fa fa-plus"></i>
 </a>
+
 @endif
+
 @endsection
 
-
 @section('content')
-<div class="footer-content"
-    style="max-width:700px; background:#fff; padding:1.3rem 1rem 2.4rem; position:relative">
+
+@include('partials.formmessage')
+
+<div class="footer-content" style="max-width:700px; background:#fff; padding:1.3rem 1rem 2.4rem; position:relative">
     @if($footer)
     <ul class="list-unstyled">
         <li style="position:absolute; left:10px; bottom: 10px" class="d-flex gap-1">
-            <a class="btn-add"
-                href="{{route('footer.edit',['footer'=>$footer->id])}}">تعديل
+            <a class="btn-add" href="{{route('footer.edit',['footer'=>$footer->id])}}">تعديل
                 <i class="fa fa-edit"></i>
             </a>
-            <form method="post"
-                action="{{route('footer.destroy',['footer'=>$footer->id])}}">
+            <form method="post" action="{{route('footer.destroy',['footer'=>$footer->id])}}">
                 @csrf
                 @method('DELETE')
-                <button class="btn-delete"
-                    onclick="return confirm('هل انت متاكد من الحذف؟!')">حذف
+                <button class="btn-delete" onclick="return confirm('هل انت متاكد من الحذف؟!')">حذف
                     <i class="fa fa-trash"></i>
                 </button>
             </form>
@@ -65,8 +67,7 @@
                 <span> facebook: </span>
                 <p>
                     @if($footer->facebook_link)
-                    <a target="_blank"
-                        href="{{$footer->facebook_link}}">{{$footer->facebook_link}}</a>
+                    <a target="_blank" href="{{$footer->facebook_link}}">{{$footer->facebook_link}}</a>
                     @else
                     لا يوجد
                     @endif
@@ -80,8 +81,7 @@
                 <span>twitter:</span>
                 <p>
                     @if($footer->twitter_link)
-                    <a target="_blank"
-                        href="{{$footer->twitter_link}}">{{$footer->twitter_link}}</a>
+                    <a target="_blank" href="{{$footer->twitter_link}}">{{$footer->twitter_link}}</a>
                     @else
                     لا يوجد
                     @endif
@@ -93,8 +93,7 @@
                 <span>gmail:</span>
                 <p>
                     @if($footer->gmail_link)
-                    <a target="_blank"
-                        href="{{$footer->gmail_link}}">{{$footer->gmail_link}}</a>
+                    <a target="_blank" href="{{$footer->gmail_link}}">{{$footer->gmail_link}}</a>
                     @else
                     لا يوجد
                     @endif

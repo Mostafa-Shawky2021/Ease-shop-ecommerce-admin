@@ -46,7 +46,7 @@ class LayoutHomepageCarouselController extends Controller
         return redirect()
             ->route('carousel.index')
             ->with([
-                'message' => ['تم اضافة المحتوي بنجاح', 'success']
+                'message' => ['تم اضافة المحتوي بنجاح', 'info']
             ]);
     }
 
@@ -103,11 +103,11 @@ class LayoutHomepageCarouselController extends Controller
         if ($carousel->delete()) {
             return redirect()
                 ->route('carousel.index')
-                ->with(['message' => ['تم حذف السليدر بنجاح', 'success']]);
+                ->with(['message' => ['تم حذف السليدر بنجاح', 'warning']]);
         }
 
         return redirect()
             ->route('carousel.index')
-            ->with(['message' => ['حدثت مشكله اثناء التعديل حاول مره اخري', 'error']]);
+            ->with(['message' => ['حدثت مشكله اثناء التعديل حاول مره اخري', 'warning']]);
     }
 }

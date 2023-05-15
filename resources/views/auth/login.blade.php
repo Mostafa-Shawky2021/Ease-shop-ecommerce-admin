@@ -11,9 +11,9 @@
                 {{$message}}
             </div>
             @enderror
-            <h4 class="title">
-                Welcome
-            </h4>
+            <h5 class="title">
+                مرحباً بك
+            </h5>
             <input type="email" class="form-control mt-2" name="email" placeholder="Email" />
             <input type="password" class="form-control mt-2" style="direction:ltr;" name="password" placeholder="Password" />
             <input type="submit" class="btn btn-primary mt-3" style="width:100%" value="Login" />

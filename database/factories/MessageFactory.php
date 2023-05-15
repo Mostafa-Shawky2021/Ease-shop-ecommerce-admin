@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Message;
+use App\Models\Notification;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,6 +11,18 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class MessageFactory extends Factory
 {
+
+    public function configure(): static
+    {
+        return $this->afterMaking(function (Message $message) {
+            // ...
+        })->afterCreating(function (Message $message) {
+            // ...
+            $notification = new Notification();
+            $notification->message = "تم ارسال رسالة جديدة بواسطة {$message->username}";
+            $message->notification()->save($notification);
+        });
+    }
     /**
      * Define the model's default state.
      *

@@ -35,7 +35,7 @@ class LayoutHomepageFooterController extends Controller
         return redirect()
             ->route('footer.index')
             ->with([
-                'message' => ['تم اضافة المحتويس بنجاح', 'success']
+                'message' => ['تم اضافة المحتوي بنجاح', 'info']
             ]);
     }
     public function edit(Footer $footer)
@@ -59,7 +59,7 @@ class LayoutHomepageFooterController extends Controller
         $footer->delete();
         return redirect()
             ->route('footer.index')
-            ->with(['message' => ['تم حذف الفوتر بنجاح', 'success']]);
+            ->with(['message' => ['تم حذف الفوتر بنجاح', 'warning']]);
 
     }
 }
