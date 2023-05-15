@@ -1,9 +1,16 @@
 @extends('layout.app')
 @section('login')
+
 <div class="login-wrapper">
+
     <div class="form-login-wrapper">
         <form action="{{route('login.auth')}}" class="login-form" method="post">
             @csrf
+            @error('message')
+            <div class="alert alert-danger">
+                {{$message}}
+            </div>
+            @enderror
             <h4 class="title">
                 Welcome
             </h4>

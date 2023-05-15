@@ -20,6 +20,7 @@ $orderStatusClass = 'processing';
 @endsection
 
 @section('content')
+
 {{-- order Products --}}
 <div class='order-products px-3 py-4'>
     <header class='products-header pb-4'>

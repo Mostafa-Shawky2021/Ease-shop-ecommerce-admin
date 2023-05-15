@@ -6,6 +6,7 @@
 
 
 @section('content')
+@include('partials.formmessage')
 <div class="datatable-wrapper" id="messagesWrapper">
     <div class="d-flex justify-content-end">
         @include('partials.datatableheader')
@@ -50,11 +51,9 @@
                 $routeParamter['is_seen'] = true;
                 }
                 @endphp
-                <a class="btn btn-primary btn-sm"
-                    href="{{route('messages.show',$routeParamter )}}">عرض
+                <a class="btn btn-primary btn-sm" href="{{route('messages.show',$routeParamter )}}">عرض
                     الرسالة</a>
-                <form method="post"
-                    action="{{route('messages.destroy',['message'=>$message->id])}}">
+                <form method="post" action="{{route('messages.destroy',['message'=>$message->id])}}">
                     @csrf
                     @method('DELETE')
                     <button class="btn btn-danger btn-sm">حذف الرسالة</button>

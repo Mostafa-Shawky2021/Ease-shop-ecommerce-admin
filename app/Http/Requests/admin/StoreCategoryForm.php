@@ -37,4 +37,13 @@ class StoreCategoryForm extends FormRequest
             'image_thumbnail' => 'image',
         ];
     }
+    public function messages()
+    {
+        return [
+            'cat_name.required' => 'من فضلك ادخل اسم للقسم',
+            'cat_name.unique' => 'ذلك الاسم موجود مسبقاً',
+            'image.image' => 'الصورة يجب ان تكون بصيغة jpg,jpeg,png,bmp,gif,svg,webp',
+            'image_thumbnail.image' => 'الصورة يجب ان تكون بصيغة jpg,jpeg,png,bmp,gif,svg,webp',
+        ];
+    }
 }

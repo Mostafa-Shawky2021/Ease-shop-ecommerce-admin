@@ -53,7 +53,7 @@ class CategoryController extends Controller
         return redirect()
             ->route('categories.index')
             ->with([
-                'message' => ['تم اضافة القسم بنجاح', 'success']
+                'message' => ['تم اضافة القسم بنجاح', 'info']
             ]);
     }
     public function edit(Category $category)
@@ -109,7 +109,7 @@ class CategoryController extends Controller
         return redirect()
             ->route('categories.index')
             ->with([
-                'message' => ['تم اضافة القسم بنجاح', 'success']
+                'message' => ['تم تعديل القسم بنجاح', 'success']
             ]);
     }
     public function destroy(Category $category)
@@ -144,8 +144,8 @@ class CategoryController extends Controller
 
         $category->delete();
 
-        return redirect()->back()
-            ->with(['message' => ['تم حذف القسن بنجاح', 'success']]);
+        return redirect()->route('categories.index')
+            ->with(['message' => ['تم حذف القسم بنجاح', 'warning']]);
     }
 
     public function deleteMultipleCategories(Request $request)

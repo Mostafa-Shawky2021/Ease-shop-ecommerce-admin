@@ -9,6 +9,7 @@
 @endsection
 
 @section('content')
+@include('partials.formmessage')
 <div class="datatable-wrapper" id="brandsWrapper">
     <div class="d-flex justify-content-end">
         @include('partials.datatableheader')
@@ -29,22 +30,18 @@
                 @php $routeParamter = ['brand' => $brand->id] ;@endphp
                 <tr>
                     <td>
-                        <input value="{{ $brand->id }}" type='checkbox'
-                            class='action-checkbox' />
+                        <input value="{{ $brand->id }}" type='checkbox' class='action-checkbox' />
                     </td>
                     <td>{{ $brand->brand_name }}</td>
                     <td>
                         <div class="action-wrapper">
-                            <a class="btn-action"
-                                href="{{ route('brands.edit', $routeParamter) }}">
+                            <a class="btn-action" href="{{ route('brands.edit', $routeParamter) }}">
                                 <i class="fa fa-edit icon icon-edit"></i>
                             </a>
-                            <form method="POST"
-                                action="{{ route('brands.destroy', $routeParamter) }}">
+                            <form method="POST" action="{{ route('brands.destroy', $routeParamter) }}">
                                 @method('DELETE')
                                 @csrf
-                                <button class="btn-action"
-                                    onclick="return confirm('هل انت متاكد؟')">
+                                <button class="btn-action" onclick="return confirm('هل انت متاكد؟')">
                                     <i class="fa fa-trash icon icon-delete"></i>
                                 </button>
                             </form>

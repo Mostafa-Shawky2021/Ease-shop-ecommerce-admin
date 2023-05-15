@@ -20,8 +20,8 @@ class NotificationFactory extends Factory
         return [
             'message' => 'user ' . fake()->name . ' has make order',
             'notifiable_id' => Order::factory(),
-            'notifiable_type' => Order::class
-
+            'notifiable_type' => Order::class,
+            'is_seen' => '0'
         ];
     }
 }

@@ -74,7 +74,7 @@ class ProductController extends Controller
 
         return redirect()
             ->route('products.index')
-            ->with(['message' => ['تم اضافة المنتج بنجاح', 'success']]);
+            ->with(['message' => ['تم اضافة المنتج بنجاح', 'info']]);
     }
 
     public function edit(Product $product)
@@ -165,7 +165,7 @@ class ProductController extends Controller
 
         return redirect()
             ->route('products.index')
-            ->with(['Message' => ['تم تحديث المنتج بنجاح', 'success']]);
+            ->with(['message' => ['تم تعديل المنتج بنجاح', 'success']]);
     }
 
     public function destroy(Request $request, Product $product)
@@ -199,7 +199,7 @@ class ProductController extends Controller
 
         return redirect()
             ->back()
-            ->with(['message' => ['تم حذف المنتج بنجاح', 'success']]);
+            ->with(['message' => ['تم حذف المنتج بنجاح', 'warning']]);
 
     }
 

@@ -1,3 +1,4 @@
+@include('partials.validationerrors')
 <div>
     <label class='label-control'>اسم القسم</label>
     <div class='col-6 mt-2'>
@@ -27,7 +28,7 @@
         <div class="file-wrapper form-control">
             <input name="old_image" id="oldImage" s
                 value="{{ $category && $category->image ? asset('storage/' . $category->image) : '' }}" hidden />
-            <input type='file' name='image' id='categoryImage' />
+            <input type='file' name='image' id='categoryImage' accept="image/*" />
         </div>
     </div>
 </div>
@@ -38,7 +39,7 @@
             <input name="old_image_thumbnail" id="oldImage"
                 value="{{ $category && $category->image_thumbnail ? asset('storage/' . $category->image_thumbnail) : '' }}"
                 hidden />
-            <input type='file' name='image_thumbnail' id='thumbnailCategoryImage' />
+            <input type='file' name='image_thumbnail' id='thumbnailCategoryImage' accept="image/*" />
         </div>
     </div>
 </div>

@@ -56,7 +56,7 @@ class ColorController extends Controller
 
         return redirect()
             ->route('colors.index')
-            ->with(['message' => ['تم اضافة اللون بنجاح', 'success']]);
+            ->with(['message' => ['تم اضافة اللون بنجاح', 'info']]);
 
     }
 
@@ -82,7 +82,7 @@ class ColorController extends Controller
         if ($colorExist) {
             return redirect()
                 ->back()
-                ->with(['message' => ['اسم اللون موجود بالفعل', 'error']]);
+                ->withErrors(['message' => 'اسم اللون موجود بالفعل']);
         }
 
         $color->update([
@@ -102,7 +102,7 @@ class ColorController extends Controller
         $color->delete();
         return redirect()
             ->route('colors.index')
-            ->with(['Message' => ['تم حذف الون بنجاح', 'success']]);
+            ->with(['message' => ['تم حذف الون بنجاح', 'warning']]);
     }
     public function deleteMultipleColor(Request $request)
     {

@@ -37,7 +37,7 @@ class StoreProductForm extends FormRequest
             'price' => 'required|numeric',
             'price_discount' => 'nullable|numeric|lt:price',
             'image' => 'required_if:old_image,null|image',
-            'short_description' => 'required',
+            'short_description' => '',
             'category_id' => 'nullable|numeric',
             'long_description' => 'sometimes',
             'color_id' => 'sometimes',
@@ -48,7 +48,16 @@ class StoreProductForm extends FormRequest
     public function messages()
     {
         return [
-            'productImageThumbnails.*.image' => 'Thumbnails must be image type only',
+            'product_name.required' => 'من فضلك ادخل اسم للمنتج',
+            'product_name.min' => 'يجب ان يكون الاسم بحد ادني 4 حروف',
+            'product_name.unique' => 'اسم المنتج موجود بالفعل',
+            'price.required' => 'من فضلك ادخل سعر المنتج',
+            'price.numeric' => 'يجب ان يكون السعر قيمة رقمية',
+            'price_discount.numeric' => 'يجب ان يكون السعر بعد الخصم قيمة رقمية',
+            'price_discount.lt' => 'يجب ان يكون السعر بعد الخصم اقل من السعر الاصلي',
+            'image.required_if' => 'يجب اختيار صورة علي الاقل للمنتج',
+            'image.image' => 'الصورة يجب ان تكون بصيغة jpg,jpeg,png,bmp,gif,svg,webp',
+            'productImageThumbnails.*.image' => 'الصورة يجب ان تكون بصيغة jpg,jpeg,png,bmp,gif,svg,webp',
         ];
     }
 }

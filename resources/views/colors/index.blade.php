@@ -10,16 +10,14 @@
 
 
 @section('content')
+
+@include('partials.formmessage')
+
 <div class="datatable-wrapper" id="colorsWrapper">
     <div class="d-flex justify-content-end">
         @include('partials.datatableheader')
     </div>
-    @if (session()->has('message'))
 
-    <div class='alert alert-warning'>
-        {{ session('message')[0] }}
-    </div>
-    @endif
     <div class="table-responsive">
         <table class="table table-data-layout">
             <thead>

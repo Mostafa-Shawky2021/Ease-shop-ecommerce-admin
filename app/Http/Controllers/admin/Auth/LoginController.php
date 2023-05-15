@@ -28,7 +28,7 @@ class LoginController extends Controller
             return redirect()->intended('admin');
         }
 
-        return back()->withErrors('message', 'invalid email or password');
+        return back()->withErrors(['message' => 'invalid email or password']);
     }
 
     public function logout()

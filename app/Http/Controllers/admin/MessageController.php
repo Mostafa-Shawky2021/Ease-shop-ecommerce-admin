@@ -47,7 +47,7 @@ class MessageController extends Controller
         if ($message->delete()) {
             return redirect()
                 ->route('messages.index')
-                ->with(['message' => ['تم حذف المقاس بنجاح', 'success']]);
+                ->with(['message' => ['تم حذف المقاس بنجاح', 'warning']]);
         }
     }
 

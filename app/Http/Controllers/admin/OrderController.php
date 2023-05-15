@@ -24,8 +24,8 @@ class OrderController extends Controller
     {
 
         if ($request->boolean('is_seen')) {
-            
-            $order->notification()->update(['is_seen'=>1]);
+
+            $order->notification()->update(['is_seen' => 1]);
 
             return redirect()->route('orders.show', ['order' => $order->id]);
         }
@@ -41,7 +41,7 @@ class OrderController extends Controller
 
         if ($order->save()) {
             return redirect()->route('orders.index')
-                ->with(['message' => ['success', 'تم تعديل حالة الاوردر بنجاح']]);
+                ->with(['message' => ['تم تعديل حالة الاوردر بنجاح', 'success']]);
         }
 
     }
@@ -52,7 +52,7 @@ class OrderController extends Controller
         $order->notification()->delete();
         if ($order->delete()) {
             return redirect()->route('orders.index')
-                ->with(['message' => ['success', 'success', 'تم حذف الاوردر بنجاح']]);
+                ->with(['message' => ['تم حذف الاوردر بنجاح', 'warning']]);
         }
     }
     public function deleteMultipleOrder(Request $request)

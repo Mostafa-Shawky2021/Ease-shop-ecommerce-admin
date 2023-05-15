@@ -42,14 +42,14 @@ class SizeController extends Controller
 
         $sizesValueArray = collect(explode('|', $validated['sizes_name']));
 
-
         $sizesValueArray->each(function ($size) {
             $sizeValueExist = Size::where('size_name', $size)->exists();
             if (!$sizeValueExist)
                 Size::create(['size_name' => $size]);
         });
 
-        return redirect()->route('sizes.index');
+        return redirect()->route('sizes.index')
+            ->with(['message' => ['تمت الاضافة بنجاح', 'info']]);
     }
 
     public function edit(Size $size)
@@ -60,12 +60,18 @@ class SizeController extends Controller
     public function update(Request $request, Size $size)
     {
 
-        $validated = $request->validate([
-            'size_name' => [
-                'required',
-                Rule::unique('sizes')->ignore($size->id ?? null)
+        $validated = $request->validate(
+            [
+                'size_name' => [
+                    'required',
+                    Rule::unique('sizes')->ignore($size->id ?? null)
+                ]
+            ],
+            [
+                'size_name.required' => 'من فضلك ادخل اسم المقاس',
+                'size_name.unique' => 'اسم المقاس موجود بالفعل'
             ]
-        ]);
+        );
 
         $size->update($validated);
 
@@ -81,7 +87,7 @@ class SizeController extends Controller
         $size->delete();
         return redirect()
             ->route('sizes.index')
-            ->with(['Message' => ['تم حذف المقاس بنجاح', 'success']]);
+            ->with(['message' => ['تم حذف المقاس بنجاح', 'warning']]);
     }
 
     public function deleteMultipleSizes(Request $request)

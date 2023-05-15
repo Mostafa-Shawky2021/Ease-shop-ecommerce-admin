@@ -42,10 +42,8 @@ Route::prefix('admin')->group(function () {
         Route::post('/login', [LoginController::class, 'auth'])->name('login.auth');
     });
 
-    Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
-
     Route::middleware('auth')->group(function () {
-
+        Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
         Route::get('/', function (Request $request) {
             $productsCount = Product::count();
             $pendingOrders = Order::where('order_status', 0)->count();

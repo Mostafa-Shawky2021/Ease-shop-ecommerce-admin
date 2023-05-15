@@ -9,11 +9,16 @@ use App\Models\Brand;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\Rule;
 
+use Illuminate\Support\Facades\Validator;
+
 class BrandController extends Controller
 {
     //
     public function index()
     {
+        $test = Validator::make(['name' => ''], [
+            'name' => 'required'
+        ]);
 
         $brands = Brand::paginate();
         return view('brands.index', compact('brands'));
@@ -43,7 +48,7 @@ class BrandController extends Controller
 
             }
             return response([
-                'message' => 'the brand name has already exist'
+                'message' => 'اسم البراند موجود بالفعل'
             ], 422);
         }
         $validated = $request->validate([
@@ -57,7 +62,11 @@ class BrandController extends Controller
                 Brand::create(['brand_name' => $brand]);
         });
 
-        return redirect()->route('brands.index');
+        return redirect()->route('brands.index')
+            ->with([
+                'message' => ['تم اضافة البراند بنجاح', 'info']
+            ]);
+        ;
     }
 
     public function edit(Brand $brand)
@@ -88,7 +97,7 @@ class BrandController extends Controller
         $brand->delete();
         return redirect()
             ->route('brands.index')
-            ->with(['Message' => ['تم حذف البراند بنجاح', 'success']]);
+            ->with(['message' => ['تم حذف البراند بنجاح', 'warning']]);
     }
 
     public function deleteMultipleBrands(Request $request)

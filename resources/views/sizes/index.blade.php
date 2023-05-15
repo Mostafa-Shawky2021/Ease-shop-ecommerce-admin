@@ -9,6 +9,9 @@
 @endsection
 
 @section('content')
+
+@include('partials.formmessage')
+
 <div class="datatable-wrapper" id="sizesWrapper">
     <div class="d-flex justify-content-end">
         @include('partials.datatableheader')
@@ -39,7 +42,8 @@
                             </a>
                             <form method="POST" action="{{ route('sizes.destroy', $routeParamter) }}">
                                 @method('DELETE')
-                                <button class="btn-action">
+                                @csrf
+                                <button class="btn-action" onclick="return confirm('هل انت متاكد؟')">
                                     <i class="fa fa-trash icon icon-delete"></i>
                                 </button>
                             </form>

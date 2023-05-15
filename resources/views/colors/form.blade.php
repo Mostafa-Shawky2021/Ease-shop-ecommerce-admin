@@ -1,7 +1,9 @@
 @php
-
+// will be used by javascript to show color name and value
 $colorValue = $color ? $color->color_name . ',' . $color->color_value : null;
 @endphp
+
+@include('partials.validationerrors')
 <div>
     <label class="label-control">اسم اللون</label>
     <div class="mt-3">

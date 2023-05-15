@@ -6,8 +6,10 @@ $sizesArrToString = $product ? $product->sizes->map(fn($size) => $size->id)->imp
 : '';
 $colorsId = old('color_id', $colorsArrToString);
 $sizesId = old('size_id', $sizesArrToString);
-
 @endphp
+
+@include('partials.validationerrors')
+
 
 <div class='row'>
     <div class="col-6">
@@ -106,7 +108,7 @@ $sizesId = old('size_id', $sizesArrToString);
         <div class="file-wrapper form-control">
             <input name="old_image" id="oldImage"
                 value="{{ $product && $product->image ? asset('storage/' . $product->image) : '' }}" hidden />
-            <input type='file' name='image' id='productImage' />
+            <input type='file' name='image' id='productImage' accept="image/*" />
         </div>
     </div>
 </div>
@@ -122,7 +124,7 @@ $sizesId = old('size_id', $sizesArrToString);
             }
             @endphp
             <input name="old_images" id="oldImage" value="{{ $thumbnailsImages }}" hidden />
-            <input type='file' name='productImageThumbnails[]' id='productImages' multiple />
+            <input type='file' name='productImageThumbnails[]' id='productImages' accept="image/*" multiple />
         </div>
     </div>
 </div>
@@ -175,7 +177,7 @@ $sizesId = old('size_id', $sizesArrToString);
             ])
             <div class="d-flex align-items-center gap-3 flex-wrap" id="boxWrapper">
                 @forelse ($sizes as $size)
-                <div class="product-variant" value="{{ $color->id }}">
+                <div class="product-variant" value="{{ $size->id }}">
                     {{ $size->size_name }}
                 </div>
                 @empty

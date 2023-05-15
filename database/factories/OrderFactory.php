@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use App\Models\User;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Order>
@@ -27,7 +28,7 @@ class OrderFactory extends Factory
             'email' => fake()->email(),
             'order_notes' => Str::random(15),
             'total_price' => 2500,
-            'user_id' => 1,
+            'user_id' => User::factory(),
             'order_status' => 0,
 
         ];
