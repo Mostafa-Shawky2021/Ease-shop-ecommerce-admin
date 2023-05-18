@@ -1,7 +1,7 @@
 <header class="header d-flex">
 
     <div class="logo text-center">
-        <a class="logo-link" href="#">Netfly</a>
+        <a class="logo-link text-center" href="#">Ease Shop</a>
     </div>
 
     <div class="header-content d-flex align-items-center">

@@ -34,7 +34,11 @@
             <div class="completed-orders d-flex justify-content-between px-4 py-4 box">
                 <div class="info">
                     <p class="count">{{$completedOrders}}</p>
-                    <p class="data">الاوردارات المكتملة</p>
+                    <p class="data">
+                        <a href="{{route('orders.index',['status'=>'completed'])}}">
+                            الاوردارات المعلقة
+                        </a>
+                    </p>
                 </div>
                 <div class="icon">
                     <i class="fa-solid fa-box-open"></i>

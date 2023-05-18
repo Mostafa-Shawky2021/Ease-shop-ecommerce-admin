@@ -13,7 +13,7 @@
             <a class="title">الادارة</a>
         </li>
         <li class="item">
-            <a @class([ 'button-toggle' , 'submenu-visible'=> Request::is('admin/users*'),
+            <a @class([ 'button-toggle' , 'submenu-visible'=> Request::is('admin/profile*'),
                 ]) data-toggle="toggle-submenu">
                 <i class="fa fa-user icon"></i>
                 <span>المستخدمين</span>
@@ -103,7 +103,7 @@
             </a>
             <ul class="list-submenu toggle-submenu">
                 <li class="item">
-                    <a href="{{ route('orders.index') }}">جميع الاوردرات</a>
+                    <a href="{{ route('orders.index') }}">الاوردرات المعلقة</a>
                 </li>
                 <li class="item">
                     <a href="{{ route('orders.index', ['status' => 'completed']) }}">الاوردرات

@@ -24,6 +24,9 @@ trait FilterProducts
             $this->filterProductByName($productName);
         }
 
+        if ($request->has('categories')) {
+            $this->filterProductByCategories($request->query('categories'));
+        }
         if ($request->has('limit')) {
             $limitNumber = $request->query('limit');
             $this->limitFilter = intval($limitNumber);
@@ -72,6 +75,12 @@ trait FilterProducts
                 ->paginate(static::$paginationNumber);
     }
 
+    private function filterProductByCategories($categoriesId)
+    {
+        $categoriesIdArr = explode('-', $categoriesId);
+        $this->productModelFilter = $this->productModelFilter
+            ->whereIn('category_id', $categoriesIdArr);
+    }
     private function filterProductByBrands($queryBrands)
     {
         $brands = explode('-', $queryBrands);
