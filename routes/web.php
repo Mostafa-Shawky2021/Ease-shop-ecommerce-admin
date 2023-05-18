@@ -36,7 +36,6 @@ use Illuminate\Support\Facades\Auth;
 Route::prefix('admin')->group(function () {
 
     // Dashboard
-
     Route::middleware('guest')->group(function () {
         Route::get('/login', [LoginController::class, 'create'])->name('login');
         Route::post('/login', [LoginController::class, 'auth'])->name('login.auth');
@@ -64,8 +63,8 @@ Route::prefix('admin')->group(function () {
             );
 
         })->name('dashboard');
-        //profile
 
+        //profile
         Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
         Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');

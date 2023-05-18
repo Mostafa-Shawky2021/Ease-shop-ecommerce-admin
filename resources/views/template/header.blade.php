@@ -1,3 +1,10 @@
+@php
+$activeNotificationsCount = \App\Models\Notification::where('is_seen', 0)->count();
+$notifications = \App\Models\Notification::orderBy('is_seen', 'asc')
+->orderBy('id', 'desc')
+->get();
+
+@endphp
 <header class="header d-flex">
 
     <div class="logo text-center">

@@ -28,14 +28,14 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
-        $activeNotificationsCount = Notification::where('is_seen', 0)->count();
-        $notifications = Notification::orderBy('is_seen', 'asc')
-            ->orderBy('id', 'desc')
-            ->get();
-        View::composer(['template.header'], function ($view) use ($notifications, $activeNotificationsCount) {
-            $view->with('activeNotificationsCount', $activeNotificationsCount)
-                ->with('notifications', $notifications);
-        });
+        // $activeNotificationsCount = Notification::where('is_seen', 0)->count();
+        // $notifications = Notification::orderBy('is_seen', 'asc')
+        //     ->orderBy('id', 'desc')
+        //     ->get();
+        // View::composer(['template.header'], function ($view) use ($notifications, $activeNotificationsCount) {
+        //     $view->with('activeNotificationsCount', $activeNotificationsCount)
+        //         ->with('notifications', $notifications);
+        // });
         Paginator::useBootstrapFive();
 
     }
