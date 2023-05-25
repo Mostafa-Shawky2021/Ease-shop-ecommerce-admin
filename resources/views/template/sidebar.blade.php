@@ -1,7 +1,6 @@
 @php $urlSegment = Request::segment(2); @endphp
 <aside class="sidebar" id="collapseSidebar">
     <ul class="list list-unstyled">
-
         <li class="item">
             <a href="{{route('dashboard')}}">
                 <i class="fa fa-dashboard icon"></i>

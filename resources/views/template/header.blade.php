@@ -6,12 +6,13 @@ $notifications = \App\Models\Notification::orderBy('is_seen', 'asc')
 
 @endphp
 <header class="header d-flex">
-
     <div class="logo text-center">
         <a class="logo-link text-center" href="#">Ease Shop</a>
     </div>
-
     <div class="header-content d-flex align-items-center">
+        <button id="openSidebar" class="open-sidebar-btn">
+            <i class="fa fa-bars"></i>
+        </button>
         <div class="notification-wrapper" style="position:relative" id="collapseNotification">
             <button class="order-notification-btn button-toggle">
                 <i class="fa fa-bell"></i>

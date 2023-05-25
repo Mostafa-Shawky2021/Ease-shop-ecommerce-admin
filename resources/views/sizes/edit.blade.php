@@ -12,7 +12,7 @@
 @include('partials.validationerrors')
 
 <div class="row">
-    <div class="col-6">
+    <div class="col-12 col-md-9">
         <form action="{{ route('sizes.update', $routeParamter) }}" class="mainform-app py-3 px-2" method="post">
             @csrf
             @method('PUT')

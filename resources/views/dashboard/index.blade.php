@@ -2,7 +2,7 @@
 @section('content')
 <div class="container-fluid fast-analysis">
     <div class="row">
-        <div class="col-3">
+        <div class="col-12 col-md-6 col-xl-3 mb-3 mb-xl-0">
             <div class="total-products d-flex justify-content-between px-4 py-4 box">
                 <div class="info">
                     <p class="count">{{$productsCount}}</p>
@@ -15,7 +15,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-3">
+        <div class="col-12 col-md-6 col-xl-3 mb-3 mb-xl-0">
             <div class="pending-orders d-flex justify-content-between px-4 py-4 box">
                 <div class="info">
                     <p class="count">{{$pendingOrders}}</p>
@@ -30,13 +30,13 @@
                 </div>
             </div>
         </div>
-        <div class="col-3">
+        <div class="col-12 col-md-6 col-xl-3 mb-3 mb-xl-0">
             <div class="completed-orders d-flex justify-content-between px-4 py-4 box">
                 <div class="info">
                     <p class="count">{{$completedOrders}}</p>
                     <p class="data">
                         <a href="{{route('orders.index',['status'=>'completed'])}}">
-                            الاوردارات المعلقة
+                            الاوردارات المكتملة
                         </a>
                     </p>
                 </div>
@@ -45,7 +45,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-3">
+        <div class="col-12 col-md-6 col-xl-3 mb-3 mb-xl-0">
             <div class="total-categories d-flex justify-content-between px-4 py-4 box">
                 <div class="info">
                     <p class="count">{{$categoriesCount}}</p>

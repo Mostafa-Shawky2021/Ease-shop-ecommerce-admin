@@ -12,21 +12,29 @@ trait ImageStorage
 {
 
     // store image in file system and return the stored path
-    private static function storeImage(array|UploadedFile $uploadedImage, string $path, Model $model = null,$resizeWidth=1000)
+    private static function storeImage(array|UploadedFile $uploadedImage, string $path, Model $model = null, $resizeWidth = 1000)
     {
 
         if (is_array($uploadedImage)) {
 
             $imagesPath = collect($uploadedImage)->map(
-                function ($uploadedImage) use ($path, $model,$resizeWidth) {
+                function ($uploadedImage) use ($path, $model, $resizeWidth) {
                     $imageName = $uploadedImage->hashName();
                     Storage::exists($path) ?: Storage::makeDirectory($path);
                     $imagePath = storage_path("app/public/$path/" . $imageName);
-                    ImageIntervention::make($uploadedImage)
-                        ->resize($resizeWidth,
-                         null, 
-                         fn($constraint) => $constraint->aspectRatio())
-                        ->save($imagePath);
+                    $imageWidth = ImageIntervention::make($uploadedImage)->width();
+
+                    if ($imageWidth >= $resizeWidth) {
+                        ImageIntervention::make($uploadedImage)
+                            ->resize(
+                                $resizeWidth,
+                                null,
+                                fn($constraint) => $constraint->aspectRatio()
+                            )
+                            ->save($imagePath);
+                    } else {
+                        ImageIntervention::make($uploadedImage)->save($imagePath);
+                    }
 
                     $image = new Image(['url' => "$path/$imageName"]);
                     $model ? $model->images()->save($image) : null;
@@ -38,10 +46,15 @@ trait ImageStorage
             $imageName = $uploadedImage->hashName();
             Storage::exists($path) ?: Storage::makeDirectory($path);
             $imagePath = storage_path("app/public/$path/" . $imageName);
+            $imageWidth = ImageIntervention::make($uploadedImage)->width();
+            if ($imageWidth >= $resizeWidth) {
+                ImageIntervention::make($uploadedImage)
+                    ->resize($resizeWidth, null, fn($constraint) => $constraint->aspectRatio())
+                    ->save($imagePath);
+            } else {
+                ImageIntervention::make($uploadedImage)->save($imagePath);
+            }
 
-            ImageIntervention::make($uploadedImage)
-                ->resize($resizeWidth, null, fn($constraint) => $constraint->aspectRatio())
-                ->save($imagePath);
             return "$path/$imageName";
         }
 

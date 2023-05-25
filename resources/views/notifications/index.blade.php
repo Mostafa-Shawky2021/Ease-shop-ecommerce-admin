@@ -35,13 +35,11 @@
                 $routeParams = ['message'=>$notification->notifiable->id];
                 }
 
-                if($notification->is_seen === 0 ) $routeParams['is_seen'] =
-                true;
+                if($notification->is_seen === 0 ) $routeParams['is_seen'] = true;
                 @endphp
                 <tr>
                     <td>
-                        <input value="{{ $notification->id }}" type='checkbox'
-                            class='action-checkbox' />
+                        <input value="{{ $notification->id }}" type='checkbox' class='action-checkbox' />
                     </td>
                     <td>
                         @php
@@ -49,8 +47,7 @@
                         ? 'var(--bs-primary)'
                         : '#222';
                         @endphp
-                        <a href="{{route($routeName,$routeParams)}}"
-                            style="color:{{$notificationStyle}}">
+                        <a href="{{route($routeName,$routeParams)}}" style="color:{{$notificationStyle}}">
                             {{$notification->message }}
                         </a>
                     </td>
@@ -62,8 +59,7 @@
 
                             @if($notification->is_seen === 0)
 
-                            <form method="POST"
-                                action="{{route('notifications.update',['notification'=>$notification->id])}}"
+                            <form method="POST" action="{{route('notifications.update',['notification'=>$notification->id])}}"
                                 class="btn-action">
                                 @method('PUT')
                                 @csrf
@@ -72,12 +68,10 @@
                                 </button>
                             </form>
                             @endif
-                            <form method="POST"
-                                action="{{route('notifications.destroy',['notification'=>$notification->id])}}">
+                            <form method="POST" action="{{route('notifications.destroy',['notification'=>$notification->id])}}">
                                 @method('DELETE')
                                 @csrf
-                                <button class="btn-action"
-                                    onclick="return confirm('هل انت متاكد؟!')">
+                                <button class="btn-action" onclick="return confirm('هل انت متاكد؟!')">
                                     <i class="fa fa-trash icon icon-delete"></i>
                                 </button>
                             </form>

@@ -108,7 +108,9 @@ class ProductController extends Controller
             $products = Product::where('product_slug', '!=', $productSlug)
                 ->where(function ($query) use ($productCategory, $productBrand) {
                     return $query->where('category_id', $productCategory)
-                        ->orWhere->where('brand_id', $productBrand);
+                        ->orWhere->where('brand_id', $productBrand)
+                        ->whereNotNull('category_id')
+                        ->whereNotNull('brand_id');
 
                 })->limit($productLimit)->get();
 

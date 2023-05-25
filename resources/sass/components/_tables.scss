@@ -1,6 +1,9 @@
 @use "../helper/var";
 
 .datatable-wrapper {
+    table.dataTable {
+        width: 100% !important;
+    }
     .search {
         width: 212px;
         font-size: 0.8rem;

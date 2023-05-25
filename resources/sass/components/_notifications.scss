@@ -1,14 +1,19 @@
+@use "../mixins//mediaquery" as *;
 .notification-list-wrapper {
     overflow: auto;
     height: 0px;
     position: absolute;
-    right: 7px;
+    right: -45px;
     top: 32px;
-    width: 386px;
+    width: 280px;
     padding: 0px;
     background-color: #fff;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     max-height: calc(100vh - 180px);
+    @include minmediaquery("sm") {
+        width: 386px;
+        right: 0px;
+    }
     .title {
         font-size: 0.9rem;
         margin-bottom: 1.3rem;

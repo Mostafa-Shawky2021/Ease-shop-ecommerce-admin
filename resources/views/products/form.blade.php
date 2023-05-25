@@ -12,12 +12,12 @@ $sizesId = old('size_id', $sizesArrToString);
 
 
 <div class='row'>
-    <div class="col-6">
+    <div class="col-12 col-sm-6 mt-3">
         <label class='label-control' for="product-name">اسم المنتج</label>
         <input name='product_name' class="form-control mt-2" id="product-name"
             value="{{ old('product_name', $product->product_name ?? '') }}" />
     </div>
-    <div class="col-6">
+    <div class="col-12 col-sm-6 mt-3">
         <div class="d-flex justify-content-between">
             <label class='label-control' for="brand">البراند</label>
             <a class="btn btn-add-fast" data-bs-toggle="modal" data-bs-target="#productBrandModal">اضافة
@@ -42,12 +42,12 @@ $sizesId = old('size_id', $sizesArrToString);
         </select>
     </div>
 </div>
-<div class='row mt-4'>
-    <div class="col-6">
+<div class='row'>
+    <div class="col-12 col-sm-6 mt-3">
         <label for="price" class='label-control'>السعر</label>
         <input id="price" name='price' value="{{ old('price', $product->price ?? '') }}" class="form-control mt-2" />
     </div>
-    <div class="col-6">
+    <div class="col-12 col-sm-6 mt-3">
         <label for="price-discount" class='label-control'>
             السعر بعد الخصم
         </label>
@@ -55,8 +55,8 @@ $sizesId = old('size_id', $sizesArrToString);
             class="form-control mt-2" />
     </div>
 </div>
-<div class="row mt-4">
-    <div class="col-6">
+<div class="row">
+    <div class="col-12 col-sm-12 col-md-8 mt-3">
         <div class="d-flex justify-content-between">
             <label class='label-control' for="category">الاقسام</label>
             <a class="btn btn-add-fast" data-bs-toggle="modal" data-bs-target="#productCategoryModal">اضافة
@@ -84,8 +84,8 @@ $sizesId = old('size_id', $sizesArrToString);
 
 
 </div>
-<div class="row mt-4">
-    <div class="col-6">
+<div class="row">
+    <div class="col-sm-12 col-md-8 mt-3">
         <label for="shortdescription" class='label-control'>
             وصف مختصر للمنتج
         </label>
@@ -94,17 +94,17 @@ $sizesId = old('size_id', $sizesArrToString);
         </textarea>
     </div>
 </div>
-<div class="row mt-4">
-    <div class='col-8'>
+<div class="row">
+    <div class='col-sm-12 col-md-8 mt-3'>
         <label for="editor" class='label-control'>وصف المنتج</label>
         <textarea id='editor' name='long_description' class='form-control mt-2'>
             {{ old('long_description', $product->long_description ?? '') }}
         </textarea>
     </div>
 </div>
-<div class="mt-4">
+<div class="mt-4 mt-md-3">
     <label class='label-control'>صورة المنتج</label>
-    <div class='col-6 mt-2'>
+    <div class='col-sm-12 col-md-8 mt-2'>
         <div class="file-wrapper form-control">
             <input name="old_image" id="oldImage"
                 value="{{ $product && $product->image ? asset('storage/' . $product->image) : '' }}" hidden />
@@ -112,9 +112,9 @@ $sizesId = old('size_id', $sizesArrToString);
         </div>
     </div>
 </div>
-<div class="mt-4">
+<div class="mt-4 mt-md-3">
     <label class='label-control'>مصغرات المنتج</label>
-    <div class='col-6 mt-2'>
+    <div class='col-sm-12 col-md-8 mt-2'>
         <div class="file-wrapper">
             @php
             $thumbnailsImages = null;
@@ -129,11 +129,11 @@ $sizesId = old('size_id', $sizesArrToString);
     </div>
 </div>
 
-<h5 class="options" style="margin-top:1.5rem;padding-top:1rem; border-top: 1px solid #e0e0e0; font-size: 1rem;">
+{{-- <h5 class="options" style="margin-top:1.5rem;padding-top:1rem; border-top: 1px solid #e0e0e0; font-size: 1rem;">
     الخيارات
-</h5>
-<div class="mt-4 row">
-    <div class="col-6">
+</h5> --}}
+<div class="mt-3 row pb-3 pt-3" style="border-bottom:1px solid #dedede">
+    <div class="col-sm-12 col-md-8">
         <div class="d-flex justify-content-between">
             <label class='label-control'>الالوان</label>
             <a class="btn btn-add-fast" data-bs-toggle="modal" data-bs-target="#productColorModal">اضافة لون</a>
@@ -160,8 +160,8 @@ $sizesId = old('size_id', $sizesArrToString);
         </div>
     </div>
 </div>
-<div class='mt-4 row'>
-    <div class="col-6">
+<div class='row pt-2'>
+    <div class="col-sm-12 col-md-8 mt-3">
         <div class="d-flex justify-content-between">
             <label class='label-control'>المقاسات</label>
             <a class="btn btn-add-fast" data-bs-toggle="modal" data-bs-target="#productSizeModal">اضافة مقاس</a>

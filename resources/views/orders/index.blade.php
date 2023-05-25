@@ -6,11 +6,15 @@
 
 
 @section('content')
+
 @include('partials.formmessage')
 <div class="datatable-wrapper" id="ordersWrapper">
     @include('partials.datatableheader', ['withSearch' => true])
-    {{ $dataTable->table(['class' => 'table table-data-layout']) }}
+    <div class="table-responsive">
+        {{ $dataTable->table(['class' => 'table table-data-layout']) }}
+    </div>
 </div>
+
 @endsection
 
 @push('scripts')

@@ -25,7 +25,9 @@ $dataTableId = $productQuery === 'trashed' ? 'trashedProductsWrapper' : 'product
 
     @endphp
     @include('partials.datatableheader', $datatableHeaderOptions)
-    {{ $dataTable->table(['class' => 'table table-data-layout']) }}
+    <div class="table-responsive">
+        {{ $dataTable->table(['class' => 'table table-data-layout']) }}
+    </div>
 </div>
 @endsection
 

@@ -42,9 +42,7 @@
         </div>
         @empty
         <div class="notification-item">
-            <div class="icon-cart">
 
-            </div>
             <div class="info">
                 <p style="margin:0px">لا يوجد اشعارات</p>
             </div>

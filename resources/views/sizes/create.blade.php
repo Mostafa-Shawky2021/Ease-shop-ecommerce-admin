@@ -9,7 +9,7 @@
 @include('partials.validationerrors')
 
 <div class="row">
-    <div class="col-6">
+    <div class="col-12 col-md-9">
         <form action="{{ route('sizes.store') }}" class="mainform-app py-3 px-2" id="sizesForm" method="post">
             @csrf
             <div class="">
@@ -23,7 +23,7 @@
                         عنصر جديد
                         <i class="icon fa fa-plus"></i>
                     </button>
-                    <button class="btn-add d-block ms-auto" id="saveBtn" style="border-radius:8px;font-size:0.8rem">
+                    <button class="btn-add d-block ms-auto mt-2" id="saveBtn" style="border-radius:8px;font-size:0.8rem">
                         حفظ المقاس
                         <i class="icon fa fa-save"></i>
                     </button>

@@ -50,13 +50,13 @@ trait FilterProducts
         }
 
         if ($request->has('sizes')) {
-            $querySizes = $request->query('sizes');
+            $querySizes = urldecode($request->query('sizes'));
             $this->filterProductBySize($querySizes);
 
         }
 
         if ($request->has('colors')) {
-            $queryColors = $request->query('colors');
+            $queryColors = urldecode($request->query('colors'));
             $this->filterProductByColors($queryColors);
         }
 

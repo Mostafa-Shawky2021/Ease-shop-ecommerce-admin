@@ -1,0 +1,26 @@
+@use "../helper/var" as var;
+
+@mixin minmediaquery($media) {
+    $breakpointValue: map-get(var.$breakpoints, $media);
+
+    @media screen and (min-width:#{$breakpointValue}px) {
+        @content;
+    }
+}
+
+@mixin maxmediaquery($media) {
+    $breakpointValue: map-get(var.$breakpoints, $media);
+
+    @media screen and (max-width:#{$breakpointValue}px) {
+        @content;
+    }
+}
+
+@mixin betweenmediaquery($minmedia, $maxmedia) {
+    $min: map-get(var.$breakpoints, $minmedia);
+    $max: map-get(var.$breakpoints, $maxmedia);
+
+    @media screen and (min-width:#{$min}px) and (max-width:#{$max}px) {
+        @content;
+    }
+}

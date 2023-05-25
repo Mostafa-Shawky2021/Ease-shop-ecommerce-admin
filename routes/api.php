@@ -38,8 +38,6 @@ Route::controller(LayoutController::class)->group(function () {
 
 });
 
-
-
 // Product Variants Resource
 Route::controller(ProductVariantController::class)->group(function () {
 
@@ -82,7 +80,7 @@ Route::controller(CartController::class)->group(function () {
 
 	Route::get('/carts/user/{user}', 'index');
 	Route::post('/carts', 'store');
-	Route::put('/carts/user/{user}', 'update')->middleware('auth:sanctum');
+	Route::put('/carts/user/{user}', 'update');
 	Route::put('/carts/{cart}/increment', 'increaseProduct');
 	Route::put('/carts/{cart}/decrement', 'decreaseProduct');
 	Route::delete('/carts/{cart}', 'destroy');

@@ -163,14 +163,21 @@ class FileUploadView {
     renderBtnShow() {
         // get input file id so we can bind it to bootstrap modal
         const inputFileNodeId = this.inputFileNode.id;
-
+        let btnWrapper = this.parentFileElement.querySelector(".btn-wrapper");
         let btnShowNode = this.parentFileElement.querySelector(".view-btn");
 
+        if (!btnWrapper) {
+            btnWrapper = this.createElement(
+                "div",
+                "btn-wrapper",
+                this.parentFileElement
+            );
+        }
         if (!btnShowNode) {
             btnShowNode = this.createElement(
                 "button",
                 ["btn", "btn-primary", "view-btn", "btn-action"],
-                this.parentFileElement
+                btnWrapper
             );
 
             btnShowNode.setAttribute(
@@ -189,12 +196,20 @@ class FileUploadView {
 
     renderRemoveBtn() {
         let btnShowNode = this.parentFileElement.querySelector(".delete-btn");
+        let btnWrapper = this.parentFileElement.querySelector(".btn-wrapper");
 
+        if (!btnWrapper) {
+            btnWrapper = this.createElement(
+                "div",
+                "btn-wrapper",
+                this.parentFileElement
+            );
+        }
         if (!btnShowNode) {
             btnShowNode = this.createElement(
                 "button",
                 ["btn-danger", "btn-action", "btn", "delete-btn"],
-                this.parentFileElement
+                btnWrapper
             );
 
             btnShowNode.innerHTML = `حذف الصورة <i class="fa-solid fa-trash icon"></i>`;

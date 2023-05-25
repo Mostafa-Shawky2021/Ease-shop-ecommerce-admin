@@ -14,7 +14,10 @@
 
 <div class="datatable-wrapper" id="categoriesWrapper">
     @include('partials.datatableheader', ['withSearch' => true])
-    {{ $dataTable->table(['class' => 'table table-data-layout']) }}
+    <div class="table-responsive">
+        {{ $dataTable->table(['class' => 'table table-data-layout']) }}
+
+    </div>
 </div>
 @endsection
 

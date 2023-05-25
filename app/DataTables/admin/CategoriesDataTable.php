@@ -79,7 +79,7 @@ class CategoriesDataTable extends DataTable
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom('rtip')
-            ->parameters(['order' => [0, 'desc']]);
+            ->parameters(['order' => [1, 'desc']]);
         // ->selectStyleSingle();
 
     }
@@ -93,7 +93,7 @@ class CategoriesDataTable extends DataTable
     {
         return [
             Column::make('action-muliple-wrapper')->addClass('action-multiple-wrapper')->title('<input type="checkbox" id="multipleSelector" />')->orderable(false),
-            Column::make('image')->title('صورة المنتج')->orderable(false)->className('image'),
+            Column::make('image')->title('صورة المنتج')->orderable(true)->className('image')->name('id'),
             Column::make('cat_name')->title('اسم القسم'),
             Column::make('parent_category')->title('القسم الرئيسي')->name('id'),
             Column::make('action')->title('اجراء')->orderable(false),

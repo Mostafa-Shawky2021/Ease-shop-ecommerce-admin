@@ -12,6 +12,8 @@ use App\Models\Carousel;
 use App\Traits\ImageStorage;
 use App\Models\Image;
 
+use ImageIntervention;
+
 class LayoutHomepageCarouselController extends Controller
 {
     //
@@ -81,7 +83,8 @@ class LayoutHomepageCarouselController extends Controller
             static::storeImage(
                 $request->file('images'),
                 'layout/homepage/carousel',
-                $carousel
+                $carousel,
+                1600
             );
         }
         if ($carousel->update($validatedInputs)) {

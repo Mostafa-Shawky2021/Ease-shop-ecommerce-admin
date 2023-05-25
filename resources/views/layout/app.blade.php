@@ -21,24 +21,23 @@
     @include('template.header')
 
     <div class="d-flex">
+
         @include('template.sidebar')
 
         <div class="main-wrapper">
-            <header class="header-content">
-                @yield('header-content')
-            </header>
-
-            <div class="content">
+            <div class="container-fluid px-md-4">
+                <header class="header-content">
+                    @yield('header-content')
+                </header>
                 @yield('content')
+
             </div>
-
         </div>
-    </div>
-    @endauth
+        @endauth
 
-    @stack('scripts')
-    <script type='module'>
-        $.extend(true, $.fn.dataTable.defaults, {
+        @stack('scripts')
+        <script type='module'>
+            $.extend(true, $.fn.dataTable.defaults, {
             language: {
                search: "",
                paginate:{
@@ -48,8 +47,30 @@
                }
             }
             });
+    const sideBarBtn = document.getElementById("openSidebar");
+    const sideBar = document.getElementById("collapseSidebar");   
+    sideBarBtn.addEventListener("click",()=>{
+        sideBar.classList.toggle('open-mobile')
+        if(sideBar.classList.contains('open-mobile')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }      
+    })
 
-    </script>
+    if(window.innerWidth <= 992) {
+        window.addEventListener("keydown", (event)=>{
+            if(event.key === "Escape") {
+                if(sideBar.classList.contains('open-mobile'))  {
+                    sideBar.classList.remove('open-mobile')
+                    document.body.style.overflow = 'auto'; 
+                }   
+            }
+        })
+    }
+   
+
+        </script>
 </body>
 
 </html>
