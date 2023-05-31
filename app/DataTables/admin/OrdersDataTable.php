@@ -102,6 +102,7 @@ class OrdersDataTable extends DataTable
         return $this->builder()
             ->setTableId('orders-table')
             ->columns($this->getColumns())
+            ->pageLength(15)
             ->minifiedAjax()
             ->dom('rtip')
             ->parameters([

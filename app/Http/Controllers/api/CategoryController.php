@@ -15,18 +15,23 @@ class CategoryController extends Controller
     use FilterProducts;
     private static $paginationNumber = 25;
 
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::with([
+
+        $categoriesQuery = Category::with([
             'subCategories',
         ])->withCount('products')
-            ->orderByDesc('id')
-            ->get();
+            ->orderByDesc('id');
 
-        if ($categories->isEmpty()) {
-            return response(['Message' => 'Sorry no categories in database'], 404);
+        if ($request->has('limit')) {
+            $categoriesQuery = $categoriesQuery->limit($request->query("limit"))->get();
+        } else {
+            $categoriesQuery = $categoriesQuery->get();
         }
-        return response($categories, 200);
+        if ($categoriesQuery->isEmpty()) {
+            return response(['message' => 'Sorry no categories in database'], 404);
+        }
+        return response($categoriesQuery, 200);
     }
     public function categoryProducts(Request $request, $categorySlug)
     {
@@ -78,7 +83,7 @@ class CategoryController extends Controller
 
         }
 
-        $products = $product->paginate(static::$paginationNumber);
+        $products = $product->with(['colors', 'sizes'])->paginate(static::$paginationNumber);
 
         if ($products->isNotEmpty()) {
 
@@ -113,6 +118,7 @@ class CategoryController extends Controller
 
         foreach ($randomCategories as $index => $category) {
             $categoryProducts = $category->products()
+                ->with(['colors', 'sizes'])
                 ->limit(8)
                 ->inRandomOrder()
                 ->get();

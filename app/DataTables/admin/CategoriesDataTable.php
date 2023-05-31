@@ -77,6 +77,7 @@ class CategoriesDataTable extends DataTable
         return $this->builder()
             ->setTableId('categories-table')
             ->columns($this->getColumns())
+            ->pageLength(15)
             ->minifiedAjax()
             ->dom('rtip')
             ->parameters(['order' => [1, 'desc']]);

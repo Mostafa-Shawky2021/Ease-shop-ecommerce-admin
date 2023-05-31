@@ -112,6 +112,7 @@ class ProductsDataTable extends DataTable
             ->setTableId('products-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
+            ->pageLength(15)
             ->parameters([
                 'order' => [1, 'desc']
             ])->dom('rtip');
