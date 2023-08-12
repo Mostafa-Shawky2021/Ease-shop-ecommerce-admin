@@ -26,7 +26,6 @@ class StoreProductForm extends FormRequest
     public function rules()
     {
         $product = $this->route('product');
-        dump($this);
 
         return [
             'product_name' => [

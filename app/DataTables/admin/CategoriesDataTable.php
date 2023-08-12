@@ -25,20 +25,19 @@ class CategoriesDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addIndexColumn()
-            ->addColumn('action-muliple-wrapper', fn($category) => "<input value='" . $category->id . "'type='checkbox' class='action-checkbox'/>")
+            ->addColumn('action-muliple-wrapper', fn ($category) => "<input value='" . $category->id . "'type='checkbox' class='action-checkbox'/>")
             ->editColumn('image', function (Category $category) {
                 return $category->image
                     ? "<img alt='category-image' src='$category->image' width='30' height='30'/>"
                     : 'لا توجد صورة';
-
             })->editColumn('parent_category', function (Category $category) {
-            return $category->parentCategory
-                ? "<span>{$category->parentCategory->cat_name}</span>"
-                : "لا يوجد قسم رئيسي";
-        })->addColumn('action', function (Category $category) {
-            $routeParamter = ['category' => $category->id];
-            $btn =
-                '<div class="action-wrapper">
+                return $category->parentCategory
+                    ? "<span>{$category->parentCategory->cat_name}</span>"
+                    : "لا يوجد قسم رئيسي";
+            })->addColumn('action', function (Category $category) {
+                $routeParamter = ['category' => $category->id];
+                $btn =
+                    '<div class="action-wrapper">
                     <a class="btn-action" href=' . route('categories.edit', $routeParamter) . '>
                         <i class="fa fa-edit icon icon-edit"></i>
                     </a>
@@ -50,9 +49,8 @@ class CategoriesDataTable extends DataTable
                         </button>
                     </form>
                 </div>';
-            return $btn;
-
-        })->rawColumns(['action-muliple-wrapper', 'image', 'parent_category', 'action']);
+                return $btn;
+            })->rawColumns(['action-muliple-wrapper', 'image', 'parent_category', 'action']);
     }
 
     /**
@@ -64,7 +62,6 @@ class CategoriesDataTable extends DataTable
     public function query(Category $model): QueryBuilder
     {
         return $model->newQuery()->with('parentCategory');
-
     }
 
     /**
@@ -79,8 +76,10 @@ class CategoriesDataTable extends DataTable
             ->columns($this->getColumns())
             ->pageLength(15)
             ->minifiedAjax()
-            ->dom('rtip')
-            ->parameters(['order' => [1, 'desc']]);
+            ->dom('rtip')->ajax([
+                'headers' => ['X-Requested-With' => 'XMLHttpRequest']
+            ])->parameters(['order' => [1, 'desc']]);
+
         // ->selectStyleSingle();
 
     }

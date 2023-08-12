@@ -25,44 +25,44 @@ class ProductsDataTable extends DataTable
             ->addIndexColumn()
             ->addColumn(
                 'action-muliple-wrapper',
-                fn($product) => "<input value='" . $product->id . "'type='checkbox' class='action-checkbox'/>"
+                fn ($product) => "<input value='" . $product->id . "'type='checkbox' class='action-checkbox'/>"
             )->editColumn('image', function (Product $product) {
                 return $product->image
                     ? "<img alt='product-image' src='$product->image' width='30' height='30'/>"
                     : 'لا توجد صورة';
             })->editColumn(
                 'category',
-                fn(Product $product) => $product->category->cat_name ?? 'لا يوجد'
+                fn (Product $product) => $product->category->cat_name ?? 'لا يوجد'
 
             )->editColumn('price', function (Product $product) {
                 return number_format($product->price);
             })->editColumn('price_discount', function (Product $product) {
-            return $product->price_discount
-                ? $product->price_discount
-                : 'لا يوجد  تخفيض';
-        })->addColumn('action', function (Product $product) {
+                return $product->price_discount
+                    ? $product->price_discount
+                    : 'لا يوجد  تخفيض';
+            })->addColumn('action', function (Product $product) {
 
-            $routeParamter = ['product' => $product->id];
-            $productStatus = request()->query('status');
+                $routeParamter = ['product' => $product->id];
+                $productStatus = request()->query('status');
 
-            // inject status query string if we in trashed page
-            $routeParamter = $productStatus === 'trashed'
-                ? array_merge($routeParamter, ['status' => 'trashed'])
-                : $routeParamter;
+                // inject status query string if we in trashed page
+                $routeParamter = $productStatus === 'trashed'
+                    ? array_merge($routeParamter, ['status' => 'trashed'])
+                    : $routeParamter;
 
-            // if we in trashed page render resotre button
-            $restoreBtn = $productStatus === 'trashed'
-                ? "<form method='POST' action='" . route('products.restore', $routeParamter) . "'> 
+                // if we in trashed page render resotre button
+                $restoreBtn = $productStatus === 'trashed'
+                    ? "<form method='POST' action='" . route('products.restore', $routeParamter) . "'> 
                     " . csrf_field() . "
                     <button class='btn-action icon-restore' onclick='return confirm(\"هل انت متاكد؟\")'>
                         <i class='fa fa-rotate'></i>
                     </button>
                 </form>"
-                : "";
+                    : "";
 
-            // edit,restore,delete
-            $actionbtns =
-                '<div class="action-wrapper">
+                // edit,restore,delete
+                $actionbtns =
+                    '<div class="action-wrapper">
                     <a class="btn-action" href=' . route('products.edit', $routeParamter) . '>
                         <i class="fa fa-edit icon icon-edit"></i>
                     </a>
@@ -75,10 +75,8 @@ class ProductsDataTable extends DataTable
                         </button>
                     </form>
                 </div>';
-            return $actionbtns;
-
-        })->rawColumns(['image', 'action', 'action-muliple-wrapper']);
-
+                return $actionbtns;
+            })->rawColumns(['image', 'action', 'action-muliple-wrapper']);
     }
 
     /**
@@ -115,7 +113,9 @@ class ProductsDataTable extends DataTable
             ->pageLength(15)
             ->parameters([
                 'order' => [1, 'desc']
-            ])->dom('rtip');
+            ])->dom('rtip')->ajax([
+                'headers' => ['X-Requested-With' => 'XMLHttpRequest']
+            ]);
     }
 
     /**

@@ -22,7 +22,7 @@ class OrdersDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->setRowId('id')
-            ->addColumn('action-muliple-wrapper', fn($order) => "<input value='" . $order->id . "'type='checkbox' class='action-checkbox'/>")
+            ->addColumn('action-muliple-wrapper', fn ($order) => "<input value='" . $order->id . "'type='checkbox' class='action-checkbox'/>")
             ->editColumn('invoice_number', function ($order) {
                 $orderRoute = ['order' => $order->id];
                 return "<a href='" . route('orders.show', $orderRoute) . "'>$order->invoice_number</a>";
@@ -36,7 +36,7 @@ class OrdersDataTable extends DataTable
                 }
             )->editColumn(
                 'total_price',
-                fn($order) => number_format($order->total_price)
+                fn ($order) => number_format($order->total_price)
 
             )->editColumn(
                 'order_status',
@@ -104,12 +104,12 @@ class OrdersDataTable extends DataTable
             ->columns($this->getColumns())
             ->pageLength(15)
             ->minifiedAjax()
-            ->dom('rtip')
+            ->dom('rtip')->ajax([
+                'headers' => ['X-Requested-With' => 'XMLHttpRequest']
+            ])
             ->parameters([
-                'order' =>
-                [1, 'desc']
+                'order' => [1, 'desc']
             ]);
-
     }
 
     /**
