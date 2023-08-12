@@ -25,7 +25,7 @@ class StoreCarouselRequest extends FormRequest
     {
 
         return [
-            'images.*' => 'sometimes|image',
+            'images.*' => 'sometimes|bail|image|mimes:jpg,jpeg,png,gif,svg|max:2048',
             'carousel_time' => 'required|integer',
             'content' => ''
         ];
@@ -33,7 +33,7 @@ class StoreCarouselRequest extends FormRequest
     public function messages()
     {
         return [
-            'images.*' => 'الصورة يجب ان تكون بصيغة jpg,jpeg,png,bmp,gif,svg,webp',
+            'images.*' => 'الصورة يجب ان تكون بصيغة jpg,jpeg,png,bmp,gif,svg',
             'carousel_time.required' => 'من فضلك ادخل قيمة مدة السليدر',
             'carousel_time.integer' => 'مدة السليدر يجب ان تكون رقمية',
 

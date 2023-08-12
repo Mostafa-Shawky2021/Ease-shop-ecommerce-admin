@@ -31,6 +31,21 @@ class NewAdmin extends Command
      */
     public function handle()
     {
+        if (env('APP_ENV') == 'production') {
+            $email = 'admin@admin.com';
+            $userExist =  User::where('email', $email);
+
+            if ($userExist) return false;
+
+            User::create([
+                'name' => 'admin',
+                'email' => $email,
+                'password' => Hash::make('admin'),
+                'is_admin' => 1,
+            ]);
+            return true;
+        }
+        //  development mode
         $name = $this->ask('Enter user name');
         $email = $this->ask('Enter email Address');
         $password = $this->ask('Enter user password');
@@ -38,6 +53,7 @@ class NewAdmin extends Command
         $validator = Validator::make(['email' => $email], [
             'email' => 'email|unique:users',
         ]);
+
         if ($validator->fails()) {
             return $this->error($validator->errors()->first('email'));
         }
@@ -50,7 +66,5 @@ class NewAdmin extends Command
         ]);
 
         return $this->info('admin created successfully');
-
-
     }
 }

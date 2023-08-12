@@ -25,8 +25,7 @@ class ProductController extends Controller
         return $dataTable->render('products.index');
     }
     public function create()
-    {
-
+    {;
         $categories = Category::all();
         $colors = Color::all();
         $sizes = Size::all();
@@ -51,7 +50,6 @@ class ProductController extends Controller
             $uploadedFile = $request->file('image');
             $imagePath = self::storeImage($uploadedFile, 'products');
             $productInputFields['image'] = $imagePath;
-
         }
 
         $product = Product::create($productInputFields);
@@ -118,7 +116,6 @@ class ProductController extends Controller
                     ? Storage::delete($product->image)
                     : null;
             }
-
         }
 
         // Check if request payload contain images thumbnails or contain empty old images string
@@ -128,9 +125,9 @@ class ProductController extends Controller
             if ($product->images()->exists()) {
 
                 $product->images->each(
-                    fn(Image $image) => Storage::exists($image->url)
-                    ? Storage::delete($image->url)
-                    : ''
+                    fn (Image $image) => Storage::exists($image->url)
+                        ? Storage::delete($image->url)
+                        : ''
                 );
 
                 $product->images()->delete();
@@ -141,7 +138,6 @@ class ProductController extends Controller
             $request->has('productImageThumbnails')
                 ? self::storeImage($imageThumbnails, 'products', $product)
                 : null;
-
         }
         $product->product_slug = null;
         $product->update($validatedInputs);
@@ -158,7 +154,6 @@ class ProductController extends Controller
 
         if ($request->input('size_id') === null && $product->sizes()->exists()) {
             $product->sizes()->detach();
-
         } else if ($request->filled('size_id')) {
             $product->sizes()->sync(explode("|", $request->input('size_id')));
         }
@@ -182,11 +177,10 @@ class ProductController extends Controller
                 Storage::exists($product->image)
                     ? Storage::delete($product->image)
                     : null;
-
             }
 
-            $product->images->each(fn(Image $image) =>
-                Storage::exists($image->url)
+            $product->images->each(fn (Image $image) =>
+            Storage::exists($image->url)
                 ? Storage::delete($image->url)
                 : null);
             $product->images()->delete();
@@ -200,7 +194,6 @@ class ProductController extends Controller
         return redirect()
             ->back()
             ->with(['message' => ['تم حذف المنتج بنجاح', 'warning']]);
-
     }
 
     public function deleteMultipleProducts(Request $request)
@@ -231,7 +224,6 @@ class ProductController extends Controller
                 });
 
                 $deletedCount = $products->forceDelete();
-
             } else
                 $deletedCount = $products->delete();
 
@@ -240,7 +232,6 @@ class ProductController extends Controller
                 return response([
                     'message' => 'Products deleted successfully'
                 ], 200);
-
             }
             return response([
                 'message' => 'no products found'
@@ -274,5 +265,4 @@ class ProductController extends Controller
             ], 404);
         }
     }
-
 }

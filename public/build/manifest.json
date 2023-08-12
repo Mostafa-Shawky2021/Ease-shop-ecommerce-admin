@@ -1,0 +1,68 @@
+{
+  "node_modules/summernote/dist/font/summernote.eot": {
+    "file": "assets/summernote.05ce99db.eot",
+    "src": "node_modules/summernote/dist/font/summernote.eot"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff2": {
+    "file": "assets/fa-brands-400.faae6fc0.woff2",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff2"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.woff2": {
+    "file": "assets/fa-regular-400.9169d8be.woff2",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.woff2"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2": {
+    "file": "assets/fa-solid-900.886c8611.woff2",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2"
+  },
+  "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2": {
+    "file": "assets/bootstrap-icons.cfe45b98.woff2",
+    "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2": {
+    "file": "assets/fa-v4compatibility.335fd7d9.woff2",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2"
+  },
+  "node_modules/summernote/dist/font/summernote.woff2": {
+    "file": "assets/summernote.17aff429.woff2",
+    "src": "node_modules/summernote/dist/font/summernote.woff2"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.ttf": {
+    "file": "assets/fa-brands-400.003f1154.ttf",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.ttf"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.ttf": {
+    "file": "assets/fa-regular-400.7d81a1a7.ttf",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.ttf"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.ttf": {
+    "file": "assets/fa-solid-900.cea79b34.ttf",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.ttf"
+  },
+  "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff": {
+    "file": "assets/bootstrap-icons.999550fa.woff",
+    "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.ttf": {
+    "file": "assets/fa-v4compatibility.455e8e72.ttf",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.ttf"
+  },
+  "node_modules/summernote/dist/font/summernote.woff": {
+    "file": "assets/summernote.9ea36fc9.woff",
+    "src": "node_modules/summernote/dist/font/summernote.woff"
+  },
+  "node_modules/summernote/dist/font/summernote.ttf": {
+    "file": "assets/summernote.2a5c8f9c.ttf",
+    "src": "node_modules/summernote/dist/font/summernote.ttf"
+  },
+  "resources/js/app.js": {
+    "file": "assets/app.7f04133d.js",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  },
+  "resources/sass/app.scss": {
+    "file": "assets/app.87b547f1.css",
+    "src": "resources/sass/app.scss",
+    "isEntry": true
+  }
+}

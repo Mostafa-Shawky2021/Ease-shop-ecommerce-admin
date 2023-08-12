@@ -33,8 +33,8 @@ class StoreCategoryForm extends FormRequest
                 Rule::unique('categories')->ignore($category->id ?? null)
             ],
             'parent_id' => 'nullable|integer',
-            'image' => 'image',
-            'image_thumbnail' => 'image',
+            'image' => 'sometimes|image|mimes:jpg,jpeg,png,git,svg|max:2048',
+            'image_thumbnail' => 'sometimes|image|mimes:jpg,jpeg,png,git,svg|max:2048',
         ];
     }
     public function messages()

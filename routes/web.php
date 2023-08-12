@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\admin\Auth\LoginController;
 use App\Http\Controllers\admin\NotificationController;
 use Illuminate\Support\Facades\Route;
@@ -20,6 +21,8 @@ use App\Models\Order;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +36,13 @@ use Illuminate\Support\Facades\Auth;
 */
 
 
+
+Route::get('/', function () {
+
+    return Redirect::to('/admin');
+});
 Route::prefix('admin')->group(function () {
+
 
     // Dashboard
     Route::middleware('guest')->group(function () {
@@ -61,7 +70,6 @@ Route::prefix('admin')->group(function () {
                     'latestOrders'
                 )
             );
-
         })->name('dashboard');
 
         //profile
@@ -95,7 +103,6 @@ Route::prefix('admin')->group(function () {
                 Route::put('/categories/{category}', 'update')->name('categories.update');
                 Route::delete('/categories/{category}', 'destroy')->name('categories.destroy');
                 Route::post('/categories/delete', 'deleteMultipleCategories')->name('categories.deleteMultiple');
-
             }
         );
 
@@ -153,7 +160,6 @@ Route::prefix('admin')->group(function () {
                 Route::put('/sizes/{size}', 'update')->name('sizes.update');
                 Route::delete('/sizes/{size}', 'destroy')->name('sizes.destroy');
                 Route::post('/sizes/delete', 'deleteMultipleSizes')->name('sizes.deleteMultiple');
-
             }
         );
 
@@ -167,7 +173,6 @@ Route::prefix('admin')->group(function () {
                 Route::put('/brands/{brand}', 'update')->name('brands.update');
                 Route::delete('/brands/{brand}', 'destroy')->name('brands.destroy');
                 Route::post('/brands/delete', 'deleteMultipleBrands')->name('brands.deleteMultiple');
-
             }
         );
         // Notification Resource
@@ -177,7 +182,6 @@ Route::prefix('admin')->group(function () {
                 Route::delete('/notifications/{notification}', 'destroy')->name('notifications.destroy');
                 Route::put('/notifications/{notification}', 'update')->name('notifications.update');
                 Route::post('/notifications/delete', 'deleteMultipleNotifications')->name('notifications.deleteMultiple');
-
             }
         );
 
@@ -185,5 +189,4 @@ Route::prefix('admin')->group(function () {
         Route::apiResource('messages', MessageController::class)->except(['update', 'store']);
         Route::post('/messages/delete', [MessageController::class, 'deleteMultipleMessages'])->name('messages.deleteMultiple');
     });
-
 });

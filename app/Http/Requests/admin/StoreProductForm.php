@@ -26,6 +26,7 @@ class StoreProductForm extends FormRequest
     public function rules()
     {
         $product = $this->route('product');
+        dump($this);
 
         return [
             'product_name' => [
@@ -36,12 +37,12 @@ class StoreProductForm extends FormRequest
             'brand_id' => 'nullable',
             'price' => 'required|numeric',
             'price_discount' => 'nullable|numeric|lt:price',
-            'image' => 'required_if:old_image,null|image',
+            'image' => 'sometimes|bail|image|mimes:jpg,jpeg,png,gif,svg|max:2048',
             'short_description' => '',
             'category_id' => 'nullable|numeric',
             'long_description' => 'sometimes',
             'color_id' => 'sometimes',
-            'productImageThumbnails.*' => 'sometimes|image',
+            'productImageThumbnails.*' => 'sometimes|image|mimes:jpg,jpeg,png,git,svg|max:2048',
             'size_id' => 'sometimes'
         ];
     }
@@ -49,14 +50,15 @@ class StoreProductForm extends FormRequest
     {
         return [
             'product_name.required' => 'من فضلك ادخل اسم للمنتج',
+            'image.mimes' => 'يجب ان تكون الصورة بيصغة jpg,jpeg,png',
+            'image.max' => 'اقصي حجم للصورة 2 ميجا',
+            'image.image' => 'يجب ان تكون الملف صورة',
             'product_name.min' => 'يجب ان يكون الاسم بحد ادني 4 حروف',
             'product_name.unique' => 'اسم المنتج موجود بالفعل',
             'price.required' => 'من فضلك ادخل سعر المنتج',
             'price.numeric' => 'يجب ان يكون السعر قيمة رقمية',
             'price_discount.numeric' => 'يجب ان يكون السعر بعد الخصم قيمة رقمية',
             'price_discount.lt' => 'يجب ان يكون السعر بعد الخصم اقل من السعر الاصلي',
-            'image.required_if' => 'يجب اختيار صورة علي الاقل للمنتج',
-            'image.image' => 'الصورة يجب ان تكون بصيغة jpg,jpeg,png,bmp,gif,svg,webp',
             'productImageThumbnails.*.image' => 'الصورة يجب ان تكون بصيغة jpg,jpeg,png,bmp,gif,svg,webp',
         ];
     }

@@ -36,7 +36,9 @@
         @endauth
 
         @stack('scripts')
+     
         <script type='module'>
+
             $.extend(true, $.fn.dataTable.defaults, {
             language: {
                search: "",
@@ -47,28 +49,35 @@
                }
             }
             });
-    const sideBarBtn = document.getElementById("openSidebar");
-    const sideBar = document.getElementById("collapseSidebar");   
-    sideBarBtn.addEventListener("click",()=>{
-        sideBar.classList.toggle('open-mobile')
-        if(sideBar.classList.contains('open-mobile')) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'auto';
-        }      
-    })
-
-    if(window.innerWidth <= 992) {
-        window.addEventListener("keydown", (event)=>{
-            if(event.key === "Escape") {
-                if(sideBar.classList.contains('open-mobile'))  {
-                    sideBar.classList.remove('open-mobile')
-                    document.body.style.overflow = 'auto'; 
-                }   
+            //sidebar button icon  
+            const sideBarBtn = document.getElementById("openSidebar");
+            const sideBar = document.getElementById("collapseSidebar");   
+            
+            function toggleSidebar(){
+                sideBar.classList.toggle('open-mobile')
+                if(sideBar.classList.contains('open-mobile')) {
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = 'auto';
+                }     
             }
-        })
-    }
-   
+
+            // close sidebar in small screens
+            function toggleSmallScreen(){
+
+                if(window.innerWidth <= 992) {
+                    if(event.key === "Escape") {
+                        if(sideBar.classList.contains('open-mobile'))  {
+                            sideBar.classList.remove('open-mobile')
+                            document.body.style.overflow = 'auto'; 
+                        }   
+                    }
+                }
+            }
+
+            sideBarBtn.addEventListener("click",toggleSidebar)
+            window.addEventListener("keydown",toggleSmallScreen)
+        
 
         </script>
 </body>

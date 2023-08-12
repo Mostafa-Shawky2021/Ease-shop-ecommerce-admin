@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\View;
 use App\Models\Notification;
+use Illuminate\Routing\UrlGenerator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(UrlGenerator $url)
     {
         //
         // $activeNotificationsCount = Notification::where('is_seen', 0)->count();
@@ -36,7 +37,9 @@ class AppServiceProvider extends ServiceProvider
         //     $view->with('activeNotificationsCount', $activeNotificationsCount)
         //         ->with('notifications', $notifications);
         // });
+        if (env('APP_ENV') == 'production') {
+            $url->forceScheme('https');
+        }
         Paginator::useBootstrapFive();
-
     }
 }
