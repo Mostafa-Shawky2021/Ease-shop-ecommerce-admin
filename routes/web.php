@@ -43,7 +43,6 @@ Route::get('/', function () {
 });
 Route::prefix('admin')->group(function () {
 
-
     // Dashboard
     Route::middleware('guest')->group(function () {
         Route::get('/login', [LoginController::class, 'create'])->name('login');
