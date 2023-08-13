@@ -10,6 +10,7 @@ class Size extends Model
     use HasFactory;
 
     protected $fillable = ['size_name'];
+    public  $keyType = 'string';
 
     public function products()
     {
