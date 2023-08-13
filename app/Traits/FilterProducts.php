@@ -125,16 +125,15 @@ trait FilterProducts
         preg_match_all('/\d+/', $priceRange, $match);
 
         $matchingCollection = collect($match[0])
-            ->map(fn ($element) => intval($element))
             ->sort()
             ->slice(0, 2);
 
         // in case no matching default filter
         if ($matchingCollection->isEmpty()) {
-            $matchingCollection[0] = 50;
-            $matchingCollection[1] = 10000;
+            $matchingCollection[0] = "50";
+            $matchingCollection[1] = "10000";
         } else if ($matchingCollection->count() == 1) {
-            $matchingCollection[1] = 10000;
+            $matchingCollection[1] = "10000";
         }
 
         $columnDiscoutCondition = 'if(price_discount,price_discount,price) between ? and ?';
