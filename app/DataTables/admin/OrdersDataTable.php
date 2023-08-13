@@ -106,8 +106,7 @@ class OrdersDataTable extends DataTable
             ->minifiedAjax()
             ->dom('rtip')->ajax([
                 'headers' => ['X-Requested-With' => 'XMLHttpRequest']
-            ])
-            ->parameters([
+            ])->parameters([
                 'order' => [1, 'desc']
             ]);
     }
@@ -119,6 +118,7 @@ class OrdersDataTable extends DataTable
      */
     public function getColumns(): array
     {
+
         return [
 
             Column::make('action-muliple-wrapper')->addClass('action-multiple-wrapper')->title('<input type="checkbox" id="multipleSelector" />')->orderable(false),

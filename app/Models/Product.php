@@ -11,10 +11,12 @@ use Illuminate\Database\Eloquent\Builder;
 
 class Product extends Model
 {
+
     use HasFactory;
     use SoftDeletes;
     use Sluggable;
     use ResourceStatus;
+
     protected $guarded = [];
 
     public static function boot()
@@ -35,14 +37,10 @@ class Product extends Model
                 $excludeRouteName = !request()->routeIs('products.deleteMultiple');
                 if ($isResoruceInternal && $product->image && $excludeRouteName) {
 
-                    $product->image = request()->
-                        schemeAndHttpHost() . '/storage/' . $product->image;
+                    $product->image = request()->schemeAndHttpHost() . '/storage/' . $product->image;
                 }
-
             });
         }
-
-
     }
     public function carts()
     {
@@ -56,7 +54,6 @@ class Product extends Model
                 'color',
                 'quantity'
             ])->using(OrderProduct::class);
-
     }
     public function category()
     {
@@ -99,5 +96,4 @@ class Product extends Model
 
         return true;
     }
-
 }

@@ -7,12 +7,15 @@ use Illuminate\Http\Request;
 
 use App\Traits\FilterProducts;
 use App\Models\Product;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class ProductController extends Controller
 {
 
     use FilterProducts;
+
     private static $paginationNumber = 25;
+
     public function index(Request $request)
     {
 
@@ -26,24 +29,24 @@ class ProductController extends Controller
 
             if ($filteredProduct->isNotEmpty()) {
 
-                return response([
-
-                    'products' => $filteredProduct->items(),
-                    'meta_pagination' => [
-                        'current_page' => $filteredProduct->currentPage(),
-                        'per_page' => $filteredProduct->perPage(),
-                        'total' => $filteredProduct->total(),
-                        'first_page_url' => $filteredProduct->url(1),
-                        'last_page_url' => $filteredProduct > url($filteredProduct->lastPage()),
-                        'next_page_url' => $filteredProduct->nextPageUrl(),
-                        'prev_page_url' => $filteredProduct->previousPageUrl(),
+                return response(
+                    [
+                        'products' => $filteredProduct->items(),
+                        'meta_pagination' => [
+                            'current_page' => $filteredProduct->currentPage(),
+                            'per_page' => $filteredProduct->perPage(),
+                            'total' => $filteredProduct->total(),
+                            'first_page_url' => $filteredProduct->url(1),
+                            'last_page_url' => $filteredProduct > url($filteredProduct->lastPage()),
+                            'next_page_url' => $filteredProduct->nextPageUrl(),
+                            'prev_page_url' => $filteredProduct->previousPageUrl(),
+                        ]
                     ]
-                ]);
+                );
             }
             return response([
                 'Message' => 'Sorry no Products with filteration rules'
-            ], 200);
-
+            ], 404);
         }
 
         $products = Product::with(['colors', 'sizes']);
@@ -65,32 +68,20 @@ class ProductController extends Controller
             ]);
         }
         return response(
-            ['Message' => 'Sorry no product exists'],
-            200
+            ['message' => 'Sorry no product exists'],
+            404
         );
     }
-    public function latestProduct()
-    {
-        $productLimit = 6;
-        $products = Product::with('images')
-            ->orderBy('id', 'desc')
-            ->limit($productLimit)
-            ->get();
-        if (!$products->isEmpty()) {
-            return response($products);
-        }
-        return response(['Message' => 'Sorry no product exist',], 200);
-    }
+
 
     public function show(Request $request, Product $product)
     {
 
         $product->load('category', 'images', 'colors', 'sizes', 'brand');
 
-        if ($product) {
-            return response($product, 200);
-        }
-        return response(['Message' => 'Sorry no product exist'], 200);
+        if ($product) return response($product, 200);
+
+        return response(['Message' => 'Sorry no product exist'], 404);
     }
 
     public function relatedProduct(Request $request, $productSlug)
@@ -100,36 +91,23 @@ class ProductController extends Controller
 
         $product = Product::firstWhere('product_slug', $productSlug);
 
-        if ($product) {
+        if (!$product) return response(['message' => 'Sorry no product with slug']);
 
-            $productCategory = $product->category_id;
-            $productBrand = $product->brand_id;
+        $productCategory = $product->category_id;
+        $productBrand = $product->brand_id;
 
-            $products = Product::where('product_slug', '!=', $productSlug)
-                ->where(function ($query) use ($productCategory, $productBrand) {
-                    return $query->where('category_id', $productCategory)
-                        ->orWhere->where('brand_id', $productBrand)
-                        ->whereNotNull('category_id')
-                        ->whereNotNull('brand_id');
-
-                })->limit($productLimit)->get();
-
-            return response($products, 200);
-
-        }
-        return response([
-            'Message' => 'Sorry No Related Product Found',
-        ], 200);
-
-
-    }
-
-    public function recentView(Request $request)
-    {
-        $productsId = $request->input('ids');
-        $recentProductsView = Product::whereIn('id', $productsId)
+        $products = Product::where('product_slug', '!=', $productSlug)
+            ->where(function (Builder $query) use ($productCategory, $productBrand) {
+                $productCategory ? $query->where('category_id', $productCategory) : null;
+                $productBrand ? $query->orWhere('brand_id', $productBrand) : null;
+            })->limit($productLimit)
             ->get();
-        return response($recentProductsView);
+
+
+        if ($products->isEmpty())
+            return  response(['Message' => 'Sorry no related products found'], 404);
+
+        return response($products, 200);
     }
 
     public function randomProduct()

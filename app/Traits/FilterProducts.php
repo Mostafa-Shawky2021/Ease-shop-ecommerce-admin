@@ -41,7 +41,6 @@ trait FilterProducts
         if ($request->has('price')) {
             $queryPrice = $request->query('price');
             $this->filterProductByPrice($queryPrice);
-
         }
 
         if ($request->has('brands')) {
@@ -52,7 +51,6 @@ trait FilterProducts
         if ($request->has('sizes')) {
             $querySizes = urldecode($request->query('sizes'));
             $this->filterProductBySize($querySizes);
-
         }
 
         if ($request->has('colors')) {
@@ -70,38 +68,35 @@ trait FilterProducts
         }
         return $this->limitFilter
             ? $this->productModelFilter->with(['colors', 'sizes'])
-                ->paginate($this->limitFilter)
+            ->paginate($this->limitFilter)
             : $this->productModelFilter->with(['colors', 'sizes'])
-                ->paginate(static::$paginationNumber);
+            ->paginate(static::$paginationNumber);
     }
 
     private function filterProductByCategories($categoriesId)
     {
         $categoriesIdArr = explode('-', $categoriesId);
-        $this->productModelFilter = $this->productModelFilter
-            ->whereIn('category_id', $categoriesIdArr);
+        $this->productModelFilter->whereIn('category_id', $categoriesIdArr);
     }
     private function filterProductByBrands($queryBrands)
     {
         $brands = explode('-', $queryBrands);
 
-        $this->productModelFilter =
-            $this->productModelFilter->whereHas(
-                'brand',
-                fn($query) => $query->whereIn('brand_name', $brands)
-            );
+        $this->productModelFilter->whereHas(
+            'brand',
+            fn ($query) => $query->whereIn('brand_name', $brands)
+        );
     }
     private function filterProductByName($productName)
     {
 
-        $this->productModelFilter = $this->productModelFilter
+        $this->productModelFilter
             ->select('products.*')
             ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
             ->where(
                 function (Builder $query) use ($productName) {
                     return $query->where('products.product_name', 'LIKE', "%$productName%")
                         ->orWhere('categories.cat_name', 'LIKE', "%$productName%");
-
                 }
             );
     }
@@ -115,14 +110,13 @@ trait FilterProducts
             ->pluck('product_id')
             ->toArray();
 
-        $this->productModelFilter = $this->productModelFilter
+        $this->productModelFilter
             ->whereIn('id', $bestSellerProductId)
             ->orderByRaw('field(id,' . implode(',', $bestSellerProductId) . ')');
-
     }
     private function productWithOffers()
     {
-        $this->productModelFilter = $this->productModelFilter->whereNotNull('price_discount');
+        $this->productModelFilter->whereNotNull('price_discount');
     }
 
     private function filterProductByPrice($priceRange)
@@ -130,7 +124,7 @@ trait FilterProducts
         preg_match_all('/\d+/', $priceRange, $match);
 
         $matchingCollection = collect($match[0])
-            ->map(fn($element) => intval($element))
+            ->map(fn ($element) => intval($element))
             ->sort()
             ->slice(0, 2);
 
@@ -142,44 +136,39 @@ trait FilterProducts
             $matchingCollection[1] = 10000;
         }
 
-        $this->productModelFilter =
-            $this->productModelFilter
-                ->whereRaw('if(price_discount,price_discount,price) between ? and ?', $matchingCollection->toArray());
+        $columnDiscoutCondition = 'if(price_discount,price_discount,price) between ? and ?';
+        $this->productModelFilter
+            ->whereRaw($columnDiscoutCondition, $matchingCollection->toArray());
     }
 
     private function filterProductBySize($querySizes)
     {
         $sizes = explode('-', $querySizes);
-        $this->productModelFilter =
-            $this->productModelFilter->whereHas(
-                'sizes',
-                function (Builder $query) use ($sizes) {
-                    $query->whereIn('size_name', $sizes);
-                }
-            );
+        $this->productModelFilter->whereHas(
+            'sizes',
+            function (Builder $query) use ($sizes) {
+                $query->whereIn('size_name', $sizes);
+            }
+        );
     }
     private function filterProductByColors($queryColors)
     {
         $colors = explode('-', $queryColors);
-        $this->productModelFilter =
-            $this->productModelFilter->whereHas(
-                'colors',
-                function (Builder $query) use ($colors) {
-                    $query->whereIn('color_name', $colors);
-                }
-            );
+        $this->productModelFilter->whereHas(
+            'colors',
+            function (Builder $query) use ($colors) {
+                $query->whereIn('color_name', $colors);
+            }
+        );
     }
 
     private function filterbyLatestProduct()
     {
-        $this->productModelFilter = $this->productModelFilter->latest('id');
+        $this->productModelFilter->latest('id');
     }
 
     private function filterbyRandomProduct()
     {
-        $this->productModelFilter = $this->productModelFilter->inRandomOrder();
+        $this->productModelFilter->inRandomOrder();
     }
-
 }
-
-?>
