@@ -35,7 +35,7 @@ use Illuminate\Routing\UrlGenerator;
 |
 */
 
-dd(gd_info());
+echo phpinfo();
 
 Route::get('/', function () {
 

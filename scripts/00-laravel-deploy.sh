@@ -27,6 +27,6 @@ apk upgrade
 
 apk add --update nodejs npm
 
-apk del php-gd
+apk del gd php-gd
 
-apk add php82-gd
+apk add gd php82-gd
