@@ -33,8 +33,8 @@ class StoreCategoryForm extends FormRequest
                 Rule::unique('categories')->ignore($category->id ?? null)
             ],
             'parent_id' => 'nullable|integer',
-            'image' => 'sometimes|mimes:jpg,jpeg,png,gif,svg|max:2048',
-            'image_thumbnail' => 'sometimes|mimes:jpg,jpeg,png,gif,svg|max:2048',
+            'image' => 'sometimes|mimes:jpg,jpeg,png,gif,webp|max:2048',
+            'image_thumbnail' => 'sometimes|mimes:jpg,jpeg,png,gif,webp|max:2048',
         ];
     }
     public function messages()
@@ -42,9 +42,9 @@ class StoreCategoryForm extends FormRequest
         return [
             'cat_name.required' => 'من فضلك ادخل اسم للقسم',
             'cat_name.unique' => 'الاسم موجود مسبقاً',
-            'image.mimes' => 'الصورة يجب ان تكون بصيغة jpg,jpeg,png,gif,svg',
+            'image.mimes' => 'الصورة يجب ان تكون بصيغة jpg,jpeg,png,gif,webp',
             'image.max' => 'اقصي حجم للصورة هو 2ميجا',
-            'image_thumbnail.mimes' => 'الصورة يجب ان تكون بصيغة jpg,jpeg,png,gif,svg',
+            'image_thumbnail.mimes' => 'الصورة يجب ان تكون بصيغة jpg,jpeg,png,gif,webp',
             'image_thumbnail.max' => 'اقصي حجم للصورة هو 2ميجا',
         ];
     }

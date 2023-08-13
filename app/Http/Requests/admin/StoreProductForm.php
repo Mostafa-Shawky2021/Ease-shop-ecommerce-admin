@@ -36,12 +36,12 @@ class StoreProductForm extends FormRequest
             'brand_id' => 'nullable',
             'price' => 'required|numeric',
             'price_discount' => 'nullable|numeric|lt:price',
-            'image' => 'sometimes|bail|mimes:jpg,jpeg,png,gif,svg|max:2048',
+            'image' => 'sometimes|bail|mimes:jpg,jpeg,png,gif,webp|max:2048',
             'short_description' => '',
             'category_id' => 'nullable|numeric',
             'long_description' => 'sometimes',
             'color_id' => 'sometimes',
-            'productImageThumbnails.*' => 'sometimes|mimes:jpg,jpeg,png,git,svg|max:2048',
+            'productImageThumbnails.*' => 'sometimes|mimes:jpg,jpeg,png,gif,webp|max:2048',
             'size_id' => 'sometimes'
         ];
     }
@@ -49,16 +49,15 @@ class StoreProductForm extends FormRequest
     {
         return [
             'product_name.required' => 'من فضلك ادخل اسم للمنتج',
-            'image.mimes' => 'يجب ان تكون الصورة بيصغة jpg,jpeg,png,svg',
+            'image.mimes' => 'يجب ان تكون الصورة بيصغة jpg,jpeg,png,webp',
             'image.max' => 'اقصي حجم للصورة 2 ميجا',
-            'image.image' => 'يجب ان تكون الملف صورة',
             'product_name.min' => 'يجب ان يكون الاسم بحد ادني 4 حروف',
             'product_name.unique' => 'اسم المنتج موجود بالفعل',
             'price.required' => 'من فضلك ادخل سعر المنتج',
             'price.numeric' => 'يجب ان يكون السعر قيمة رقمية',
             'price_discount.numeric' => 'يجب ان يكون السعر بعد الخصم قيمة رقمية',
             'price_discount.lt' => 'يجب ان يكون السعر بعد الخصم اقل من السعر الاصلي',
-            'productImageThumbnails.*.mimes' => 'الصورة يجب ان تكون بصيغة jpg,jpeg,png,bmp,gif,svg,webp',
+            'productImageThumbnails.*.mimes' => 'الصورة يجب ان تكون بصيغة jpg,jpeg,png,bmp,gif,webp',
             'productImageThumbnails.*.max' => 'اقصي حجم للصورة 2 ميجا',
         ];
     }
