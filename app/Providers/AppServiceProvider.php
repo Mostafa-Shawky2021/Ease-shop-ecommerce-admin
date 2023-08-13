@@ -37,9 +37,8 @@ class AppServiceProvider extends ServiceProvider
         //     $view->with('activeNotificationsCount', $activeNotificationsCount)
         //         ->with('notifications', $notifications);
         // });
-        if (env('APP_ENV') == 'production') {
-            $url->forceScheme('https');
-        }
+        if (env('APP_ENV') == 'production')  $url->forceScheme('https');
+
         Paginator::useBootstrapFive();
     }
 }

@@ -10,6 +10,8 @@ class Order extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    public  $keyType = 'string';
+
     public function products()
     {
         return $this
@@ -19,12 +21,10 @@ class Order extends Model
                 'color',
                 'quantity'
             ])->using(OrderProduct::class);
-
     }
 
     public function notification()
     {
         return $this->morphOne(Notification::class, 'notifiable');
     }
-
 }

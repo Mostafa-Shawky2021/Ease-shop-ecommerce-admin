@@ -9,7 +9,10 @@ class Message extends Model
 {
     use HasFactory;
     protected $guarded = [];
-    public function notification(){
-        return $this->morphOne(Notification::class,'notifiable');
+    public  $keyType = 'string';
+
+    public function notification()
+    {
+        return $this->morphOne(Notification::class, 'notifiable');
     }
 }

@@ -18,6 +18,7 @@ class Product extends Model
     use ResourceStatus;
 
     protected $guarded = [];
+    public  $keyType = 'string';
 
     public static function boot()
     {

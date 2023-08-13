@@ -14,9 +14,9 @@ class CartController extends Controller
     public function index(Request $request, $userId)
     {
 
-        $carts = Cart::with(['product' => fn($queryBuilder) => $queryBuilder->withTrashed()])
-            ->where('user_id', $userId)
-            ->get();
+        $carts = Cart::with(
+            ['product' => fn ($queryBuilder) => $queryBuilder->withTrashed()]
+        )->where('user_id', $userId)->get();
 
         return response($carts);
     }
@@ -37,7 +37,6 @@ class CartController extends Controller
         return response([
             'message' => 'Sorry There are error while adding new cart',
         ], 422);
-
     }
     public function update(Request $request, $userId)
     {
@@ -63,7 +62,6 @@ class CartController extends Controller
         return response([
             'message' => 'no record updated',
         ], 200);
-
     }
 
     public function increaseProduct(Request $request, Cart $cart)
@@ -85,7 +83,6 @@ class CartController extends Controller
         return response([
             'message' => 'error while increase product'
         ], 422);
-
     }
     public function decreaseProduct(Request $request, Cart $cart)
     {
@@ -119,7 +116,6 @@ class CartController extends Controller
                 'message' => 'cart has been deleted  because it has reached the minimum value',
             ], 200);
         }
-
     }
     public function destroy(Request $request, $cartId)
     {
@@ -133,7 +129,6 @@ class CartController extends Controller
                 'message' => 'Cart deleted successfully',
                 'data' => $cart
             ], 200);
-
         }
 
         return response([

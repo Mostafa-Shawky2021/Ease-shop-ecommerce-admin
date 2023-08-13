@@ -9,6 +9,7 @@ class Color extends Model
 {
     use HasFactory;
     protected $fillable = ['color_name', 'color_value'];
+    public  $keyType = 'string';
 
     public function products()
     {

@@ -9,6 +9,7 @@ class Cart extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    public  $keyType = 'string';
 
 
     public function product()

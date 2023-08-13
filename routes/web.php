@@ -23,7 +23,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Routing\UrlGenerator;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,7 +34,6 @@ use Illuminate\Support\Facades\Validator;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 
 
 Route::get('/', function () {

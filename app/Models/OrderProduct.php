@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class OrderProduct extends Pivot
 {
-
+    public  $keyType = 'string';
 }

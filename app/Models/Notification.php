@@ -9,6 +9,7 @@ class Notification extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    public  $keyType = 'string';
 
     public function notifiable()
     {

@@ -12,6 +12,7 @@ class Category extends Model
 {
     use HasFactory, Sluggable, ResourceStatus;
     protected $guarded = [];
+    public  $keyType = 'string';
 
     public static function boot()
     {
@@ -30,12 +31,9 @@ class Category extends Model
                     $fullUrlPath = request()->schemeAndHttpHost() . '/storage/';
                     $category->image = $category->image ? $fullUrlPath . $category->image : null;
                     $category->image_thumbnail = $category->image_thumbnail ? $fullUrlPath . $category->image_thumbnail : null;
-
                 }
-
             });
         }
-
     }
 
     public function sluggable(): array
@@ -58,6 +56,4 @@ class Category extends Model
     {
         return $this->belongsTo(Category::class, 'parent_id', 'id');
     }
-
-
 }

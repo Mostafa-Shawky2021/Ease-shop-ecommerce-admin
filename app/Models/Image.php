@@ -12,6 +12,7 @@ class Image extends Model
     use ResourceStatus;
 
     protected $fillable = ['url'];
+    public  $keyType = 'string';
 
     public static function boot()
     {
@@ -28,15 +29,11 @@ class Image extends Model
                 // the path of the resoruce so laravel storage api can handle its pathes
                 $excludeRouteName = !request()->routeIs('*.deleteMultiple');
                 $isResoruceInternal = static::isResoruceInternal($image->url);
-                if ($isResoruceInternal && $excludeRouteName) {
-                    $image->url = request()->
-                        schemeAndHttpHost() . '/storage/' . $image->url;
-                }
 
+                if ($isResoruceInternal && $excludeRouteName)
+                    $image->url = request()->schemeAndHttpHost() . '/storage/' . $image->url;
             });
         }
-
-
     }
     public function imageable()
     {
