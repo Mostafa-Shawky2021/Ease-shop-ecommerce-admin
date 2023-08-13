@@ -21,7 +21,12 @@ php artisan make:admin
 
 curl -O -L https://npmjs.org/install.sh | bash
 
+apk update
+
+apk upgrade
+
 apk add --update nodejs npm
 
+apk del php-gd
 
 apk add php82-gd
