@@ -27,8 +27,3 @@ apk upgrade
 
 apk add --update nodejs npm
 
-apk del gd php-gd
-
-apk add gd php82-gd
-
-apk fix --reinstall gd php-gd php82-gd --with-webp
