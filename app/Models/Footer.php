@@ -9,4 +9,5 @@ class Footer extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    public  $keyType = 'string';
 }

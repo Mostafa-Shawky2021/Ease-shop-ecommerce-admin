@@ -66,6 +66,7 @@ trait FilterProducts
 
             $this->filterbyRandomProduct();
         }
+
         return $this->limitFilter
             ? $this->productModelFilter->with(['colors', 'sizes'])
             ->paginate($this->limitFilter)

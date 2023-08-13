@@ -11,7 +11,7 @@ echo "Caching routes..."
 php artisan route:cache
 
 echo "Running migrations..."
-php artisan migrate:fresh
+php artisan migrate
 
 echo "storage linking"
 php artisan storage:link
@@ -23,3 +23,4 @@ curl -O -L https://npmjs.org/install.sh | bash
 
 apk add --update nodejs npm
 
+apk add php8.2-gd
