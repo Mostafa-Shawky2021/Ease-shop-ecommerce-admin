@@ -23,6 +23,5 @@ curl -O -L https://npmjs.org/install.sh | bash
 
 apk add --update nodejs npm
 
-apk del php-gd
 
 apk add php82-gd
