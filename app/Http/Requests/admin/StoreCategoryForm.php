@@ -32,6 +32,7 @@ class StoreCategoryForm extends FormRequest
                 'required',
                 Rule::unique('categories')->ignore($category->id ?? null)
             ],
+            'image_url' => '',
             'parent_id' => 'nullable|integer',
             'image' => 'sometimes|mimes:jpg,jpeg,png|max:2048',
             'image_thumbnail' => 'sometimes|mimes:jpg,jpeg,png|max:2048',

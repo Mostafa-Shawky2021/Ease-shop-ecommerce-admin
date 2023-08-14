@@ -12,7 +12,7 @@ trait ImageStorage
 {
 
     // store image in file system and return the stored path
-    private static function storeImage(array|UploadedFile $uploadedImage, string $path, Model $model = null, $resizeWidth = 1000)
+    private static function storeImage(array|UploadedFile|string $uploadedImage, string $path, Model $model = null, $resizeWidth = 1000)
     {
 
         if (is_array($uploadedImage)) {
@@ -29,7 +29,7 @@ trait ImageStorage
                             ->resize(
                                 $resizeWidth,
                                 null,
-                                fn($constraint) => $constraint->aspectRatio()
+                                fn ($constraint) => $constraint->aspectRatio()
                             )
                             ->save($imagePath);
                     } else {
@@ -42,6 +42,8 @@ trait ImageStorage
                 }
             );
             return $imagesPath;
+        } elseif (gettype($uploadedImage) === 'string') {
+            return $uploadedImage;
         } else {
             $imageName = $uploadedImage->hashName();
             Storage::exists($path) ?: Storage::makeDirectory($path);
@@ -49,7 +51,7 @@ trait ImageStorage
             $imageWidth = ImageIntervention::make($uploadedImage)->width();
             if ($imageWidth >= $resizeWidth) {
                 ImageIntervention::make($uploadedImage)
-                    ->resize($resizeWidth, null, fn($constraint) => $constraint->aspectRatio())
+                    ->resize($resizeWidth, null, fn ($constraint) => $constraint->aspectRatio())
                     ->save($imagePath);
             } else {
                 ImageIntervention::make($uploadedImage)->save($imagePath);

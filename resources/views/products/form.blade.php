@@ -1,19 +1,32 @@
-@php
+@include('partials.validationerrors')
 
-$colorsArrToString = $product ? $product->colors->map(fn($color) =>
-$color->id)->implode('|') : '';
-$sizesArrToString = $product ? $product->sizes->map(fn($size) => $size->id)->implode('|')
-: '';
-$colorsId = old('color_id', $colorsArrToString);
-$sizesId = old('size_id', $sizesArrToString);
+@php
+  $colorsId = '';
+  $sizesId = '';
+  $productImage = '';
+
+if($product) {
+    
+    $colorsArrToString = $product->colors->map(fn($color) => $color->id)->implode('|');
+    $sizesArrToString = $product->sizes->map(fn($size) => $size->id)->implode('|');
+    $colorsId = old('color_id', $colorsArrToString);
+    $sizesId = old('size_id', $sizesArrToString);
+    
+    $httpRegex='/https?/';
+    $productImage = preg_match($httpRegex, $product->image) ? $product->image : asset('storage/'. $product->image) ;
+}
+
+
 @endphp
 
-@include('partials.validationerrors')
 
 
 <div class='row'>
-    <div class="col-12 col-sm-6 mt-3">
-        <label class='label-control' for="product-name">اسم المنتج</label>
+    <div class="col-12 col-sm-6 mt-3 position-relative">
+        <div class="d-flex align-items-center">
+            <label class='label-control' for="product-name">اسم المنتج</label>
+            <span class='error-message'>*</span>
+        </div>
         <input name='product_name' class="form-control mt-2" id="product-name"
             value="{{ old('product_name', $product->product_name ?? '') }}" />
     </div>
@@ -32,10 +45,10 @@ $sizesId = old('size_id', $sizesArrToString);
         <select class='form-control mt-2' name='brand_id' id="brand">
             <option value=''>...</option>
             @forelse($brands as $brand)
-            <option value={{ $brand->id }} @selected(old('brand_id', $product->brand->id
-                ?? '') == $brand->id)>
-                {{ $brand->brand_name }}
-            </option>
+                <option value={{ $brand->id }} @selected(old('brand_id', $product->brand->id
+                    ?? '') == $brand->id)>
+                    {{ $brand->brand_name }}
+                </option>
             @empty
             <option disabled>لا يوجد براندات للعرض</option>
             @endforelse
@@ -44,7 +57,10 @@ $sizesId = old('size_id', $sizesArrToString);
 </div>
 <div class='row'>
     <div class="col-12 col-sm-6 mt-3">
-        <label for="price" class='label-control'>السعر</label>
+        <div class="d-flex align-items-center">
+            <label for="price" class='label-control'>السعر</label>
+            <span class='error-message'>*</span>
+        </div>
         <input id="price" name='price' value="{{ old('price', $product->price ?? '') }}" class="form-control mt-2" />
     </div>
     <div class="col-12 col-sm-6 mt-3">
@@ -79,16 +95,16 @@ $sizesId = old('size_id', $sizesArrToString);
             <option disabled>لا يوجد اقسام للعرض</option>
             @endforelse
         </select>
-
     </div>
-
-
 </div>
 <div class="row">
     <div class="col-sm-12 col-md-8 mt-3">
-        <label for="shortdescription" class='label-control'>
-            وصف مختصر للمنتج
-        </label>
+        <div class="d-flex align-items-center">
+            <label for="shortdescription" class='label-control'>
+                وصف مختصر للمنتج
+            </label>
+            <span class='error-message'>*</span>
+        </div>
         <textarea id='shortdescription' name='short_description' class='form-control short-description mt-2'>
             {{ old('short_description', $product->short_description ?? '') }}
         </textarea>
@@ -102,12 +118,21 @@ $sizesId = old('size_id', $sizesArrToString);
         </textarea>
     </div>
 </div>
+<div class="mt-4">
+    <div class="d-flex col-sm-12 col-md-8  justify-content-between align-items-center">
+        <label class='label-control col-3'>صورة خارجية</label>
+        <span style="font-size:0.7rem; color:#888">لينك لصورة من مصدر خارجي</span>
+    </div>
+    <div class="col-sm-12 col-md-8  mt-2">
+        <input type="url" class="form-control" name="image-url" placeholder="https://www.example-image.png.com" />
+    </div>
+</div>
 <div class="mt-4 mt-md-3">
     <label class='label-control'>صورة المنتج</label>
     <div class='col-sm-12 col-md-8 mt-2'>
         <div class="file-wrapper form-control">
             <input name="old_image" id="oldImage"
-                value="{{ $product && $product->image ? asset('storage/' . $product->image) : '' }}" hidden />
+                value="{{ $productImage }}" hidden />
             <input type='file' name='image' id='productImage' accept="image/*" />
         </div>
     </div>

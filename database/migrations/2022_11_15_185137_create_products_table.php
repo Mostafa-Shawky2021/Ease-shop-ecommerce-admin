@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      *
@@ -20,7 +21,7 @@ return new class extends Migration {
             $table->unsignedSmallInteger('price_discount')->nullable();
             $table->text('short_description')->nullable();
             $table->text('long_description')->nullable();
-            $table->text('image')->nullable();
+            $table->mediumText('image')->nullable();
             $table->foreignId('category_id')->nullable()->constrained();
             $table->timestamps();
         });

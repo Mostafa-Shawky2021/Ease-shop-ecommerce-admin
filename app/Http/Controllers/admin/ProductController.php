@@ -19,6 +19,7 @@ use App\Traits\ImageStorage;
 class ProductController extends Controller
 {
     use ImageStorage;
+
     public function index(Request $request, ProductsDataTable $dataTable)
     {
 
@@ -41,13 +42,17 @@ class ProductController extends Controller
             ->except([
                 'size_id',
                 'color_id',
-                'productImageThumbnails'
+                'productImageThumbnails',
+                'image-url'
             ]);
 
         // product Image Uploaded
-        if ($request->has('image')) {
+        if ($request->has('image') || $request->has('image-url')) {
 
-            $uploadedFile = $request->file('image');
+            $uploadedFile = $request->filled('image-url')
+                ? $request->input('image-url')
+                : $request->file('image');
+
             $imagePath = self::storeImage($uploadedFile, 'products');
             $productInputFields['image'] = $imagePath;
         }
@@ -102,12 +107,15 @@ class ProductController extends Controller
             ->except([
                 'color_id',
                 'size_id',
-                'productImageThumbnails'
+                'productImageThumbnails',
+                'image-url'
             ]);
 
-        if ($request->has('image')) {
-
-            $productImagePath = self::storeImage($request->file('image'), 'products');
+        if ($request->has('image') || $request->has('image-url')) {
+            $uploadedFile = $request->filled('image-url')
+                ? $request->input('image-url')
+                : $request->file('image');
+            $productImagePath = self::storeImage($uploadedFile, 'products');
             $validatedInputs['image'] = $productImagePath;
 
             // delete old image 

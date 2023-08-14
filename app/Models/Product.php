@@ -33,13 +33,10 @@ class Product extends Model
             static::retrieved(function ($product) {
 
                 $isResoruceInternal = static::isResoruceInternal($product->image);
-                // this is because datatable is ajax requests so we need escape inject
-                // the path of the resoruce so laravel storage api can handle its pathes
+                // escape injecting the full path of the resoruce in case of datatable requests
                 $excludeRouteName = !request()->routeIs('products.deleteMultiple');
-                if ($isResoruceInternal && $product->image && $excludeRouteName) {
-
+                if ($isResoruceInternal && $product->image && $excludeRouteName)
                     $product->image = request()->schemeAndHttpHost() . '/storage/' . $product->image;
-                }
             });
         }
     }

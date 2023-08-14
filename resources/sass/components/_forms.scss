@@ -3,7 +3,11 @@
 .mainform-app {
     margin-top: 1rem;
     background-color: #fff;
-
+    .error-message {
+        color: var(--bs-danger);
+        padding-top: 5px;
+        margin-right: 5px;
+    }
     .form-group {
         display: flex;
         align-items: center;
@@ -38,5 +42,9 @@
 
     .product-variant.selected-variant {
         background-color: #e0e0e0;
+    }
+    ::placeholder {
+        color: #cbbebe;
+        font-size: 0.85rem
     }
 }

@@ -25,7 +25,7 @@ class Category extends Model
         if (request()->ajax()) {
             static::retrieved(function ($category) {
                 $isResoruceInternal = static::isResoruceInternal($category->image);
-                // this is because datatable is ajax requests so we need escape inject the path of the resoruce so laravel storage api can handle its pathes
+                // escape injecting the full path of the resoruce in case of datatable requests
                 $excludeRouteName = !request()->routeIs('categories.deleteMultiple');
                 if ($isResoruceInternal && $excludeRouteName) {
                     $fullUrlPath = request()->schemeAndHttpHost() . '/storage/';

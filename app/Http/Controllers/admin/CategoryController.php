@@ -18,21 +18,21 @@ class CategoryController extends Controller
     {
 
         return $dataTable->render('categories.index');
-
     }
     public function create()
     {
 
-        $categories = Category::where('parent_id', null)
-            ->get();
+        $categories = Category::all();
+        // ->get();
         return view('categories.create', compact('categories'));
     }
     public function store(StoreCategoryForm $request)
     {
         $validatedInput = $request->validated();
 
-        if ($request->has('image')) {
-            $imagePath = self::storeImage($request->file('image'), 'categories');
+        if ($request->has('image') || $request->has('image-url')) {
+            $uploadedFile = $request->filled('image-url') ? $request->input('image-url') : $request->file('image');
+            $imagePath = self::storeImage($uploadedFile, 'categories');
             $validatedInput['image'] = $imagePath;
         }
 
@@ -69,8 +69,12 @@ class CategoryController extends Controller
         $validatedInput = $request->validated();
 
         // store uploaded image
-        if ($request->has('image')) {
-            $imagePath = self::storeImage($request->file('image'), 'categories');
+        if ($request->has('image') || $request->has('image-url')) {
+            $uploadedFile = $request->filled('image-url')
+                ? $request->input('image-url')
+                : $request->file('image');
+
+            $imagePath = self::storeImage($uploadedFile, 'categories');
             $validatedInput['image'] = $imagePath;
         }
 
@@ -83,7 +87,6 @@ class CategoryController extends Controller
                     : null;
                 $category->image = null;
             }
-
         }
 
         if ($request->has('image_thumbnail')) {
@@ -159,7 +162,6 @@ class CategoryController extends Controller
                 return response([
                     'message' => 'Category deleted successfully'
                 ], 200);
-
             }
             return response([
                 'message' => 'no products found'

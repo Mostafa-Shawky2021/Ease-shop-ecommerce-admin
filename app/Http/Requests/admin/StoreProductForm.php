@@ -34,6 +34,7 @@ class StoreProductForm extends FormRequest
                 Rule::unique('products')->ignore($product->id ?? null)->whereNull('deleted_at')
             ],
             'brand_id' => 'nullable',
+            'image-url' => '',
             'price' => 'required|numeric',
             'price_discount' => 'nullable|numeric|lt:price',
             'image' => 'sometimes|bail|mimes:jpg,jpeg,png|max:2048',
