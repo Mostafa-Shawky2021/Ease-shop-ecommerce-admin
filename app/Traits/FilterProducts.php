@@ -136,9 +136,10 @@ trait FilterProducts
             $matchingCollection[1] = "10000";
         }
 
-        $columnDiscoutCondition = 'if(price_discount,price_discount,price) between ? and ?';
-        $this->productModelFilter
-            ->whereRaw($columnDiscoutCondition, $matchingCollection->toArray());
+        $this->productModelFilter->where(function ($query) use ($matchingCollection) {
+            $query->whereBetween('price_discount', $matchingCollection->toArray());
+            $query->orWhereBetween('price', $matchingCollection->toArray());
+        });
     }
 
     private function filterProductBySize($querySizes)
