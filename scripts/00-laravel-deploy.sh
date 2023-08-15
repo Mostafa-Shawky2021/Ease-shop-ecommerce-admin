@@ -19,11 +19,6 @@ php artisan storage:link
 echo "create new admin"
 php artisan make:admin
 
-curl -O -L https://npmjs.org/install.sh | bash
 
-apk update
 
-apk upgrade
-
-apk add --update nodejs npm
 
