@@ -30,7 +30,7 @@ class CategoryController extends Controller
     {
         $validatedInput = $request->validated();
 
-        if ($request->has('image') || $request->has('image-url')) {
+        if ($request->has('image') || $request->filled('image-url')) {
             $uploadedFile = $request->filled('image-url') ? $request->input('image-url') : $request->file('image');
             $imagePath = self::storeImage($uploadedFile, 'categories');
             $validatedInput['image'] = $imagePath;
@@ -69,7 +69,7 @@ class CategoryController extends Controller
         $validatedInput = $request->validated();
 
         // store uploaded image
-        if ($request->has('image') || $request->has('image-url')) {
+        if ($request->has('image') || $request->filled('image-url')) {
             $uploadedFile = $request->filled('image-url')
                 ? $request->input('image-url')
                 : $request->file('image');

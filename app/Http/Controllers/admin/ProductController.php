@@ -111,7 +111,7 @@ class ProductController extends Controller
                 'image-url'
             ]);
 
-        if ($request->has('image') || $request->has('image-url')) {
+        if ($request->has('image') || $request->filled('image-url')) {
             $uploadedFile = $request->filled('image-url')
                 ? $request->input('image-url')
                 : $request->file('image');
@@ -126,8 +126,8 @@ class ProductController extends Controller
             }
         }
 
-        // Check if request payload contain images thumbnails or contain empty old images string
-        // empty old images meaning the user deleted the prev thubmnails 
+        // Check if request payload contains images thumbnails or contain empty old images string
+        // empty old images input meaning the user deleted the prev thubmnails 
         if ($request->has('productImageThumbnails') || !$request->input('old_images')) {
 
             if ($product->images()->exists()) {

@@ -19,19 +19,25 @@ class Category extends Model
         parent::boot();
 
         /*
-         * inject application url to images in case its stored in our application
+         * inject full url into image stored in our application
          * products/img.png will be injected with http://example.com/storage/producs/img1.png
-         */
+        */
         if (request()->ajax()) {
+
             static::retrieved(function ($category) {
-                $isResoruceInternal = static::isResoruceInternal($category->image);
+
+                $isCategoryImageInternal = static::isResoruceInternal($category->image);
+                $isCategoryImageThumbnailInernal = static::isResoruceInternal($category->image_thumbnail);
+
                 // escape injecting the full path of the resoruce in case of datatable requests
                 $excludeRouteName = !request()->routeIs('categories.deleteMultiple');
-                if ($isResoruceInternal && $excludeRouteName) {
-                    $fullUrlPath = request()->schemeAndHttpHost() . '/storage/';
+                $fullUrlPath = request()->schemeAndHttpHost() . '/storage/';
+
+                if ($isCategoryImageInternal && $excludeRouteName)
                     $category->image = $category->image ? $fullUrlPath . $category->image : null;
-                    $category->image_thumbnail = $category->image_thumbnail ? $fullUrlPath . $category->image_thumbnail : null;
-                }
+
+                if ($isCategoryImageThumbnailInernal && $excludeRouteName)
+                    $category->image_thumbnail = $category->image_thumbnail ?  $fullUrlPath . $category->image_thumbnail : null;
             });
         }
     }
