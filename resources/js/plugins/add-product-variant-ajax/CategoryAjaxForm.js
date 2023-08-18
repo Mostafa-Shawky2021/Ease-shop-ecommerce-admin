@@ -1,8 +1,8 @@
 import axios from "axios";
-import ProductAjaxForm from "./ProductAjaxForm";
+import AbstractProductAjaxForm from "./AbstractProductAjaxForm";
 import { productFormVariantUri } from "./data";
 
-class CategoryAjaxForm extends ProductAjaxForm {
+class CategoryAjaxForm extends AbstractProductAjaxForm {
     constructor(productVariantModal) {
         super(productVariantModal);
         this._categorySelectBox = productVariantModal.nextElementSibling;

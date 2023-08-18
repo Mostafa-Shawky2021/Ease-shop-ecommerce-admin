@@ -1,8 +1,8 @@
 import axios from "axios";
-import ProductAjaxForm from "./ProductAjaxForm";
+import AbstractProductAjaxForm from "./AbstractProductAjaxForm";
 import { productFormVariantUri } from "./data";
 
-class BrandAjaxForm extends ProductAjaxForm {
+class BrandAjaxForm extends AbstractProductAjaxForm {
     constructor(productVariantModal) {
         super(productVariantModal);
 

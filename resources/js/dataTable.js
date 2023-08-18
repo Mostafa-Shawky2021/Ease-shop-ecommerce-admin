@@ -1,4 +1,4 @@
-import { Datatable } from "./plugins";
+import { Datatable } from "./plugins/datatable";
 import { dataTableUri } from "./data";
 
 const categoriesWrapper = document.getElementById("categoriesWrapper");

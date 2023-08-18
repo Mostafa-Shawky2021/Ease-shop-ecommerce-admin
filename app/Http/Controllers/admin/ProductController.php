@@ -112,9 +112,11 @@ class ProductController extends Controller
             ]);
 
         if ($request->has('image') || $request->filled('image-url')) {
+
             $uploadedFile = $request->filled('image-url')
                 ? $request->input('image-url')
                 : $request->file('image');
+
             $productImagePath = self::storeImage($uploadedFile, 'products');
             $validatedInputs['image'] = $productImagePath;
 

@@ -1,10 +1,10 @@
 import axios from "axios";
-import ProductAjaxForm from "./ProductAjaxForm";
+import AbstractProductAjaxForm from "./AbstractProductAjaxForm";
 import Pickr from "@simonwep/pickr/dist/pickr.es5.min";
 
 import { productFormVariantUri } from "./data";
 
-class ColorAjaxForm extends ProductAjaxForm {
+class ColorAjaxForm extends AbstractProductAjaxForm {
     constructor(productVariantModal) {
         super(productVariantModal);
 

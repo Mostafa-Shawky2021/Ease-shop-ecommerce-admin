@@ -9,10 +9,12 @@ import "summernote/dist/summernote-lite";
 // app scripts
 import "./productImageUpload";
 import "./categoryImageUpload";
-import "./productvariants";
+import './productsVariantsAjax';
+import "./productVariantsForms";
+import './selectProductVariant';
 import "./sidebarToggle";
 import "./dataTable";
-import "./layoutImageUpload";
-import "./notification";
+import "./frontCarousel";
+import "./notification" ;
 
 

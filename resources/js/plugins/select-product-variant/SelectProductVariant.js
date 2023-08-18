@@ -1,4 +1,5 @@
-class SelectProductVariants {
+class SelectProductVariant {
+
     constructor(productVariantNode) {
         // handle select product variant in add product page
         this._selectedVariantValueArr = [];
@@ -72,4 +73,4 @@ class SelectProductVariants {
     }
 }
 
-export default SelectProductVariants;
+export default SelectProductVariant;

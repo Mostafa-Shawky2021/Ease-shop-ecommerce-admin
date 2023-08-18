@@ -1,4 +1,5 @@
-class FileUploadView {
+class ImageUploadView {
+
     constructor(inputFileNode) {
         this.inputFileNode = inputFileNode;
 
@@ -219,6 +220,7 @@ class FileUploadView {
     }
 
     handleDeleteImage(event) {
+      
         event.preventDefault();
         this.parentFileElement.querySelector(".delete-btn")?.remove();
         this.parentFileElement.querySelector(".view-btn")?.remove();
@@ -241,4 +243,4 @@ class FileUploadView {
     }
 }
 
-export default FileUploadView;
+export default ImageUploadView;

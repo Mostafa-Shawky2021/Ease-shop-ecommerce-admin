@@ -33,9 +33,10 @@
 
 @push('scripts')
 <script type="module">
+    
     const productForm = document.getElementById('productForm');;
     const submitProductFormBtn = document.getElementById('submitProductFormBtn');
-    addProductForm.addEventListener('submit',(event)=>event.preventDefault());
+    productForm.addEventListener('submit',(event)=>event.preventDefault());
     submitProductFormBtn.addEventListener('click',()=>productForm.submit());
 </script>
 

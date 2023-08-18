@@ -1,4 +1,4 @@
-class ProductAjaxForm {
+class AbstractProductAjaxForm {
     constructor(productVariantModal) {
         this._productVariantModal = productVariantModal;
 
@@ -56,4 +56,4 @@ class ProductAjaxForm {
     handleSaveProductVariantValue(event) {}
 }
 
-export default ProductAjaxForm;
+export default AbstractProductAjaxForm;

@@ -1,0 +1,1 @@
+export {default as SelectProductVariant} from './SelectProductVariant'

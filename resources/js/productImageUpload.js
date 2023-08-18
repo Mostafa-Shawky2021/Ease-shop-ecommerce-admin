@@ -1,10 +1,10 @@
-import { FileUploadView } from './plugins';
+import { ImageUploadView } from './plugins/image-upload-view';
 
 const productImageFile = document.getElementById('productImage');
 const productImagesFile = document.getElementById('productImages');
 
-productImageFile && new FileUploadView(productImageFile);
-productImagesFile && new FileUploadView(productImagesFile)
+productImageFile && new ImageUploadView(productImageFile);
+productImagesFile && new ImageUploadView(productImagesFile)
 
 
 
