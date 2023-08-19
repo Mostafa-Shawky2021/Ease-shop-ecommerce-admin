@@ -90,16 +90,16 @@ trait FilterProducts
     }
     private function filterProductByName($productName)
     {
-
+        $productNameToLower = '%' . trim(strtolower(($productName))) . '%';
         $this->productModelFilter
             ->select('products.*')
             ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
-            ->where(
-                function (Builder $query) use ($productName) {
-                    return $query->where('products.product_name', 'LIKE', "%$productName%")
-                        ->orWhere('categories.cat_name', 'LIKE', "%$productName%");
-                }
-            );
+            ->leftJoin('brands', 'products.brand_id', '=', 'brands.id')
+            ->where(function ($query) use ($productNameToLower) {
+                $query->whereRaw('LOWER(products.product_name) LIKE ?', [$productNameToLower])
+                    ->orWhereRaw('LOWER(categories.cat_name) LIKE ?', [$productNameToLower])
+                    ->orWhereRaw('LOWER(brands.brand_name) LIKE ? ', [$productNameToLower]);
+            });
     }
     private function bestSellerProducts()
     {

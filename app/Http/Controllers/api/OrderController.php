@@ -18,22 +18,13 @@ class OrderController extends Controller
 
     public function index()
     {
-
     }
     public function store(StoreOrderRequest $request)
     {
 
         $guestId = $request->input('guest_id');
 
-        $user = User::firstWhere('guest_id', $guestId);
-
-        // if user dosen't exist create one so we can make realtion with order data
-        if (!$user) {
-            $user = User::create([
-                'guest_id' => $request->input('guest_id'),
-            ]);
-
-        }
+        $user = User::firstOrCreate(['guest_id' => $guestId]);
 
         $guestUserCarts = Cart::where('user_id', $guestId)->get();
 
@@ -77,15 +68,7 @@ class OrderController extends Controller
     {
         $guestId = $request->input('guest_id');
 
-        $user = User::where('guest_id', $guestId)->first();
-
-
-        if (!$user) {
-            $user = User::create([
-                'guest_id' => $request->input('guest_id'),
-            ]);
-
-        }
+        $user = User::firstOrCreate(['guest_id' => $guestId]);
 
         $validatedInput = $request->safe()->merge([
             'invoice_number' => self::generateInvoice(),
@@ -93,7 +76,6 @@ class OrderController extends Controller
             'user_id' => $user->id,
 
         ])->except('guest_id');
-
 
 
         $order = Order::create($validatedInput);
@@ -107,12 +89,10 @@ class OrderController extends Controller
             $quantity = $request->input('quantity');
             $order->products()->attach($productId, ['quantity' => $quantity]);
             return response([
-                'Message' => 'order created successfully',
+                'message' => 'order created successfully',
                 'data' => $order,
             ], 201);
         }
-        return response(['Message' => 'Error with creating order'], 422);
-
-
+        return response(['message' => 'Error with creating order'], 422);
     }
 }

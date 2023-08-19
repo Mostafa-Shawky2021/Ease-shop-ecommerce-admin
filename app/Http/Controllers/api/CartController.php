@@ -26,16 +26,14 @@ class CartController extends Controller
         $validatedInputs = $request->validated();
         $cart = Cart::create($validatedInputs);
 
-        if ($cart) {
+        if ($cart) return response([
+            'message' => 'Cart Added successfully',
+            'data' => $cart->loadMissing('product')
+        ], 201);
 
-            return response([
-                'message' => 'Cart Added successfully',
-                'data' => $cart->loadMissing('product')
-            ], 201);
-        }
 
         return response([
-            'message' => 'Sorry There are error while adding new cart',
+            'message' => 'error while adding new cart',
         ], 422);
     }
     public function update(Request $request, $userId)

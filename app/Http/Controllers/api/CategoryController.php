@@ -19,18 +19,20 @@ class CategoryController extends Controller
     {
 
         $categoriesQuery = Category::with([
-            'subCategories',
-        ])->withCount('products')->orderByDesc('id');
+            'subCategories' => function ($query) {
+                $query->withCount('products');
+            }
+        ])->withCount('products')
+            ->orderByDesc('id');
 
-        if ($request->has('limit'))
-            $categoriesQuery = $categoriesQuery->limit($request->query("limit"))->get();
-        else
-            $categoriesQuery = $categoriesQuery->get();
+        if ($request->has('limit')) $categoriesQuery->limit($request->query("limit"));
 
-        if ($categoriesQuery->isEmpty())
+        $categoriesResult = $categoriesQuery->get();
+
+        if ($categoriesResult->isEmpty())
             return response(['message' => 'Sorry no categories in database'], 404);
 
-        return response($categoriesQuery, 200);
+        return response($categoriesResult, 200);
     }
     public function categoryProducts(Request $request, $categorySlug)
     {
@@ -39,7 +41,10 @@ class CategoryController extends Controller
             ->firstWhere('cat_slug', $categorySlug);
 
         if (!$category)
-            return response(['Message' => 'Sorry no category Exist with slug'], 200);
+            return response(
+                ['message' => 'Sorry no category Exist with slug'],
+                404
+            );
 
 
         $subCategories = Category::select('id')
@@ -77,11 +82,12 @@ class CategoryController extends Controller
                 ]);
             }
             return response([
-                'Message' => 'Sorry no Products Category with filteration rules'
+                'message' => 'Sorry no Products Category with filteration rules'
             ], 200);
         }
 
-        $products = $product->with(['colors', 'sizes'])->paginate(static::$paginationNumber);
+        $products = $product->with(['colors', 'sizes'])
+            ->paginate(static::$paginationNumber);
 
         if ($products->isNotEmpty()) {
 
@@ -101,8 +107,8 @@ class CategoryController extends Controller
             ], 200);
         }
         return response([
-            'Message' => 'Sorry no product in that category',
-        ], 200);
+            'message' => 'Sorry no product in that category',
+        ], 404);
     }
     public function randomCategoriesProducts()
     {
@@ -121,9 +127,12 @@ class CategoryController extends Controller
             $randomCategories[$index]->products = $categoryProducts;
         }
 
-        if ($randomCategories->isEmpty()) {
-            return response(['Message' => 'Sorry no categories products exist'], 200);
-        }
+        if ($randomCategories->isEmpty())
+            return response(
+                ['message' => 'Sorry no categories products exist'],
+                200
+            );
+
 
         return response(['data' => $randomCategories], 200);
     }
