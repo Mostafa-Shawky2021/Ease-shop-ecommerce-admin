@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('product_name');
             $table->string('product_slug');
-            $table->unsignedSmallInteger('price');
-            $table->unsignedSmallInteger('price_discount')->nullable();
+            $table->integer('price');
+            $table->integer('price_discount')->nullable();
             $table->text('short_description')->nullable();
             $table->text('long_description')->nullable();
             $table->mediumText('image')->nullable();
