@@ -18,7 +18,6 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
-
         // check if there are url filter data
         $queryFilterCount = collect($request->except('page'))->count();
         // greater than meaning the query contain query fitler string 
@@ -45,7 +44,7 @@ class ProductController extends Controller
                 );
             }
             return response([
-                'Message' => 'Sorry no Products with filteration rules'
+                'message' => 'Sorry no Products with filteration rules'
             ], 404);
         }
 

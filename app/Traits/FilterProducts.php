@@ -105,15 +105,11 @@ trait FilterProducts
     {
         // the best seller will be retrieved according to the quanaity for products within  
         // order product relationship
-        $bestSellerProductId = OrderProduct::selectRaw('product_id,sum(quantity) as total_product_seller')
-            ->groupBy('product_id')
-            ->orderBy('total_product_seller', 'desc')
-            ->pluck('product_id')
-            ->toArray();
-
         $this->productModelFilter
-            ->whereIn('id', $bestSellerProductId)
-            ->orderByRaw('field(id,' . implode(',', $bestSellerProductId) . ')');
+            ->selectRaw('products.*, sum(order_product.quantity) as total_product_seller')
+            ->join('order_product', 'products.id', 'order_product.product_id')
+            ->groupBy('order_product.product_id')
+            ->orderBy('total_product_seller', 'desc');
     }
     private function productWithOffers()
     {
