@@ -1,25 +1,21 @@
 @include('partials.validationerrors')
 
 @php
-  $colorsId = '';
-  $sizesId = '';
-  $productImage = '';
-
-if($product) {
     
-    $colorsArrToString = $product->colors->map(fn($color) => $color->id)->implode('|');
-    $sizesArrToString = $product->sizes->map(fn($size) => $size->id)->implode('|');
-    $colorsId = old('color_id', $colorsArrToString);
-    $sizesId = old('size_id', $sizesArrToString);
+    $productImage = '';
+    // get the color id from session in case of redirect form error otherwise
+    // check there are product model in case of updating model  if exist product have colors,sizes convert them to array
+    $colorsId = old('color_id', $product ? $product->colors->pluck('id')->implode('|') : '');
+    $sizesId = old('size_id', $product ? $product->sizes->pluck('id')->implode('|') : '');
     
-    $httpRegex='/https?/';
-    $productImage = preg_match($httpRegex, $product->image) ? $product->image : asset('storage/'. $product->image) ;
-}
-
-
+    // if product model have image check if the image is external resource (https://image.png.com)
+    // if the image is owned by the application get it from storage with asset function
+    if ($product && $product->image) {
+        $httpRegex = '/https?/';
+        $productImage = preg_match($httpRegex, $product->image) ? $product->image : asset('storage/' . $product->image);
+    }
+    
 @endphp
-
-
 
 <div class='row'>
     <div class="col-12 col-sm-6 mt-3 position-relative">
@@ -38,19 +34,18 @@ if($product) {
         </div>
         {{-- brand modal for send brand value with ajax --}}
         @include('products.variantmodal', [
-        'id' => 'productBrandModal',
-        'title' => 'اضافه براند',
-        'labelName' => 'اسم البراند',
+            'id' => 'productBrandModal',
+            'title' => 'اضافه براند',
+            'labelName' => 'اسم البراند',
         ])
         <select class='form-control mt-2' name='brand_id' id="brand">
             <option value=''>...</option>
             @forelse($brands as $brand)
-                <option value={{ $brand->id }} @selected(old('brand_id', $product->brand->id
-                    ?? '') == $brand->id)>
+                <option value={{ $brand->id }} @selected(old('brand_id', $product->brand->id ?? '') == $brand->id)>
                     {{ $brand->brand_name }}
                 </option>
             @empty
-            <option disabled>لا يوجد براندات للعرض</option>
+                <option disabled>لا يوجد براندات للعرض</option>
             @endforelse
         </select>
     </div>
@@ -61,14 +56,15 @@ if($product) {
             <label for="price" class='label-control'>السعر</label>
             <span class='error-message'>*</span>
         </div>
-        <input id="price" name='price' value="{{ old('price', $product->price ?? '') }}" class="form-control mt-2" />
+        <input id="price" name='price' value="{{ old('price', $product->price ?? '') }}"
+            class="form-control mt-2" />
     </div>
     <div class="col-12 col-sm-6 mt-3">
         <label for="price-discount" class='label-control'>
             السعر بعد الخصم
         </label>
-        <input id='price-discount' name='price_discount' value="{{ old('price_discount', $product->price_discount ?? '') }}"
-            class="form-control mt-2" />
+        <input id='price-discount' name='price_discount'
+            value="{{ old('price_discount', $product->price_discount ?? '') }}" class="form-control mt-2" />
     </div>
 </div>
 <div class="row">
@@ -80,19 +76,18 @@ if($product) {
         </div>
         {{-- category modal for send brand value with ajax --}}
         @include('products.variantmodal', [
-        'id' => 'productCategoryModal',
-        'title' => 'اضافه قسم',
-        'labelName' => 'اسم القسم',
+            'id' => 'productCategoryModal',
+            'title' => 'اضافه قسم',
+            'labelName' => 'اسم القسم',
         ])
         <select class='form-control mt-2' name='category_id' id="category">
             <option value=''>...</option>
             @forelse($categories as $category)
-            <option value={{ $category->id }} @selected(old('category_id',
-                $product->category_id ?? '') == $category->id)>
-                {{ $category->cat_name }}
-            </option>
+                <option value={{ $category->id }} @selected(old('category_id', $product->category_id ?? '') == $category->id)>
+                    {{ $category->cat_name }}
+                </option>
             @empty
-            <option disabled>لا يوجد اقسام للعرض</option>
+                <option disabled>لا يوجد اقسام للعرض</option>
             @endforelse
         </select>
     </div>
@@ -131,8 +126,7 @@ if($product) {
     <label class='label-control'>صورة المنتج</label>
     <div class='col-sm-12 col-md-8 mt-2'>
         <div class="file-wrapper form-control">
-            <input name="old_image" id="oldImage"
-                value="{{ $productImage }}" hidden />
+            <input name="old_image" id="oldImage" value="{{ $productImage }}" hidden />
             <input type='file' name='image' id='productImage' accept="image/*" />
         </div>
     </div>
@@ -142,11 +136,10 @@ if($product) {
     <div class='col-sm-12 col-md-8 mt-2'>
         <div class="file-wrapper">
             @php
-            $thumbnailsImages = null;
-            if ($product && $product->images->isNotEmpty()) {
-            $thumbnailsImages = $product->images->map(fn($image) => asset('storage/' .
-            $image->url))->implode('|');
-            }
+                $thumbnailsImages = null;
+                if ($product && $product->images->isNotEmpty()) {
+                    $thumbnailsImages = $product->images->map(fn($image) => asset('storage/' . $image->url))->implode('|');
+                }
             @endphp
             <input name="old_images" id="oldImage" value="{{ $thumbnailsImages }}" hidden />
             <input type='file' name='productImageThumbnails[]' id='productImages' accept="image/*" multiple />
@@ -168,18 +161,18 @@ if($product) {
             <input name="color_id" id="variantHiddenInput" hidden value="{{ $colorsId }}" />
             {{-- color modal for send brand value with ajax --}}
             @include('products.variantmodal', [
-            'id' => 'productColorModal',
-            'title' => 'اضافه لون',
-            'labelName' => 'اسم اللون',
-            'color_picker' => true
+                'id' => 'productColorModal',
+                'title' => 'اضافه لون',
+                'labelName' => 'اسم اللون',
+                'color_picker' => true,
             ])
             <div class="d-flex align-items-center gap-3 flex-wrap" id="boxWrapper">
                 @forelse ($colors as $color)
-                <div class="product-variant" value="{{ $color->id }}">
-                    {{ $color->color_name }}
-                </div>
+                    <div class="product-variant" value="{{ $color->id }}">
+                        {{ $color->color_name }}
+                    </div>
                 @empty
-                <div class="m-0" disabled="true">لا يوجد</div>
+                    <div class="m-0" disabled="true">لا يوجد</div>
                 @endforelse
             </div>
         </div>
@@ -196,17 +189,17 @@ if($product) {
             <input name="size_id" id="variantHiddenInput" value="{{ $sizesId }}" hidden />
             {{-- size modal for send brand value with ajax --}}
             @include('products.variantmodal', [
-            'id' => 'productSizeModal',
-            'title' => 'اضافه مقاس',
-            'labelName' => 'اسم المقاس',
+                'id' => 'productSizeModal',
+                'title' => 'اضافه مقاس',
+                'labelName' => 'اسم المقاس',
             ])
             <div class="d-flex align-items-center gap-3 flex-wrap" id="boxWrapper">
                 @forelse ($sizes as $size)
-                <div class="product-variant" value="{{ $size->id }}">
-                    {{ $size->size_name }}
-                </div>
+                    <div class="product-variant" value="{{ $size->id }}">
+                        {{ $size->size_name }}
+                    </div>
                 @empty
-                <div class="m-0" disabled="true">لا يوجد</div>
+                    <div class="m-0" disabled="true">لا يوجد</div>
                 @endforelse
             </div>
         </div>
@@ -216,23 +209,22 @@ if($product) {
 
 
 @push('scripts')
-<script type="module">
-    $('#editor').summernote({
-        placeholder: 'Write Here!',
-        lineHeights:['0.2', '0.3', '0.4', '0.5', '0.6', '0.8', '1.0', '1.2', '1.4', '1.5', '2.0', '3.0'],
-        fontSizes:['15','17','20','23','27','33','35','38','42','45','48','50'],
-        tabsize: 2,
-        height: 200,
-        toolbar: [
-          ['style', ['italic', 'underline','clear']],
-          ['fontsize', ['fontsize']],
-          ['font', ['bold', 'underline', 'clear']],
-          ['color', ['color']],
-          ['para', ['ul', 'ol', 'paragraph','height','style']],
-          ['insert', ['link', 'picture', 'video','hr']],
-          ['view', ['fullscreen', 'help','undo','redo']]
-        ]
-      });
-
-</script>
+    <script type="module">
+        $('#editor').summernote({
+            placeholder: 'Write Here!',
+            lineHeights: ['0.2', '0.3', '0.4', '0.5', '0.6', '0.8', '1.0', '1.2', '1.4', '1.5', '2.0', '3.0'],
+            fontSizes: ['15', '17', '20', '23', '27', '33', '35', '38', '42', '45', '48', '50'],
+            tabsize: 2,
+            height: 200,
+            toolbar: [
+                ['style', ['italic', 'underline', 'clear']],
+                ['fontsize', ['fontsize']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph', 'height', 'style']],
+                ['insert', ['link', 'picture', 'video', 'hr']],
+                ['view', ['fullscreen', 'help', 'undo', 'redo']]
+            ]
+        });
+    </script>
 @endpush

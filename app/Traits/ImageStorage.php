@@ -11,7 +11,7 @@ use ImageIntervention;
 trait ImageStorage
 {
 
-    // store image in file system and return the stored path
+    // store image in file system and return the stored Image path
     private static function storeImage($uploadedImage, string $path, Model $model = null, $resizeWidth = 1000)
     {
         if (!$uploadedImage) return null;
@@ -37,7 +37,7 @@ trait ImageStorage
                     } else ImageIntervention::make($uploadedImage)->save($imagePath);
 
                     $image = new Image(['url' => "$path/$imageName"]);
-                    $model ?? $model->images()->save($image);
+                    $model ? $model->images()->save($image) : null;
                     return "$path/$imageName";
                 }
             );

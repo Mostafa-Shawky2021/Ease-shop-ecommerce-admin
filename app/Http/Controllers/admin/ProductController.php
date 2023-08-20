@@ -71,7 +71,9 @@ class ProductController extends Controller
 
         // product have thumbnails uploaded
         if ($request->has('productImageThumbnails')) {
+
             $uploadedImageThumbnails = $request->file('productImageThumbnails');
+
             self::storeImage($uploadedImageThumbnails, 'products', $product);
         }
 

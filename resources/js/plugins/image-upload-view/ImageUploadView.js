@@ -1,5 +1,4 @@
 class ImageUploadView {
-
     constructor(inputFileNode) {
         this.inputFileNode = inputFileNode;
 
@@ -19,14 +18,16 @@ class ImageUploadView {
     }
 
     checkFirstLoad() {
+        // render image in  case of update product and product have image path
+        if (!this.isImageOld()) return false;
         let oldImagePath =
             this.parentFileElement.querySelector("#oldImage")?.value;
 
-        if (!oldImagePath) return false; // no old image found
-
+        // imges will render as images path seperated by | and that process handled by backend
+        const isOldImageMultiplePaths = oldImagePath.search(/\|/);
         oldImagePath =
-            oldImagePath.search(/\|/) > -1
-                ? (oldImagePath = oldImagePath.split("|"))
+            isOldImageMultiplePaths > -1
+                ? oldImagePath.split("|")
                 : oldImagePath;
 
         this.renderBtnShow();
@@ -37,13 +38,11 @@ class ImageUploadView {
 
     handleFileUploaded(event) {
         if (!event.target.files.length) return false; // user dosen;t choose image
+
         this.renderBtnShow(event.target.files);
-
         this.renderRemoveBtn();
-
-        this.renderImagesLength(event.target.files);
-
         this.renderImageWrapper(event.target.files);
+        this.renderImagesLength(event.target.files);
     }
 
     renderImagesLength(files) {
@@ -59,66 +58,78 @@ class ImageUploadView {
         }
         createdElement.innerText = `تم اضافة عدد ${imageCount} صور`;
     }
-    renderImageWrapper(files) {
+    renderOldImagesContainer(images) {
         let imageWrapperContainer = this.createElement("div");
 
-        if (this.isImageOld(files)) {
-            if (typeof files === "string") {
-                const image = this.createElement(
-                    "img",
-                    "img-fluid",
+        if (Array.isArray(images)) {
+            imageWrapperContainer.classList.add("image-wrapper-multiple");
+            images.forEach((image) => {
+                const imageContent = this.createElement(
+                    "div",
+                    "image-content",
                     imageWrapperContainer
                 );
-                imageWrapperContainer.classList.add("image-wrapper-single");
-                image.src = `${files}`;
-                image.alt = "file image";
-            } else {
-                imageWrapperContainer.classList.add("image-wrapper-multiple");
-                files.forEach((file) => {
-                    const imageContent = this.createElement(
-                        "div",
-                        "image-content",
-                        imageWrapperContainer
-                    );
-                    const image = this.createElement(
-                        "img",
-                        "img-fluid",
-                        imageContent
-                    );
-                    image.src = `${file}`;
-                    image.alt = "file image";
-                });
-            }
+                const imageElement = this.createElement(
+                    "img",
+                    "img-fluid",
+                    imageContent
+                );
+                imageElement.src = `${image}`;
+                imageElement.alt = "file image";
+            });
         } else {
-            if (files instanceof FileList && files.length > 1) {
-                imageWrapperContainer.classList.add("image-wrapper-multiple");
-                files.forEach((file) => {
-                    const imageContent = this.createElement(
-                        "div",
-                        "image-content",
-                        imageWrapperContainer
-                    );
-                    const image = this.createElement(
-                        "img",
-                        "img-fluid",
-                        imageContent
-                    );
-                    image.src = URL.createObjectURL(file);
-                    image.alt = "file image";
-                });
-            } else {
-                imageWrapperContainer.classList.add("image-wrapper-single");
-                const image = this.createElement(
-                    "img",
-                    "img-fluid",
+            const imageElement = this.createElement(
+                "img",
+                "img-fluid",
+                imageWrapperContainer
+            );
+            imageWrapperContainer.classList.add("image-wrapper-single");
+            imageElement.src = `${images}`;
+            imageElement.alt = "file image";
+        }
+        return imageWrapperContainer;
+    }
+
+    renderImagesContainer(images) {
+        let imageWrapperContainer = this.createElement("div");
+        imageWrapperContainer.classList.add("image-wrapper-multiple");
+        if (images instanceof FileList && images.length > 1) {
+            images.forEach((image) => {
+                const imageContent = this.createElement(
+                    "div",
+                    "image-content",
                     imageWrapperContainer
                 );
-                image.src = URL.createObjectURL(files[0]);
-                image.alt = "file image";
-            }
+                const imageElement = this.createElement(
+                    "img",
+                    "img-fluid",
+                    imageContent
+                );
+                imageElement.src = URL.createObjectURL(image);
+                imageElement.alt = "file image";
+            });
+        } else {
+            imageWrapperContainer.classList.add("image-wrapper-single");
+            const image = this.createElement(
+                "img",
+                "img-fluid",
+                imageWrapperContainer
+            );
+            image.src = URL.createObjectURL(images[0]);
+            image.alt = "file image";
         }
+        return imageWrapperContainer;
+    }
 
-        this.renderModalView(imageWrapperContainer);
+    renderImageWrapper(files) {
+        // we need that condition because render images from user file system is different from the retrieved from database
+        // the retrieved from database will be the images path
+
+        let imageContainerWrapper = this.isImageOld()
+            ? this.renderOldImagesContainer(files)
+            : this.renderImagesContainer(files);
+
+        this.renderModalView(imageContainerWrapper);
     }
 
     renderModalView(imageWrapperContainerNode) {
@@ -154,11 +165,9 @@ class ImageUploadView {
             .appendChild(imageWrapperContainerNode);
     }
 
-    isImageOld(image) {
-        // check if the image is old represet regular string or array
-        // new represet instance of file list
-        if (Array.isArray(image) || typeof image === "string") return true;
-        return false;
+    isImageOld() {
+        // check if the image Path retrieved from database
+        return !!this.parentFileElement.querySelector("#oldImage")?.value;
     }
 
     renderBtnShow() {
@@ -220,7 +229,6 @@ class ImageUploadView {
     }
 
     handleDeleteImage(event) {
-      
         event.preventDefault();
         this.parentFileElement.querySelector(".delete-btn")?.remove();
         this.parentFileElement.querySelector(".view-btn")?.remove();
