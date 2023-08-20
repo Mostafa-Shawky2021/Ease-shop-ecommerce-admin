@@ -108,7 +108,7 @@ trait FilterProducts
         $this->productModelFilter
             ->selectRaw('products.*, sum(order_product.quantity) as total_product_seller')
             ->join('order_product', 'products.id', 'order_product.product_id')
-            ->groupBy('order_product.product_id')
+            ->groupBy('order_product.product_id', 'products.id')
             ->orderBy('total_product_seller', 'desc');
     }
     private function productWithOffers()
