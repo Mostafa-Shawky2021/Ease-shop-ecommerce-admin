@@ -13,7 +13,7 @@ composer install
 ```
 
 -   Config Env variables and database credentials
-
+-   simply rename .env.example to .env  
 ```
 mv .env.example .env
 ```
