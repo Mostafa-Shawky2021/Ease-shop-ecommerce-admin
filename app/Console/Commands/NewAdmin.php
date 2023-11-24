@@ -31,12 +31,10 @@ class NewAdmin extends Command
      */
     public function handle()
     {
-        echo env('APP_ENV');
+        
         if (env('APP_ENV') == 'production') {
             $email = 'admin@admin.com';
-            $userExist =  User::where('email', $email);
-            echo $userExit;
-
+            $userExist =  User::firstWhere('email', $email);
             if ($userExist) return false;
             User::create([
                 'name' => 'admin',
