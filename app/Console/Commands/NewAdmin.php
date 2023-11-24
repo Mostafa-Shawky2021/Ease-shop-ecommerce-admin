@@ -35,9 +35,9 @@ class NewAdmin extends Command
         if (env('APP_ENV') == 'production') {
             $email = 'admin@admin.com';
             $userExist =  User::where('email', $email);
+            echo $userExit;
 
             if ($userExist) return false;
-            echo $userExit;
             User::create([
                 'name' => 'admin',
                 'email' => $email,
